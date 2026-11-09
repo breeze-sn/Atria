@@ -84,6 +84,42 @@ Documentation is maintained in the repository `docs/` folder and on the [Atria d
 
 Contributors and developers should refer to either location for product context, design system guidelines, architecture notes, developer setup, and other project documentation. The documentation library is being expanded as the project develops.
 
+## Backend Setup (Express + Prisma)
+
+The repository now includes a backend workspace in `server/` and Prisma configuration in `prisma/`.
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Copy `.env.example` to `.env` and set your PostgreSQL connection string:
+
+```bash
+cp .env.example .env
+```
+
+Required values:
+
+- `DATABASE_URL` (PostgreSQL connection string)
+- `PORT` (optional, defaults to `3000`)
+
+### 3. Run development servers
+
+Run frontend and backend in separate terminals:
+
+```bash
+npm run dev:client
+npm run dev:server
+```
+
+Health check endpoint:
+
+- `GET http://localhost:3000/api/health`
+
 ## License
 
 Atria is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute the software, subject to the terms of that license.
