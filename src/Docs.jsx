@@ -14,8 +14,8 @@ const groups = [
     title: 'Product',
     description: 'The purpose, scope, and direction behind Atria.',
     items: [
-      { icon: FileText, title: 'Product Requirements Document', type: 'PRD', status: 'COMING SOON', description: 'Product vision, goals, user needs, and functional requirements.' },
-      { icon: BookOpen, title: 'Product Overview', type: 'OVERVIEW', status: 'COMING SOON', description: 'A concise introduction to the project and its principles.' },
+      { icon: FileText, title: 'Product Requirements Document', type: 'PRD', status: 'OPEN DOCUMENT', href: 'https://docs.google.com/document/d/1jvDb-9cf-uhbzo2JxnLuba4wk84YkQqDMPkL8gMskvI/edit', description: 'Product vision, goals, user needs, and functional requirements.' },
+      { icon: BookOpen, title: 'Product Overview', type: 'OVERVIEW', status: 'OPEN DOCUMENT', href: 'https://docs.google.com/document/d/1xBZIwk6WOlpg-X4Ex1USNQlDH2QhYMOuzQJKK0Kt_Q4/edit', description: 'A concise introduction to the project and its principles.' },
     ],
   },
   {
@@ -23,8 +23,8 @@ const groups = [
     title: 'Design',
     description: 'The visual language and reusable interface decisions.',
     items: [
-      { icon: Stack, title: 'Design System Guidelines', type: 'DESIGN SYSTEM', status: 'COMING SOON', description: 'Foundations, tokens, components, states, and usage guidance.' },
-      { icon: Stack, title: 'Component Documentation', type: 'REFERENCE', status: 'COMING SOON', description: 'Component anatomy, variants, behaviour, and accessibility notes.' },
+      { icon: Stack, title: 'Design System Guidelines', type: 'DESIGN SYSTEM', status: 'OPEN DOCUMENT', href: 'https://docs.google.com/document/d/1CJO6ZhaqczWDSkmjMGKonOIU3cZhKWTYwqVEgtasdCc/edit', description: 'Foundations, tokens, components, states, and usage guidance.' },
+      { icon: Stack, title: 'Component Documentation', type: 'REFERENCE', status: 'OPEN DOCUMENT', href: 'https://docs.google.com/document/d/1hxuGFmWdTobLr1naer16zBg5QH4O4ZzTNNozUKI6Smc/edit', description: 'Component anatomy, variants, behaviour, and accessibility notes.' },
     ],
   },
   {
@@ -32,8 +32,8 @@ const groups = [
     title: 'Engineering',
     description: 'How the product is structured, built, and maintained.',
     items: [
-      { icon: Code, title: 'Architecture Notes', type: 'ARCHITECTURE', status: 'COMING SOON', description: 'Application structure, technical decisions, and system boundaries.' },
-      { icon: FileText, title: 'Developer Notes', type: 'DEVELOPER GUIDE', status: 'COMING SOON', description: 'Setup instructions, conventions, workflows, and implementation notes.' },
+      { icon: Code, title: 'Architecture Notes', type: 'ARCHITECTURE', status: 'OPEN DOCUMENT', href: 'https://docs.google.com/document/d/1DB1nj5bKCh2AGayIC14ih47hyjKgTstHPE472sCSFVw/edit', description: 'Application structure, technical decisions, and system boundaries.' },
+      { icon: FileText, title: 'Developer Notes', type: 'DEVELOPER GUIDE', status: 'OPEN DOCUMENT', href: 'https://docs.google.com/document/d/1o85jGWJW9wg7pYB6bMrRf5RxDBpEA4p1cQUZ79rWqsY/edit', description: 'Setup instructions, conventions, workflows, and implementation notes.' },
     ],
   },
 ]
@@ -67,11 +67,11 @@ function Docs() {
               <div className="doc-list">
                 {group.items.map(item => {
                   const Icon = item.icon
-                  return <article className="doc-card" key={item.title}>
+                  return <a className="doc-card" key={item.title} href={item.href} target="_blank" rel="noreferrer" aria-label={`Open ${item.title} in Google Docs`}>
                     <div className="doc-icon"><Icon size={20} weight="light" /></div>
                     <div className="doc-card-copy"><div className="doc-type">{item.type}</div><h4>{item.title}</h4><p>{item.description}</p></div>
                     <div className="doc-card-end"><span className="doc-status">{item.status}</span><span className="doc-arrow"><ArrowUpRight size={16} /></span></div>
-                  </article>
+                  </a>
                 })}
               </div>
             </section>
