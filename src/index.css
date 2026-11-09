@@ -240,3 +240,23 @@ h2 { font-size: clamp(38px, 5vw, 57px); line-height: 1.05; letter-spacing: -.07e
   .doc-icon { width: 32px; height: 32px; }
   .doc-card-end { grid-column: 2; justify-content: space-between; }
 }
+
+
+/* Atria Studio dashboard — scoped styles, preserving the public landing page */
+.studio-shell { min-height: 100vh; display: flex; background: var(--paper); color: var(--ink); }
+.studio-sidebar { width: 248px; flex: 0 0 248px; display: flex; flex-direction: column; background: #f0efeb; border-right: 1px solid var(--line); }
+.studio-brand { height: 82px; display: flex; align-items: center; padding: 0 25px; border-bottom: 1px solid var(--line); font-size: 19px; font-weight: 800; letter-spacing: -1px; }
+.studio-nav { flex: 1; padding: 22px 14px; }
+.studio-nav a { display: flex; align-items: center; gap: 12px; padding: 12px; margin-bottom: 4px; color: #77756f; font-size: 12px; border-radius: 3px; }
+.studio-nav a.active { background: #e3e1da; color: var(--ink); }
+.studio-main { min-width: 0; flex: 1; padding: 52px clamp(24px, 5vw, 72px); }
+.studio-main h2 { margin: 0 0 14px; font-size: clamp(28px, 4vw, 42px); }
+.studio-main p { color: #77756f; font-size: 13px; line-height: 1.8; }
+@media (max-width: 650px) {
+  .studio-shell { display: block; }
+  .studio-sidebar { width: 100%; border-right: 0; border-bottom: 1px solid var(--line); }
+  .studio-brand { height: 64px; }
+  .studio-nav { display: flex; gap: 5px; padding: 8px 12px; overflow-x: auto; }
+  .studio-nav a { white-space: nowrap; margin: 0; padding: 10px; }
+  .studio-main { padding: 34px 20px; }
+}
