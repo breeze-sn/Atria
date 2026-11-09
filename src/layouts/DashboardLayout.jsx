@@ -14,7 +14,7 @@ export default function DashboardLayout() {
       {/* Sidebar */}
       <aside className="studio-sidebar">
         <div className="studio-brand">
-          <h1 className="text-xl font-bold tracking-tight">Atria Studio</h1>
+          <h1 >Atria Studio</h1>
         </div>
         <nav className="studio-nav">
           {navItems.map((item) => (
