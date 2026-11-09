@@ -4,9 +4,9 @@ import { Palette, Coin, PuzzlePiece } from '@phosphor-icons/react';
 
 export default function DashboardLayout() {
   const navItems = [
-    { name: 'Foundations', path: '/foundations', icon: <Palette size={20} /> },
-    { name: 'Tokens', path: '/tokens', icon: <Coin size={20} /> },
-    { name: 'Components', path: '/components', icon: <PuzzlePiece size={20} /> },
+    { name: 'Foundations', path: '/studio/foundations', icon: <Palette size={20} /> },
+    { name: 'Tokens', path: '/studio/tokens', icon: <Coin size={20} /> },
+    { name: 'Components', path: '/studio/components', icon: <PuzzlePiece size={20} /> },
   ];
 
   return (
