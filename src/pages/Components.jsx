@@ -18,6 +18,16 @@ export default function Components() {
       </div>
       <p className="studio-page-intro">A shared library where creators can publish interface components and others can discover, inspect, preview, and reuse them.</p>
 
+
+      <section className="placeholder-panel">
+        <div className="placeholder-panel-heading"><div><span className="studio-kicker">COMPONENT LIBRARY / 01</span><h3>Library preview</h3></div><span className="placeholder-tag">SAMPLE ENTRIES</span></div>
+        <div className="component-preview-grid">
+          <article className="library-preview-card"><div className="library-preview-meta"><span>01 / ACTION</span><span>FOUNDATION</span></div><div className="library-preview-stage"><span className="library-button">Get started <span>↗</span></span></div><div className="library-preview-copy"><strong>Button</strong><p>Primary actions and navigation.</p><small>3 variants · 4 states</small></div></article>
+          <article className="library-preview-card"><div className="library-preview-meta"><span>02 / INPUT</span><span>FORM</span></div><div className="library-preview-stage"><div className="library-input"><small>Email address</small><span>you@example.com</span></div></div><div className="library-preview-copy"><strong>Text field</strong><p>Collect short-form user input.</p><small>2 variants · 3 states</small></div></article>
+          <article className="library-preview-card"><div className="library-preview-meta"><span>03 / FEEDBACK</span><span>STATUS</span></div><div className="library-preview-stage"><span className="library-badge"><i /> Published</span></div><div className="library-preview-copy"><strong>Status badge</strong><p>Communicate an item's current state.</p><small>3 tones · 2 sizes</small></div></article>
+        </div>
+        <div className="placeholder-panel-foot"><span>EXAMPLE COMPONENTS</span><span>CONTRIBUTOR PUBLISHING FLOW PLANNED</span></div>
+      </section>
       <section className="studio-brief">
         <span className="studio-kicker">WHAT TO BUILD</span>
         <h3>From an isolated UI element to a reusable contribution.</h3>
