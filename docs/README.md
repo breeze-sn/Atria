@@ -109,7 +109,7 @@ The architecture set explains what exists, how it is composed, and why it is bui
 | [Design tokens](features/design-tokens.md) | Implemented, local | Token editing, search, filters, and exports |
 | [Component library](features/component-library.md) | Placeholder | Implementation brief for the component registry |
 | [Documentation hub](features/documentation-hub.md) | Implemented | `/docs` collections and outbound documents |
-| [API reference](features/api-reference.md) | None | Explicit confirmation that no API exists |
+| [API reference](features/api-reference.md) | Limited | Documents the Express health-check endpoint and planned API boundaries |
 
 ### Engineering
 
