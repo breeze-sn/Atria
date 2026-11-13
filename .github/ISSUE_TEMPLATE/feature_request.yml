@@ -1,0 +1,52 @@
+name: Feature request
+description: Suggest a practical improvement to Atria.
+title: "feat: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Help us understand the user problem before proposing a solution."
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area does this relate to?
+      options:
+        - Foundations
+        - Tokens
+        - Components
+        - Explore dashboard
+        - Documentation
+        - Developer experience
+        - Accessibility
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem should this solve?
+      description: Who experiences it, and in what situation?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to see?
+      description: Describe the outcome. Screenshots or references are welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional approaches or workarounds you've considered.
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Would you be interested in contributing this?
+      options:
+        - Yes, I'd like to work on it
+        - I can help review or test it
+        - Not at the moment
+    validations:
+      required: true
