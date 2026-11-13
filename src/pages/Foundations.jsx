@@ -34,6 +34,27 @@ export default function Foundations() {
       </div>
       <p className="studio-page-intro">The source of truth for the visual rules behind a design system. Build the foundations here before using them in tokens and components.</p>
 
+
+      <section className="placeholder-panel">
+        <div className="placeholder-panel-heading"><div><span className="studio-kicker">LIVE PREVIEW / 01</span><h3>Foundation snapshot</h3></div><span className="placeholder-tag">SAMPLE DATA</span></div>
+        <div className="foundation-preview-grid">
+          <article className="foundation-preview-card">
+            <div className="placeholder-card-label">COLOUR PALETTE <span>05 SWATCHES</span></div>
+            <div className="foundation-preview-swatches">{['#20201E', '#65625B', '#A6A39B', '#DAD8D1', '#F2F1ED'].map((color) => <span key={color} style={{ background: color }} />)}</div>
+            <div className="placeholder-card-foot"><span>Neutral / 01</span><code>5 values</code></div>
+          </article>
+          <article className="foundation-preview-card type-preview">
+            <div className="placeholder-card-label">TYPE SCALE <span>PREVIEW</span></div>
+            <strong>Aa</strong><span className="type-preview-title">Display / 32</span><span className="type-preview-body">The quick brown fox jumps over the lazy dog.</span>
+            <div className="placeholder-card-foot"><span>Manrope</span><code>Regular · Semibold</code></div>
+          </article>
+          <article className="foundation-preview-card">
+            <div className="placeholder-card-label">SPACING SCALE <span>4PX BASE</span></div>
+            <div className="spacing-preview">{[4, 8, 12, 16, 24, 32].map((value) => <div key={value}><span style={{ width: value * 2 }} /><small>{value}</small></div>)}</div>
+            <div className="placeholder-card-foot"><span>6 steps defined</span><code>4–32 px</code></div>
+          </article>
+        </div>
+      </section>
       <section className="studio-brief">
         <span className="studio-kicker">WHAT TO BUILD</span>
         <h3>Turn design decisions into a usable system.</h3>
