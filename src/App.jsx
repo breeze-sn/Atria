@@ -204,6 +204,7 @@ function App() {
         <Route path="/explore" element={<DashboardLayout />}>
           <Route index element={<Overview />} />
           <Route path="foundations" element={<Foundations />} />
+          <Route path="foundations/:categoryId/:resourceId" element={<Foundations />} />
           <Route path="tokens" element={<Tokens />} />
           <Route path="components" element={<Components />} />
         </Route>
