@@ -1,169 +1,113 @@
 # Contributing to Atria
 
-Thank you for considering a contribution. Atria is an open-source design system studio built in public
-as part of **NSoC Winter Edition 2026**.
+Thank you for helping improve Atria. Contributions in frontend engineering, product design, accessibility, documentation, testing, and developer experience are welcome.
 
-This document is the short entry point. Detailed guidance lives in [`docs/contributing/`](docs/contributing/README.md).
-
----
-
-## Code of conduct
-
-All participation is covered by the [Code of Conduct](CODE_OF_CONDUCT.md). Be respectful, constructive,
-and considerate.
-
----
-
-## What you can contribute
-
-- Bug fixes.
-- Documentation improvements and corrections.
-- Responsive and accessibility improvements.
-- Visual system refinements.
-- Implementations of the Studio briefs in [`src/pages/`](src/pages/).
-- Automated tests, linting, and CI improvements.
-- Issue reports with clear reproductions.
-
----
+Atria is an open-source design system studio. The product currently includes a Foundations resource library, an editable token workspace, and a component library with live previews and copy-ready examples.
 
 ## Before you start
 
-1. Check existing issues and pull requests.
-2. For a new feature or large refactor, open an issue first.
-3. Read the relevant documentation:
-   - [Architecture](docs/architecture/README.md)
-   - [Features](docs/features/README.md)
-   - [Frontend architecture](docs/engineering/frontend-architecture.md)
-   - [Coding standards](docs/quality/coding-standards.md)
-4. Keep the change focused.
+1. Search [existing issues](https://github.com/breeze-sn/Atria/issues) and pull requests to avoid duplicated work.
+2. For a new feature, architectural change, or broad refactor, open an issue first and discuss the approach.
+3. Read the [repository README](README.md) and the relevant documents in [docs/](docs/README.md).
+4. Keep pull requests focused. One coherent change is easier to review, test, and maintain.
 
-### Important project status
+## What you can contribute
 
-The **Foundations**, **Tokens**, and **Components** pages under `/explore` are currently
-**implementation briefs**, not working editors. Do not describe them as complete. If you implement one,
-update its status and documentation in the same pull request.
-
----
+- Bug fixes and interaction improvements.
+- Accessible, keyboard-friendly components and patterns.
+- Better responsive behaviour and mobile layouts.
+- Foundations, token, and component resources that solve real interface needs.
+- React and CSS examples with clear usage guidance.
+- Automated tests, linting, and CI improvements.
+- Documentation corrections and contributor experience improvements.
 
 ## Development setup
 
-Prerequisites:
-
-- Node.js 20 or newer
-- npm
-- Git
+Requirements: Node.js 20 or newer, npm, and Git.
 
 ```bash
 git clone https://github.com/<your-username>/Atria.git
 cd Atria
-npm install
+npm ci
 npm run dev
 ```
 
-There are **no environment variables** to configure.
+To run the optional Express health-check server, use a second terminal:
 
----
+```bash
+npm run dev:server
+```
+
+The server uses port 3000 by default and exposes `/api/health`. The Prisma/PostgreSQL configuration is scaffolding; database-backed product functionality is not yet connected.
 
 ## Verify your change
 
-Minimum:
+Before opening a pull request, run:
 
 ```bash
+npm ci
 npm run build
 ```
 
-Then perform the relevant manual checks from
-[Testing strategy](docs/quality/testing-strategy.md).
+The GitHub Actions workflow runs the production build for pushes and pull requests targeting `main`. A dedicated automated test runner and lint script are not configured yet, so include exact manual verification steps for the behaviour you changed.
 
-There is currently no automated test suite or lint script. CI runs the production build only.
+For UI changes, check:
+- desktop and narrow mobile layouts;
+- keyboard navigation and visible focus;
+- labels and accessible names for controls;
+- empty, error, disabled, and success states where relevant;
+- clipboard and export behaviour;
+- reduced-motion preferences if you add animation.
 
----
+## Branches and commits
 
-## Contribution workflow
+Create a focused branch from the latest `main`:
 
-1. Fork the repository.
-2. Create a focused branch.
-3. Make the change.
-4. Run `npm run build`.
-5. Update documentation.
-6. Commit with a clear message.
-7. Open a pull request against `main`.
-8. Respond to review.
-
-Full workflow: [Contribution workflow](docs/contributing/contribution-workflow.md)
-
----
-
-## Pull request format
-
-Use Conventional Commits style for titles:
-
-```text
-docs: redesign README and expand documentation library
-feat(studio): add token group navigation
-fix(routing): handle trailing slash on /docs
+```bash
+git checkout main
+git pull origin main
+git checkout -b feat/short-description
 ```
 
-Use the repository pull request template. Include:
+Use clear commit messages. Conventional Commit prefixes are encouraged:
 
-- summary;
-- related issue;
-- type of change;
-- what changed;
-- how to verify;
-- screenshots for visual changes;
-- checklist.
+```text
+feat(foundations): add accessible palette contrast checks
+fix(tokens): validate exported custom property names
+docs: clarify local resource persistence
+test(components): cover dialog keyboard interactions
+```
 
-Full guidance: [Pull request guidelines](docs/contributing/pull-request-guidelines.md)
+## Pull requests
 
----
+Open a pull request against `main` and use the repository pull request template. Include:
 
-## Coding standards
+- a concise summary and motivation;
+- the related issue, if one exists;
+- screenshots or a short recording for visual changes;
+- exact setup and verification steps;
+- known limitations or follow-up work.
 
-- Match the surrounding file style.
-- Use function components and local state.
-- Reuse existing CSS classes and prefixes.
-- Keep accessibility and reduced motion intact.
-- Do not introduce dependencies without justification.
-- Do not claim unimplemented functionality.
-- Do not commit `node_modules/` or `dist/`.
-- Do not add secrets.
+Keep changes proportionate and avoid unrelated formatting churn. Do not split one logical fix into multiple low-value pull requests.
 
-Full guidance: [Coding standards](docs/quality/coding-standards.md)
+## Product and code principles
 
----
+- **Useful over decorative:** prioritise resources people can actually use in products.
+- **Accessible by default:** semantic HTML, keyboard access, focus visibility, and meaningful labels.
+- **Honest documentation:** distinguish implemented behaviour from planned work.
+- **Small dependencies:** justify new packages and keep the stack maintainable.
+- **Safe persistence:** never store secrets or sensitive data in browser local storage.
+- **Respect the design language:** preserve Atria's minimal, considered visual direction.
+- **No contribution farming:** do not create trivial commits, duplicate issues, or meaningless pull requests to inflate activity.
 
-## Documentation contributions
+## Code of conduct
 
-Documentation is a first-class contribution.
-
-- The code is the source of truth.
-- Label status as Implemented, Placeholder, or Planned.
-- Verify every link and anchor.
-- Use Mermaid for diagrams.
-- Update the documentation index.
-- Do not fabricate screenshots or product claims.
-
-Full guidance: [Documentation guidelines](docs/contributing/documentation-guidelines.md)
-
----
+All participation is covered by the [Code of Conduct](CODE_OF_CONDUCT.md). Be respectful, constructive, and considerate.
 
 ## Security
 
-Do not open a public issue for a security vulnerability. Follow [SECURITY.md](SECURITY.md).
+Do not disclose vulnerabilities in public issues. Follow [SECURITY.md](SECURITY.md).
 
----
+By contributing, you agree that your contribution is licensed under the repository's [MIT License](LICENSE).
 
-## Licence
-
-By contributing, you agree that your contribution is licensed under the repository's
-[MIT License](LICENSE).
-
----
-
-## Questions
-
-Open a GitHub issue with the `question` label if available, or comment on the relevant issue or pull
-request. Please keep discussions focused and public unless the topic is security-sensitive.
-
-Thank you for helping make Atria better.
+Thank you for making Atria better.
