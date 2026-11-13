@@ -1,172 +1,73 @@
 # Explore Studio
 
-**Status:** Implemented shell; placeholder sections
-**Routes:** `/explore`, `/explore/foundations`, `/explore/tokens`, `/explore/components`
+**Status:** Implemented workspace and resource areas
+**Routes:** `/explore`, `/explore/foundations/*`, `/explore/tokens`, `/explore/components`
 **Sources:** `src/layouts/DashboardLayout.jsx`, `src/pages/*.jsx`, `src/App.jsx`
 
-Explore Studio is the navigable workspace shell for Atria's design-system sections. It currently
-provides the frame and the contributor briefs, not the editing capabilities.
+Explore Studio is the product workspace for Atria's foundations, tokens, and component examples.
 
----
-
-## 1. What exists
-
-```mermaid
-flowchart LR
-  Explore[/explore] --> Foundation[/explore/foundations]
-  Explore --> Tokens[/explore/tokens]
-  Explore --> Components[/explore/components]
-  Legacy[/studio/*] -->|redirect| Explore
-```
+## 1. Workspace layout
 
 | Element | Behaviour |
 |---|---|
-| Header | Brand link to `/`, GitHub CTA |
-| Sidebar | Three `NavLink` entries with icons and numbering |
-| Content area | Renders the selected section through `<Outlet />` |
-| Footer | Brand, statement, GitHub CTA, legal row |
-| Active state | Derived from the current URL |
-| Responsive layout | Sticky sidebar on desktop; stacked/horizontal nav on mobile |
+| Header | Atria brand link and GitHub repository CTA |
+| Sidebar | Foundations, Tokens, and Components navigation |
+| Content area | Renders the selected section through React Router's `Outlet` |
+| Footer | Project links and documentation |
+| Active state | Derived from the current route |
+| Responsive layout | Sidebar adapts for narrow screens |
 
-### Route behaviour
+## 2. Routes
 
 | Route | Result |
 |---|---|
-| `/explore` | Redirects to `/explore/foundations` |
-| `/explore/foundations` | Foundations brief |
-| `/explore/tokens` | Tokens brief |
-| `/explore/components` | Components brief |
-| `/explore/unknown` | Redirects to `/` (catch-all) |
+| `/explore` | Redirects to the Overview page |
+| `/explore/foundations` | Foundations resource catalogue |
+| `/explore/foundations/:categoryId/:resourceId` | Selected foundation resource editor |
+| `/explore/tokens` | Editable token collection |
+| `/explore/components` | Component catalogue and snippet previews |
 | `/studio/*` | Redirects to `/explore` |
+| Unknown route | Redirects to `/` |
 
----
+## 3. Section responsibilities
 
-## 2. What does not exist
+| Section | Source | Current capability |
+|---|---|---|
+| Overview | `src/pages/Overview.jsx` | Workspace introduction and links to core areas |
+| Foundations | `src/pages/Foundations.jsx` | Preset library, resource editor, local customisation, CSS/JSON export |
+| Tokens | `src/pages/Tokens.jsx` | Search, group filters, add/edit/delete, copy, CSS/JSON export |
+| Components | `src/pages/Components.jsx` | Ten live examples and copy-ready React/CSS snippets |
 
-The Studio does **not** provide:
+Read the [feature overview](README.md) and the section-specific documents for exact capability boundaries.
 
-- forms or editors for creating foundations, tokens, or components;
-- saved data;
-- data fetching or an API;
-- token validation or export;
-- component preview execution;
-- user accounts or permissions;
-- search, filtering, or publishing;
-- collaboration.
+## 4. State and persistence
 
-Each section page is a static implementation brief. The status label
-`PLACEHOLDER · READY FOR CONTRIBUTION` is accurate.
+Foundations and Tokens use the `useStudioData` helper or resource-specific local-storage keys. This is local browser persistence, not a shared backend. Atria does not currently provide accounts, team workspaces, hosted publishing, or cross-device sync.
 
----
+Component preview state is held in the page while it is open. It is not persisted as a published component record.
 
-## 3. Layout anatomy
-
-```text
-explore-page
-├── explore-header
-│   └── nav.shell.explore-top-nav
-│       ├── brand link
-│       └── GitHub CTA
-├── explore-workspace.shell
-│   ├── aside.explore-sidebar
-│   │   ├── "EXPLORE STUDIO" label
-│   │   └── nav.explore-section-nav
-│   │       └── NavLink × 3
-│   └── main.explore-content
-│       └── Outlet
-└── footer.footer.explore-footer
-```
-
-### Sidebar
-
-- Receives a static `sections` array.
-- Each entry has `name`, `path`, `icon`, and `number`.
-- `NavLink` applies `.active` when the route matches.
-- On desktop, the sidebar is `position: sticky` with `top: 28px`.
-- On mobile (`≤ 650px`), the sidebar becomes static and the section nav becomes horizontally
-  scrollable.
-
-### Content
-
-- `.explore-content .studio-page` caps content width at 850px.
-- The brief pages use the shared `.studio-*` classes.
-- Content is not padded independently beyond the shell and layout spacing.
-
-### Footer
-
-- Reuses `.footer` styling with Explore overrides.
-- Pushes to the bottom through the flex column page layout.
-- Contains the same public links as the landing footer.
-
----
-
-## 4. Section briefs
-
-| Section | File | Status | Main content |
-|---|---|---|---|
-| Foundations | `src/pages/Foundations.jsx` | Placeholder | Colour, typography, spacing and layout brief |
-| Tokens | `src/pages/Tokens.jsx` | Placeholder | Token structure, groups, edit/validate/export brief |
-| Components | `src/pages/Components.jsx` | Placeholder | Anatomy, variants, preview, usage, reuse brief |
-
-Each brief contains:
-
-- an implementation-brief index label;
-- a page heading and status badge;
-- an intro paragraph;
-- a "What to build" panel;
-- a numbered task/stage/part list;
-- developer notes.
-
-Read the detailed briefs:
-
-- [Design foundations](design-foundations.md)
-- [Design tokens](design-tokens.md)
-- [Component library](component-library.md)
-
----
-
-## 5. How to add a section
+## 5. Adding a section
 
 1. Create a page component in `src/pages/`.
-2. Add a child route under `/explore` in `src/App.jsx`.
-3. Add an entry to `sections` in `src/layouts/DashboardLayout.jsx` with a Phosphor icon and number.
-4. Reuse `.studio-page` or extract a shared brief layout if the pattern repeats.
-5. Add the route to the manual test matrix.
-6. Update this document and the [documentation index](../README.md).
-7. If the section introduces data, add a schema and persistence design first.
+2. Add a child route in `src/App.jsx`.
+3. Add the navigation entry in `src/layouts/DashboardLayout.jsx`.
+4. Reuse the existing visual language and ensure the layout works on narrow screens.
+5. Add manual verification steps and tests when test tooling is available.
+6. Update the relevant feature documentation and index.
 
----
+## 6. Limitations
 
-## 6. Design decisions
+- No account system, permissions, or shared workspaces.
+- No server-backed resource storage or community publishing.
+- No automated browser test suite yet.
+- Resource and token exports are client-side.
+- Component snippets are examples, not an installable component package.
 
-- The Studio uses a compact sidebar while the landing page uses a horizontal nav. This keeps the
-  workspace scannable without competing with the public marketing layout.
-- The section pages are briefs rather than empty placeholders so contributors have direction.
-- The shell does not own section state; each section can evolve independently.
-- The current layout uses an `Outlet`, so the header, sidebar, and footer do not re-mount on section
-  navigation.
+## Related documents
 
-See [ADR-0002](../architecture/adr/0002-react-router-explore-shell.md) and
-[ADR-0005](../architecture/adr/0005-placeholder-implementation-briefs.md).
-
----
-
-## 7. Limitations
-
-- No persistence or data model.
-- No UI for adding or editing items.
-- No preview isolation or component execution.
-- No export.
-- No authentication or ownership.
-- No automated tests for navigation or layout.
-
----
-
-## 8. Related documents
-
-- [Landing page](landing-page.md)
+- [Feature overview](README.md)
 - [Design foundations](design-foundations.md)
 - [Design tokens](design-tokens.md)
 - [Component library](component-library.md)
 - [Routing](../engineering/routing.md)
-- [Component architecture](../architecture/component-architecture.md)
+- [State management](../engineering/state-management.md)
