@@ -1,0 +1,58 @@
+name: Bug report
+description: Report a reproducible problem in Atria.
+title: "bug: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you for helping improve Atria. Please search existing issues before submitting."
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where did you find the issue?
+      options:
+        - Foundations
+        - Tokens
+        - Components
+        - Explore dashboard
+        - Landing page
+        - Documentation
+        - Build or setup
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the issue clearly.
+      placeholder: I expected..., but instead...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the route and the exact actions.
+      placeholder: |
+        1. Open...
+        2. Select...
+        3. Change...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Safari 18, Chrome 130, etc.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots, recordings, or console errors
+      description: Add visual evidence if it helps explain the issue.
