@@ -1,59 +1,28 @@
-import React from 'react';
-import { Plus, RotateCcw } from '@phosphor-icons/react';
+import React, { useState } from 'react';
+import { Copy, Check, Download } from '@phosphor-icons/react';
 import { useStudioData } from '../data/studioStore.js';
-
-const panel = { padding: 20, border: '1px solid var(--line)', background: '#fafaf8', marginTop: 18 };
-const input = { minWidth: 0, padding: '9px 10px', border: '1px solid var(--line)', background: '#fff', color: 'var(--ink)', font: 'inherit', fontSize: 12, borderRadius: 2 };
-const action = { padding: '9px 12px', border: '1px solid var(--ink)', background: 'var(--ink)', color: '#fff', fontSize: 11, cursor: 'pointer' };
-const subtle = { padding: '7px 9px', border: '1px solid var(--line)', background: 'transparent', color: 'var(--ink)', fontSize: 10, cursor: 'pointer' };
-
-export default function Foundations() {
-  const [data, save, reset] = useStudioData('foundations');
-  const updateColour = (id, field, value) => save((d) => ({ ...d, colours: d.colours.map((c) => c.id === id ? { ...c, [field]: value } : c) }));
-  const addColour = () => save((d) => ({ ...d, colours: [...d.colours, { id: crypto.randomUUID(), name: 'New colour', value: '#777777' }] }));
-  const removeColour = (id) => save((d) => ({ ...d, colours: d.colours.filter((c) => c.id !== id) }));
-  const updateType = (index, field, value) => save((d) => ({ ...d, typography: d.typography.map((t, i) => i === index ? { ...t, [field]: Number(value) } : t) }));
-  const updateSpacing = (index, value) => save((d) => ({ ...d, spacing: d.spacing.map((v, i) => i === index ? Math.max(0, Number(value) || 0) : v) }));
-  const addSpacing = () => save((d) => ({ ...d, spacing: [...d.spacing, (Math.max(0, ...d.spacing) || 0) + 8] }));
-
-  return <div className="studio-page">
-    <div className="section-index">[ STUDIO / 01 — FOUNDATIONS ]</div>
-    <div className="studio-page-heading"><div><span className="studio-status">EDITABLE WORKSPACE · SAVED IN THIS BROWSER</span><h2>Design Foundations</h2></div><span className="studio-page-count">01 / 03</span></div>
-    <p className="studio-page-intro">Define the visual rules behind your system. Changes are saved automatically and are available to the token workspace on this device.</p>
-
-    <section style={panel}>
-      <div className="placeholder-panel-heading"><div><span className="studio-kicker">01 / COLOUR</span><h3>Colour palette</h3></div><button style={action} onClick={addColour}><Plus size={13}/> Add colour</button></div>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(135px,1fr))', gap:10 }}>
-        {data.colours.map((c) => <article key={c.id} style={{ border:'1px solid var(--line)', background:'#fff', padding:10, minWidth:0 }}>
-          <input aria-label={c.name + ' colour'} type="color" value={c.value} onChange={(e)=>updateColour(c.id,'value',e.target.value)} style={{ width:'100%', height:58, border:0, background:'transparent', cursor:'pointer' }}/>
-          <input aria-label="Colour name" value={c.name} onChange={(e)=>updateColour(c.id,'name',e.target.value)} style={{...input,width:'100%',marginTop:8}}/>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:5,marginTop:7}}><code style={{fontSize:10}}>{c.value.toUpperCase()}</code><button style={subtle} onClick={()=>removeColour(c.id)}>Remove</button></div>
-        </article>)}
-      </div>
-    </section>
-
-    <section style={panel}>
-      <div className="placeholder-panel-heading"><div><span className="studio-kicker">02 / TYPOGRAPHY</span><h3>Type scale</h3></div><span className="workspace-section-meta">{data.typography.length} STYLES</span></div>
-      <div style={{display:'grid',gap:0}}>
-        {data.typography.map((t,i)=><div key={t.name} style={{display:'grid',gridTemplateColumns:'minmax(90px,1fr) 75px 75px 75px',gap:9,alignItems:'center',padding:'12px 0',borderTop:'1px solid var(--line)'}}>
-          <div style={{minWidth:0}}><strong style={{display:'block',fontSize:Math.min(t.size,30),lineHeight:t.lineHeight,overflow:'hidden'}}>{t.name}</strong><small style={{color:'#99968e',fontSize:9}}>{t.size}px · weight {t.weight}</small></div>
-          <label style={{fontSize:9,color:'#888'}}>Size<input aria-label={t.name+' size'} type="number" min="8" max="96" value={t.size} onChange={e=>updateType(i,'size',e.target.value)} style={{...input,width:'100%',marginTop:4}}/></label>
-          <label style={{fontSize:9,color:'#888'}}>Weight<input aria-label={t.name+' weight'} type="number" min="100" max="900" step="100" value={t.weight} onChange={e=>updateType(i,'weight',e.target.value)} style={{...input,width:'100%',marginTop:4}}/></label>
-          <label style={{fontSize:9,color:'#888'}}>Line height<input aria-label={t.name+' line height'} type="number" min="1" max="3" step=".1" value={t.lineHeight} onChange={e=>updateType(i,'lineHeight',e.target.value)} style={{...input,width:'100%',marginTop:4}}/></label>
-        </div>)}
-      </div>
-    </section>
-
-    <section style={panel}>
-      <div className="placeholder-panel-heading"><div><span className="studio-kicker">03 / SPACING</span><h3>Spacing scale</h3></div><button style={action} onClick={addSpacing}><Plus size={13}/> Add step</button></div>
-      <div style={{display:'grid',gap:12}}>
-        {data.spacing.map((v,i)=><div key={i} style={{display:'grid',gridTemplateColumns:'70px minmax(50px,1fr) 55px',alignItems:'center',gap:12}}>
-          <input aria-label={'Spacing step '+(i+1)} type="number" min="0" value={v} onChange={e=>updateSpacing(i,e.target.value)} style={input}/>
-          <div style={{height:10,background:'#e8e6df',overflow:'hidden'}}><div style={{height:'100%',width:Math.min(v,240)/240*100+'%',background:'#55534f'}}/></div>
-          <code style={{fontSize:10}}>{v}px</code>
-        </div>)}
-      </div>
-    </section>
-    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,marginTop:20}}><small style={{color:'#99968e'}}>Edits save automatically to this browser.</small><button style={subtle} onClick={()=>{if(window.confirm('Reset foundations to the original Atria values?')) reset();}}><RotateCcw size={12}/> Reset defaults</button></div>
-  </div>;
+const btn={display:'inline-flex',alignItems:'center',gap:6,padding:'8px 10px',border:'1px solid var(--line)',background:'#fff',color:'var(--ink)',fontSize:10,cursor:'pointer'};
+function CopyButton({value,label='Copy'}){const [done,setDone]=useState(false);return <button style={btn} onClick={async()=>{try{await navigator.clipboard.writeText(value);setDone(true);setTimeout(()=>setDone(false),1300)}catch{}}}>{done?<Check size={13}/>:<Copy size={13}/>} {done?'Copied':label}</button>}
+export default function Foundations(){
+ const [data,save,reset]=useStudioData('foundations');
+ const [tab,setTab]=useState('Colour');
+ const spacing=data.spacing||[];
+ const radii=[['None',0],['Small',4],['Medium',8],['Large',12],['Pill',999]];
+ const shadows=[['Subtle','0 1px 2px rgba(0,0,0,.06)'],['Card','0 4px 14px rgba(0,0,0,.08)'],['Floating','0 12px 32px rgba(0,0,0,.12)']];
+ const css=[':root {',...data.colours.map(c=>'  --color-'+c.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')+': '+c.value+';'),...data.typography.map(t=>'  --font-'+t.name.toLowerCase()+': '+t.size+'px;'),...spacing.map((v,i)=>'  --space-'+(i+1)+': '+v+'px;'),...radii.map(r=>'  --radius-'+r[0].toLowerCase()+': '+r[1]+'px;'),...shadows.map(s=>'  --shadow-'+s[0].toLowerCase()+': '+s[1]+';'),'}'].join('\n');
+ const download=()=>{const url=URL.createObjectURL(new Blob([css],{type:'text/css'}));const a=document.createElement('a');a.href=url;a.download='atria-foundations.css';a.click();URL.revokeObjectURL(url)};
+ const updateColour=(id,field,value)=>save(d=>({...d,colours:d.colours.map(c=>c.id===id?{...c,[field]:value}:c)}));
+ const updateType=(i,field,value)=>save(d=>({...d,typography:d.typography.map((t,n)=>n===i?{...t,[field]:Number(value)}:t)}));
+ const updateSpace=(i,value)=>save(d=>({...d,spacing:d.spacing.map((v,n)=>n===i?Math.max(0,Number(value)||0):v)}));
+ return <div className="studio-page">
+  <div className="section-index">[ STUDIO / FOUNDATIONS ]</div>
+  <div className="studio-page-heading"><div><span className="studio-status">COPY-READY DESIGN RESOURCES</span><h2>Foundations</h2></div><button style={btn} onClick={download}><Download size={13}/> Download CSS</button></div>
+  <div style={{display:'flex',gap:5,flexWrap:'wrap',borderBottom:'1px solid var(--line)',margin:'22px 0 18px',paddingBottom:10}}>{['Colour','Typography','Spacing','Radius & shadow'].map(t=><button key={t} onClick={()=>setTab(t)} style={{...btn,background:tab===t?'#242420':'transparent',color:tab===t?'#fff':'var(--ink)'}}>{t}</button>)}</div>
+  {tab==='Colour'&&<section><div className="placeholder-panel-heading"><div><span className="studio-kicker">PALETTE / EDITABLE</span><h3>Neutral foundation palette</h3></div><CopyButton value={data.colours.map(c=>c.name+': '+c.value).join('\n')}/></div><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(125px,1fr))',gap:9}}>{data.colours.map(c=><article key={c.id} style={{border:'1px solid var(--line)',background:'#fff',padding:8}}><input type="color" aria-label={c.name+' colour'} value={c.value} onChange={e=>updateColour(c.id,'value',e.target.value)} style={{width:'100%',height:100,border:0,padding:0,cursor:'pointer'}}/><input value={c.name} aria-label="Colour name" onChange={e=>updateColour(c.id,'name',e.target.value)} style={{width:'100%',border:0,font:'inherit',fontSize:11,padding:'8px 2px 4px'}}/><div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}><code style={{fontSize:10}}>{c.value.toUpperCase()}</code><CopyButton value={c.value}/></div></article>)}</div></section>}
+  {tab==='Typography'&&<section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}><div className="placeholder-panel-heading"><div><span className="studio-kicker">TYPE SCALE / PX</span><h3>Text hierarchy</h3></div><CopyButton value={data.typography.map(t=>t.name+': '+t.size+'px / '+t.lineHeight+' / '+t.weight).join('\n')}/></div>{data.typography.map((t,i)=><div key={t.name} style={{display:'grid',gridTemplateColumns:'minmax(0,1fr) 70px 65px',gap:10,alignItems:'center',padding:'15px 0',borderTop:'1px solid var(--line)'}}><div style={{minWidth:0}}><div style={{fontSize:'clamp(16px,'+Math.min(t.size,38)+'px,38px)',fontWeight:t.weight,lineHeight:t.lineHeight,overflowWrap:'anywhere'}}>The quick brown fox</div><small style={{color:'#999'}}>{t.name} · {t.size}px · {t.weight} · {t.lineHeight} line height</small></div><label style={{fontSize:9}}>Size<input type="number" min="8" max="96" value={t.size} onChange={e=>updateType(i,'size',e.target.value)} style={{...btn,width:'100%',marginTop:4}}/></label><label style={{fontSize:9}}>Weight<input type="number" min="100" max="900" step="100" value={t.weight} onChange={e=>updateType(i,'weight',e.target.value)} style={{...btn,width:'100%',marginTop:4}}/></label></div>)}</section>}
+  {tab==='Spacing'&&<section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}><div className="placeholder-panel-heading"><div><span className="studio-kicker">SPACING / 4PT BASE</span><h3>Layout rhythm</h3></div><CopyButton value={spacing.map((v,i)=>'--space-'+(i+1)+': '+v+'px;').join('\n')}/></div>{spacing.map((v,i)=><div key={i} style={{display:'grid',gridTemplateColumns:'65px minmax(0,1fr) 65px',gap:12,alignItems:'center',padding:'8px 0'}}><code style={{fontSize:10}}>space-{i+1}</code><div style={{height:20,background:'#f0efeb'}}><div style={{height:20,width:Math.min(v,240),maxWidth:'100%',background:'#55534f'}}/></div><input type="number" min="0" value={v} onChange={e=>updateSpace(i,e.target.value)} style={{...btn,width:'100%'}}/></div>)}</section>}
+  {tab==='Radius & shadow'&&<div style={{display:'grid',gap:18}}><section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}><span className="studio-kicker">BORDER RADIUS</span><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(100px,1fr))',gap:14,marginTop:16}}>{radii.map(r=><div key={r[0]} style={{textAlign:'center'}}><div style={{height:70,background:'#eeede9',border:'1px solid #d8d6cf',borderRadius:r[1],marginBottom:8}}/><strong style={{fontSize:11}}>{r[0]}</strong><small style={{display:'block',color:'#888'}}>{r[1]}px</small></div>)}</div><CopyButton value={radii.map(r=>'--radius-'+r[0].toLowerCase()+': '+r[1]+'px;').join('\n')}/></section><section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}><span className="studio-kicker">ELEVATION</span><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(120px,1fr))',gap:16,marginTop:18}}>{shadows.map(s=><div key={s[0]} style={{height:90,display:'grid',placeItems:'center',background:'#fafaf8',boxShadow:s[1]}}><strong style={{fontSize:11}}>{s[0]}</strong></div>)}</div><CopyButton value={shadows.map(s=>'--shadow-'+s[0].toLowerCase()+': '+s[1]+';').join('\n')}/></section></div>}
+  <section style={{marginTop:24}}><div className="placeholder-panel-heading"><div><span className="studio-kicker">DEVELOPER HANDOFF</span><h3>CSS foundations</h3></div><CopyButton value={css} label="Copy all CSS"/></div><pre style={{whiteSpace:'pre',overflowX:'auto',padding:15,background:'#242420',color:'#e9e7e1',fontSize:10,lineHeight:1.8}}>{css}</pre></section>
+  <div style={{display:'flex',justifyContent:'flex-end',marginTop:16}}><button style={btn} onClick={()=>{if(window.confirm('Restore the original Atria foundation values?'))reset()}}>Reset foundations</button></div>
+ </div>;
 }
