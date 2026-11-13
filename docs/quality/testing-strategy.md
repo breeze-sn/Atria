@@ -2,206 +2,125 @@
 
 ## 1. Current state
 
-Atria has **no automated test suite**.
+Atria currently has no automated test runner or lint script. The enforced CI gate is a clean dependency install followed by a production build.
 
-Verified facts:
+- `npm ci` installs the lockfile-defined dependency graph.
+- `npm run build` verifies that Vite can compile the application.
+- GitHub Actions runs these commands for pushes and pull requests targeting `main`.
+- UI behaviour still needs focused manual verification.
 
-- No `test` script exists in `package.json`.
-- No Vitest, Jest, Playwright, Cypress, Testing Library, or similar package is installed.
-- There are no test files in the repository.
-- The CI workflow runs `npm install`, `npm run lint --if-present`, and `npm run build`.
-- Because no `lint` script exists, the lint step is a no-op.
-
-Earlier project notes mentioned Vitest and Playwright. They are **not present** in this codebase. This
-document does not claim otherwise.
-
----
-
-## 2. What is verified today
+## 2. Current quality gates
 
 | Gate | Mechanism | Status |
 |---|---|---|
-| Dependency install | `npm install` locally and in CI | Enforced |
-| Production build | `npm run build` locally and in CI | Enforced |
-| Route rendering | Manual | Required for relevant changes |
-| Interaction behaviour | Manual | Required for relevant changes |
-| Responsive layout | Manual | Required for layout changes |
-| Accessibility basics | Manual | Recommended for UI changes |
-| Links | Manual | Required for docs changes |
-
----
+| Dependency install | `npm ci` | Enforced in CI |
+| Production build | `npm run build` | Enforced in CI |
+| Routes and navigation | Manual checks | Required for relevant changes |
+| Editor and export behaviour | Manual checks | Required for relevant changes |
+| Responsive layout | Manual checks | Required for layout changes |
+| Keyboard and accessibility | Manual checks | Required for interactive changes |
+| Automated unit/component tests | Not configured | Future work |
+| Linting and formatting | Not configured | Future work |
 
 ## 3. Manual test matrix
 
-Run this against `npm run dev` or, for production-specific behaviour, `npm run build && npm run preview`.
+Run checks with `npm run dev`. For production routing, also run `npm run build && npm run preview`.
 
-### 3.1 Routes
+### Routes
 
 | Test | Expected |
 |---|---|
 | Open `/` | Landing page renders |
 | Open `/docs` | Documentation hub renders |
-| Open `/docs/` | Redirects to `/` (known current behaviour) |
-| Open `/explore` | Redirects to `/explore/foundations` |
-| Open `/explore/foundations` | Foundations brief renders |
-| Open `/explore/tokens` | Tokens brief renders |
-| Open `/explore/components` | Components brief renders |
+| Open `/explore` | Redirects to Overview |
+| Open `/explore/foundations` | Foundations catalogue renders |
+| Open `/explore/foundations/colour/warm-earth` | Warm Earth resource editor renders |
+| Open `/explore/tokens` | Token workspace renders |
+| Open `/explore/components` | Component library renders |
+| Refresh a nested foundation route | Same resource renders after refresh |
 | Open `/studio/anything` | Redirects to `/explore` |
-| Open `/unknown` | Redirects to `/` |
-| Refresh on a deep route in preview | Route still renders via SPA fallback |
+| Open an unknown route | Redirects to `/` |
 
-### 3.2 Landing page interactions
+### Foundations
 
-| Test | Expected |
-|---|---|
-| Click each playground tab | Corresponding preview renders; selected tab styling updates |
-| Keyboard activate tabs | Tabs activate via Enter/Space |
-| Click copy token with permission | Label shows `COPIED`, then returns to `COPY` |
-| Click copy token with permission denied | No false `COPIED`; page remains usable |
-| Click internal anchor links | Page scrolls to the section |
-| Click GitHub CTA | Opens repository in a new tab |
-| Click contact links | Correct destinations open |
-| Resize to mobile width | Nav links hide; hero stacks; preview compresses |
+- [ ] Open each category and select a preset.
+- [ ] Confirm the detail route reflects the selected resource.
+- [ ] Edit a colour name and value; confirm the preview and HEX value update.
+- [ ] Edit typography size and weight.
+- [ ] Edit spacing and radius values.
+- [ ] Add a colour and confirm it appears in the palette.
+- [ ] Copy an individual value and the generated CSS.
+- [ ] Export CSS and JSON; verify the downloaded contents.
+- [ ] Refresh the page and confirm local edits persist.
+- [ ] Reset and confirm the original preset values return.
+- [ ] Confirm editing one preset does not change another preset.
 
-### 3.3 Documentation hub
+### Tokens
 
-| Test | Expected |
-|---|---|
-| Open `/docs` | Hero and three collections render |
-| Card count | Six document cards |
-| Click a card | Opens Google Docs in a new tab |
-| Tab through cards | Focus-visible outline appears |
-| Resize to mobile width | Collections and cards stack |
-| Click back link | Returns to `/` |
-| Click brand | Returns to `/` |
+- [ ] Search by token name, value, and description.
+- [ ] Switch between All, Primitive, and Semantic filters.
+- [ ] Edit a token name and value.
+- [ ] Add and delete a token.
+- [ ] Copy an individual value.
+- [ ] Export CSS and JSON and inspect the contents.
+- [ ] Refresh and confirm local collection changes persist.
+- [ ] Reset and confirm the starter collection returns.
 
-### 3.4 Explore Studio
+### Components
 
-| Test | Expected |
-|---|---|
-| Open `/explore` | Redirects to Foundations |
-| Click each sidebar item | Correct brief renders |
-| Active item | Matches the current URL |
-| Resize to mobile width | Sidebar stacks; section nav scrolls horizontally |
-| Footer links | Open correct destinations |
-| Brand link | Returns to `/` |
+- [ ] Select all ten component entries.
+- [ ] Confirm each entry displays its own preview and description.
+- [ ] Test button variants and editable text.
+- [ ] Test text-field input and error/disabled states.
+- [ ] Open and close the modal using its controls and backdrop.
+- [ ] Switch tabs, change the dropdown, and toggle the checkbox.
+- [ ] Switch between React and CSS snippets.
+- [ ] Copy snippets and confirm clipboard feedback.
+- [ ] Check keyboard focus and narrow-screen layout.
 
-### 3.5 Visual and motion
+### Responsive and accessibility checks
 
-| Test | Expected |
-|---|---|
-| Hover buttons and cards | Transition without layout jump |
-| Enable reduced motion | Transitions/animations effectively disabled |
-| Check at 1440px, 1024px, 768px, 600px, 375px | Layout remains usable |
-| Zoom to 200% | Content remains readable and reachable |
+- [ ] Check at 1440px, 1024px, 768px, 600px, and 375px widths.
+- [ ] Navigate using only the keyboard.
+- [ ] Confirm visible focus for interactive controls.
+- [ ] Confirm controls have accessible names and labels.
+- [ ] Check text contrast and avoid relying on colour alone.
+- [ ] Enable reduced motion and confirm animations are minimised.
+- [ ] Zoom to 200% and confirm content remains reachable.
 
-### 3.6 Console and network
+### General
 
-| Test | Expected |
-|---|---|
-| Open each route | No JavaScript console errors |
-| Check network panel | Only expected assets and fonts load |
-| Offline after initial load | Page remains rendered; external links fail |
+- [ ] No unexpected console errors on changed routes.
+- [ ] Clipboard failures do not show false success feedback.
+- [ ] Internal and external links go to the expected destinations.
+- [ ] Browser local-storage limitations are documented accurately.
 
----
+## 4. Future automated test layers
 
-## 4. Documentation checks
+Recommended first targets:
 
-For documentation changes:
+1. **Unit tests:** preset transformations, token naming, CSS/JSON export generation, and persistence helpers.
+2. **Component tests:** palette editing, token filters, copy feedback, and modal interactions.
+3. **End-to-end tests:** route navigation, deep-link refresh, resource edits, and export flows.
+4. **Accessibility tests:** automated landmark/label checks plus keyboard and screen-reader review.
 
-- [ ] Every relative link resolves to an existing file.
-- [ ] Every anchor in a table of contents resolves to a heading.
-- [ ] Code blocks and commands are accurate.
-- [ ] File paths match the repository.
-- [ ] Status labels are correct.
-- [ ] No unimplemented feature is described as complete.
-- [ ] Mermaid diagrams render.
-- [ ] External links use full URLs and are reachable.
-- [ ] The documentation index is updated for new files.
+A Vite-compatible test runner such as Vitest and a browser tool such as Playwright are candidates, but neither is currently installed. Add an ADR and update CI when adopting them.
 
----
+## 5. CI commands
 
-## 5. Future test layers
-
-These are recommendations, not current capabilities.
-
-### Unit tests
-
-Good first targets:
-
-- token validation and reference resolution;
-- foundation data transformations;
-- export generation;
-- utility functions once introduced.
-
-Suggested tool: a Vite-native runner such as Vitest, if the team adopts it.
-
-### Component tests
-
-Good targets:
-
-- playground tab switching;
-- copy-token success and failure states;
-- Studio brief rendering from data;
-- future forms and validation.
-
-Suggested tool: Testing Library with a DOM environment.
-
-### End-to-end tests
-
-Good targets:
-
-- landing page navigation;
-- `/docs` rendering;
-- `/explore` redirects and sidebar navigation;
-- future create/edit/save flows.
-
-Suggested tool: Playwright, if the team adopts it.
-
-### Accessibility tests
-
-- automated checks for landmarks, labels, and contrast where possible;
-- keyboard-only walkthroughs;
-- screen-reader spot checks.
-
-### Visual regression
-
-- capture landing, docs, and Studio at documented breakpoints;
-- compare against approved baselines.
-
-### CI integration
-
-A future CI pipeline could run:
+The current CI workflow runs:
 
 ```bash
 npm ci
-npm run lint
-npm run test
 npm run build
 ```
 
-The current pipeline intentionally runs only what exists.
+When test and lint tooling is introduced, extend the workflow to run those checks before the production build.
 
----
-
-## 6. Adding tests
-
-When adding a test framework:
-
-1. Add an ADR describing the choice and scope.
-2. Add the dependency and scripts to `package.json`.
-3. Update CI.
-4. Document the commands in this file and in the root README.
-5. Keep tests deterministic and fast.
-6. Avoid testing implementation details that are likely to churn.
-
----
-
-## 7. Related documents
+## Related documents
 
 - [Quality overview](README.md)
 - [Accessibility](accessibility.md)
 - [Coding standards](coding-standards.md)
 - [Review checklist](review-checklist.md)
 - [CI/CD](../deployment/ci-cd.md)
-- [Debugging](../contributing/debugging.md)
