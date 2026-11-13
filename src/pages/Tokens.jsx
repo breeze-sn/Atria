@@ -14,7 +14,7 @@ export default function Tokens() {
   const update = (id, field, value) => save(items=>items.map(t=>t.id===id?{...t,[field]:value}:t));
   const add = () => { if(!draft.name.trim()||!draft.value.trim()) return; save(items=>[...items,{...draft,id:crypto.randomUUID()}]); setDraft({name:'',value:'',type:'color',description:'',group:'Primitive'}); };
   const exportFile = (kind) => {
-    const content = kind==='json' ? JSON.stringify(tokens,null,2) : ':root {\\n'+tokens.map(t=>'  --atria-'+t.name.replaceAll('.','-')+': '+t.value+';').join('\\n')+'\\n}';
+    const content = kind==='json' ? JSON.stringify(tokens,null,2) : ':root {\n'+tokens.map(t=>'  --atria-'+t.name.replaceAll('.','-')+': '+t.value+';').join('\n')+'\n}';
     const blob = new Blob([content],{type:kind==='json'?'application/json':'text/css'});
     const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='atria-tokens.'+kind; a.click(); URL.revokeObjectURL(url);
   };
