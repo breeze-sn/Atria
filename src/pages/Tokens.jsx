@@ -31,6 +31,25 @@ export default function Tokens() {
       </div>
       <p className="studio-page-intro">A structured layer between design foundations and implementation. Tokens should make design decisions reusable, traceable, and ready to export.</p>
 
+
+      <section className="placeholder-panel">
+        <div className="placeholder-panel-heading"><div><span className="studio-kicker">TOKEN WORKSPACE / 01</span><h3>Recently defined tokens</h3></div><span className="placeholder-tag">SAMPLE DATA</span></div>
+        <div className="token-summary-grid">
+          <article><span>TOTAL TOKENS</span><strong>24</strong><small>Across 3 categories</small></article>
+          <article><span>PRIMITIVES</span><strong>16</strong><small>Base values</small></article>
+          <article><span>SEMANTIC</span><strong>08</strong><small>Contextual aliases</small></article>
+        </div>
+        <div className="token-preview-table">
+          <div className="token-preview-row token-preview-head"><span>NAME</span><span>VALUE</span><span>TYPE</span></div>
+          {[
+            ['colour.text.primary', '#20201E', 'Colour'],
+            ['colour.surface.canvas', '#F7F7F5', 'Colour'],
+            ['space.4', '16px', 'Spacing'],
+            ['radius.small', '4px', 'Radius'],
+          ].map(([name, value, type]) => <div className="token-preview-row" key={name}><span>{name}</span><code>{value}</code><small>{type}</small></div>)}
+        </div>
+        <div className="placeholder-panel-foot"><span>PREVIEW ONLY · NOT SAVED</span><span>CSS VARIABLES / JSON EXPORT PLANNED</span></div>
+      </section>
       <section className="studio-brief">
         <span className="studio-kicker">WHAT TO BUILD</span>
         <h3>One value. A clear name. Reusable everywhere.</h3>
