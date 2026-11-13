@@ -584,6 +584,42 @@ server-side data processing. Do not include secrets, tokens, or private credenti
 To report a vulnerability, follow [SECURITY.md](SECURITY.md). Please do not open a public issue for a
 security-sensitive report.
 
+## Backend Setup (Express + Prisma)
+
+The repository now includes a backend workspace in `server/` and Prisma configuration in `prisma/`.
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Copy `.env.example` to `.env` and set your PostgreSQL connection string:
+
+```bash
+cp .env.example .env
+```
+
+Required values:
+
+- `DATABASE_URL` (PostgreSQL connection string)
+- `PORT` (optional, defaults to `3000`)
+
+### 3. Run development servers
+
+Run frontend and backend in separate terminals:
+
+```bash
+npm run dev:client
+npm run dev:server
+```
+
+Health check endpoint:
+
+- `GET http://localhost:3000/api/health`
+
 ## License
 
 Atria is licensed under the [MIT License](LICENSE).
