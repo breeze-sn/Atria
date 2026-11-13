@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import DashboardLayout from './layouts/DashboardLayout.jsx'
-import Foundations from './pages/Foundations.jsx'
+import Overview from './pages/Overview.jsx'\nimport Foundations from './pages/Foundations.jsx'
 import Tokens from './pages/Tokens.jsx'
 import Components from './pages/Components.jsx'
 import {
@@ -201,7 +201,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/explore" element={<DashboardLayout />}>
-          <Route index element={<Navigate to="foundations" replace />} />
+          <Route index element={<Overview />} />
           <Route path="foundations" element={<Foundations />} />
           <Route path="tokens" element={<Tokens />} />
           <Route path="components" element={<Components />} />
