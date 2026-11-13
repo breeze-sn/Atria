@@ -1,159 +1,66 @@
 # Component Library
 
-**Status:** Placeholder — implementation brief only
+**Status:** Implemented, limited
 **Route:** `/explore/components`
 **Source:** `src/pages/Components.jsx`
 
-> This page documents a contributor-facing brief. It does **not** describe a working component
-> registry, live preview runtime, or publishing flow. Those capabilities do not exist yet.
+The Components page is a small catalogue of reusable interface examples. Each entry includes a live preview and copy-ready React and CSS snippets.
 
----
+## 1. Current component catalogue
 
-## 1. What the brief asks for
+| Component | Category | Example purpose |
+|---|---|---|
+| Button | Actions | Primary, secondary, and ghost actions |
+| Text field | Forms | Labelled input with hint and error states |
+| Status badge | Feedback | Neutral, success, and warning status |
+| Content card | Layout | Group related content and actions |
+| Avatar | Identity | Display a user's initials |
+| Navigation bar | Navigation | Horizontal navigation with an active item |
+| Modal dialog | Overlays | Focus a user on a short task or confirmation |
+| Dropdown select | Forms | Choose one option from a list |
+| Tabs | Navigation | Switch between related content views |
+| Checkbox | Forms | Toggle an individual setting |
 
-The Components page is intended to be a shared library where creators can publish interface components
-and others can discover, inspect, preview, and reuse them.
+## 2. Preview and snippets
 
-The brief states:
+Selecting a component updates the preview panel. Available examples include interactive controls such as a text field, modal open/close, tabs, dropdown selection, and checkbox state.
 
-> Each component entry should explain what it does, how it behaves, how it can be configured, and how
-> another creator can use it. Treat the live preview and its documentation as equally important.
+The code panel provides React and CSS snippets that can be copied into another project. Snippets are illustrative starting points and may need adaptation to the destination project's framework, styling conventions, and dependencies.
 
-### Required characteristics
+## 3. Accessibility and production caveats
 
-- Publish, discover, inspect, preview, and reuse components.
-- Explain behaviour, configuration, and usage.
-- Treat preview and documentation as equally important.
-- Support a community publishing model.
+The examples are not yet a fully audited component package or isolated preview sandbox. Before shipping a copied example, review:
 
----
+- keyboard interaction and focus management;
+- semantic HTML and accessible names;
+- focus restoration and Escape handling for dialogs;
+- form validation and error announcements;
+- responsive behaviour and touch targets;
+- disabled, loading, and error states;
+- design-token integration and theming.
 
-## 2. Component entry areas
+In particular, the modal example is a basic demonstration and should not be treated as a complete accessible dialog implementation.
 
-### 01 — Anatomy and API
+## 4. Current limitations
 
-Document the component name, purpose, properties, slots, and composition rules.
+- Components are authored in a static source array; community publishing and user-authored registry entries are not available.
+- There is no package install command or generated component package.
+- Previews are rendered in the Atria page rather than an isolated sandbox.
+- Prop controls and comprehensive state matrices are limited.
+- Snippet quality and accessibility need ongoing review and tests.
 
-### 02 — Variants and states
+## 5. Future improvements
 
-Support visual variants and interaction states such as default, hover, focus, disabled, and loading
-where relevant.
+- Move component metadata into a documented registry format.
+- Add prop and state controls for each preview.
+- Add complete keyboard and focus behaviour to interactive patterns.
+- Introduce automated component and accessibility tests.
+- Add copy feedback and snippet validation for all examples.
+- Explore versioned publishing only after authentication, ownership, and preview isolation are designed.
 
-### 03 — Live preview
+## Related documents
 
-Render working examples and let contributors change supported properties to explore behaviour.
-
-### 04 — Usage and accessibility
-
-Include do/don't guidance, keyboard behaviour, semantic requirements, and responsive considerations.
-
-### 05 — Share and reuse
-
-Make published component entries discoverable, previewable, and reusable by other creators.
-
----
-
-## 3. Developer notes from the brief
-
-1. Create a component registry rather than maintaining separate hard-coded cards for every component.
-2. Give each entry metadata such as name, description, category, creator, version, tags, and preview.
-3. Keep examples isolated so a preview cannot accidentally affect the surrounding Studio interface.
-4. Document props and variants alongside usage examples and accessible interaction behaviour.
-5. Design the publishing flow around the community model: create, preview, publish, discover, and
-   reuse.
-
-These notes are guidance. None of the described behaviour is implemented.
-
----
-
-## 4. Current implementation
-
-What exists:
-
-- a static page at `/explore/components`;
-- the implementation-brief layout;
-- a `componentParts` array of five areas;
-- developer notes rendered as an ordered list;
-- the Explore sidebar with an active state.
-
-What does not exist:
-
-- a component registry;
-- component metadata storage;
-- a preview runtime or sandbox;
-- prop controls;
-- variants and states beyond the landing-page demonstration;
-- publishing or discovery;
-- reuse or copy actions;
-- tests.
-
-The landing page has a small playground that switches between hand-authored Button, Input, and Badge
-examples. It is a visual demonstration only and is not connected to this page.
-
----
-
-## 5. Suggested model
-
-This is a proposal for contributors, not an agreed schema.
-
-```ts
-interface ComponentEntry {
-  id: string
-  name: string
-  description: string
-  category: string
-  creator: string
-  version: string
-  tags: string[]
-  preview: unknown
-  props?: PropDefinition[]
-  variants?: VariantDefinition[]
-  usage?: string
-  accessibility?: string
-}
-```
-
-### Implementation questions to resolve before building
-
-- How are previews authored and stored? Code strings, source files, or registered React components?
-- How is preview code isolated from the Studio application?
-- What is trusted content, and what needs sandboxing?
-- Who can publish, and how is ownership tracked?
-- How are versions represented and compared?
-- How are props documented and validated?
-- What does reuse mean: copy code, install a package, or reference a registry entry?
-- How are accessibility requirements enforced or reviewed?
-
-These questions imply future decisions about persistence, authentication, and possibly execution
-sandboxing. They should not be answered implicitly in a UI-only implementation.
-
----
-
-## 6. Acceptance criteria for implementation
-
-A contributor implementing this brief should be able to demonstrate:
-
-- [ ] A component registry backed by a documented data model.
-- [ ] Creating a component entry with metadata.
-- [ ] Documenting props, variants, and states.
-- [ ] An isolated preview that cannot affect the Studio shell.
-- [ ] Changing supported properties in the preview.
-- [ ] Usage and accessibility guidance.
-- [ ] Publishing and discovery flow.
-- [ ] A reuse action with a clear meaning.
-- [ ] Empty, loading, and error states.
-- [ ] Responsive and keyboard-accessible UI.
-- [ ] Tests for registry behaviour and critical interactions.
-- [ ] Updated documentation that no longer calls the page a placeholder.
-
----
-
-## 7. Related documents
-
-- [Explore Studio](explore-studio.md)
+- [Feature overview](README.md)
 - [Design foundations](design-foundations.md)
 - [Design tokens](design-tokens.md)
-- [Landing page](landing-page.md)
-- [Data flow](../architecture/data-flow.md)
-- [ADR-0005: Implementation briefs](../architecture/adr/0005-placeholder-implementation-briefs.md)
-- [ADR-0006: Static content and no persistence](../architecture/adr/0006-static-content-no-persistence.md)
+- [Accessibility](../quality/accessibility.md)
