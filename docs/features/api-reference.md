@@ -1,82 +1,54 @@
 # API Reference
 
-**Status:** No API exists
-**Last verified against:** current repository
+**Status:** Minimal health endpoint only
+**Source:** `server/index.js`, `server/routes/health.js`
 
-Atria has **no API** today. This page exists to make that explicit so contributors and integrators do
-not look for endpoints, authentication flows, or data contracts that are not there.
+Atria includes an Express server scaffold. It currently exposes one health-check route; it is not yet a product API for foundations, tokens, components, accounts, or publishing.
 
----
+## 1. Available endpoint
 
-## 1. Current integration surface
-
-| Surface | Exists | Notes |
+| Method | Path | Purpose |
 |---|---|---|
-| REST API | No | No server application |
-| GraphQL API | No | No server application |
-| RPC API | No | No server application |
-| Server actions | No | No server |
-| Data loaders | No | No data fetching |
-| Webhooks | No | No integrations |
-| Authentication | No | No accounts or tokens |
-| Database | No | No persistence |
-| File uploads | No | No storage |
-| Token export endpoint | No | Export is planned only |
-| Component registry endpoint | No | Registry is planned only |
+| GET | `/api/health` | Basic server health response |
 
----
+The server uses Express, enables CORS, and parses JSON request bodies. The port is configured through `PORT` and defaults to `3000`.
 
-## 2. What the frontend actually does
+Start it with:
 
-The application is entirely client-side:
+```bash
+npm run dev:server
+```
 
-- reads static arrays and JSX at build time;
-- uses React Router for `/explore/*`;
-- branches on `/docs` for the documentation hub;
-- writes one literal string to the clipboard on user action;
-- opens external links in new tabs.
+Then request:
 
-There are no `fetch`, `XMLHttpRequest`, Axios, WebSocket, or server-sent event calls in the source.
+```bash
+curl http://localhost:3000/api/health
+```
 
----
+Inspect `server/routes/health.js` for the exact response shape.
 
-## 3. External URLs in the repository
+## 2. Not implemented
 
-The frontend links to external services. These are navigational links, not API integrations.
+| Surface | Status |
+|---|---|
+| Foundations, tokens, and component resource endpoints | Not implemented |
+| Authentication and user accounts | Not implemented |
+| Authorisation and team workspaces | Not implemented |
+| Database-backed persistence | Not implemented |
+| Community publishing and resource discovery API | Not implemented |
+| File uploads and asset storage | Not implemented |
+| Webhooks, WebSockets, and GraphQL | Not implemented |
 
-| Destination | Where | Purpose |
-|---|---|---|
-| `https://github.com/breeze-sn/Atria` | Navigation, footers | Repository |
-| `https://atriastudio.vercel.app` | README | Live deployment |
-| Google Docs URLs | `src/Docs.jsx` | Product/design documents |
-| Google Fonts | `index.html` | Webfonts |
-| LinkedIn, GitHub, personal site, email | `src/App.jsx` contact section | Public contact links |
+The Prisma schema currently declares a PostgreSQL datasource but does not define product models or migrations. The frontend's current customisation data is stored in browser local storage.
 
----
+## 3. Before adding product endpoints
 
-## 4. If an API is introduced
+Define the use case, authentication and authorisation model, request/response contract, validation, database ownership, error format, rate limits, and tests before implementing a new endpoint. Keep the API contract versioned and documented in this repository.
 
-An API should not be added implicitly. Before implementation, define and document:
-
-1. **Purpose** — what data or operation requires a server.
-2. **Authentication** — who can call it and how identity is established.
-3. **Authorisation** — what each caller may read or write.
-4. **Contract** — endpoints, payloads, status codes, and error shapes.
-5. **Validation** — input and output rules.
-6. **Persistence** — database schema, migrations, ownership, and deletion.
-7. **Rate limiting and abuse protection** — if exposed publicly.
-8. **Observability** — logs, metrics, and error reporting.
-9. **Versioning** — how breaking changes are managed.
-10. **Documentation** — an OpenAPI or equivalent specification plus examples.
-
-The API documentation should live in this repository, ideally generated or validated from the contract.
-
----
-
-## 5. Related documents
+## Related documents
 
 - [Data flow](../architecture/data-flow.md)
 - [System architecture](../architecture/system-architecture.md)
 - [Security and authentication](../engineering/security-and-authentication.md)
-- [ADR-0006: Static content and no persistence](../architecture/adr/0006-static-content-no-persistence.md)
+- [Design foundations](design-foundations.md)
 - [Design tokens](design-tokens.md)
