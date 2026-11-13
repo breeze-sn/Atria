@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import DashboardLayout from './layouts/DashboardLayout.jsx'
-import Overview from './pages/Overview.jsx'\nimport Foundations from './pages/Foundations.jsx'
+import Overview from './pages/Overview.jsx'
+import Foundations from './pages/Foundations.jsx'
 import Tokens from './pages/Tokens.jsx'
 import Components from './pages/Components.jsx'
 import {
