@@ -1,71 +1,65 @@
 # Features
 
-This section documents what Atria actually does today and what each Studio area is intended to become.
+This section describes the Atria product as implemented in the repository. Status labels distinguish working local interactions from future hosted capabilities.
 
-Status definitions:
+## Status definitions
 
 | Status | Meaning |
 |---|---|
-| **Implemented** | The behaviour exists in the current codebase and is user-visible |
-| **Implemented, limited** | The behaviour exists but is a demonstration, not a full product capability |
-| **Placeholder** | A contributor-facing implementation brief exists; the product capability does not |
-| **Not implemented** | No product capability exists |
-| **Planned** | Direction only; nothing is built |
-
----
+| **Implemented** | User-visible behaviour exists in the current codebase |
+| **Implemented, local** | Works in the browser but is not shared or backed by a hosted service |
+| **Implemented, limited** | A working example with a deliberately narrow scope |
+| **Planned** | Product direction only; not shipped |
 
 ## Feature matrix
 
 | Feature | Status | Route | Source |
 |---|---|---|---|
-| Public landing page | Implemented | `/` | `src/App.jsx` |
-| Hero and workspace preview | Implemented | `/` | `src/App.jsx`, `src/index.css` |
-| Principles ticker | Implemented | `/` | `src/App.jsx`, `src/index.css` |
-| Foundation overview cards | Implemented (static) | `/` | `foundations` array in `src/App.jsx` |
-| Component playground | Implemented, limited | `/` | `activeTab` state in `src/App.jsx` |
-| Copy token demo | Implemented, limited | `/` | `copyToken` in `src/App.jsx` |
-| Contact links | Implemented | `/` | `src/App.jsx` |
+| Public landing page and responsive visual system | Implemented | `/` | `src/App.jsx`, `src/index.css` |
 | Documentation hub | Implemented | `/docs` | `src/Docs.jsx` |
-| Outbound document cards | Implemented | `/docs` | `groups` array in `src/Docs.jsx` |
-| Explore Studio shell | Implemented | `/explore/*` | `src/layouts/DashboardLayout.jsx` |
-| Studio sidebar navigation | Implemented | `/explore/*` | `sections` + `NavLink` |
-| Foundations workspace | Placeholder | `/explore/foundations` | `src/pages/Foundations.jsx` |
-| Tokens workspace | Placeholder | `/explore/tokens` | `src/pages/Tokens.jsx` |
-| Components workspace | Placeholder | `/explore/components` | `src/pages/Components.jsx` |
-| Design token export | Not implemented | — | Described as roadmap |
-| Persistence | Not implemented | — | No storage layer |
-| API | Not implemented | — | No server |
-| Authentication | Not implemented | — | No auth |
-| Automated tests | Not configured | — | No test runner |
-| Linting | Not configured | — | No lint script |
+| Explore Studio shell and navigation | Implemented | `/explore/*` | `src/layouts/DashboardLayout.jsx` |
+| Foundations resource library | Implemented | `/explore/foundations` | `src/pages/Foundations.jsx` |
+| Foundation presets and editable detail pages | Implemented, local | `/explore/foundations/:categoryId/:resourceId` | `src/pages/Foundations.jsx` |
+| Foundation CSS and JSON export | Implemented, local | Foundation detail routes | `src/pages/Foundations.jsx` |
+| Token search, filters, add/edit/delete | Implemented, local | `/explore/tokens` | `src/pages/Tokens.jsx` |
+| Token CSS and JSON export | Implemented, local | `/explore/tokens` | `src/pages/Tokens.jsx` |
+| Component library with live examples | Implemented, limited | `/explore/components` | `src/pages/Components.jsx` |
+| React and CSS component snippets | Implemented | `/explore/components` | `src/pages/Components.jsx` |
+| Local browser persistence | Implemented, local | Foundations and Tokens | `src/data/studioStore.js` |
+| Hosted accounts, team sync, publishing | Planned | — | — |
+| Database-backed resource API | Planned | — | Express and Prisma scaffolds only |
+| Automated test runner and linting | Not configured | — | See [Testing strategy](../quality/testing-strategy.md) |
 
----
+## Studio capabilities
+
+### Foundations
+
+The library currently contains 16 presets: seven colour palettes, three typography scales, three spacing scales, and three radius systems. Each preset opens a detail view with editable values, copy actions, and CSS/JSON exports. Changes are saved locally in the current browser and do not modify the starter preset.
+
+### Tokens
+
+The token workspace includes starter primitive and semantic tokens, search, group filters, inline editing, add/delete actions, individual value copying, and CSS/JSON exports. Token collections are stored in browser local storage.
+
+### Components
+
+The component library currently includes Button, Text Field, Status Badge, Content Card, Avatar, Navigation Bar, Modal Dialog, Dropdown Select, Tabs, and Checkbox. Each has a live example and React/CSS snippets. These examples are starting points and should be reviewed for production accessibility, validation, and application-specific behaviour.
+
+## Important product boundaries
+
+- Local storage is browser- and device-specific; it does not sync between people.
+- There is no account system, hosted publishing, collaboration, or shared community catalogue yet.
+- The Express server currently exposes a health-check route only.
+- Prisma is an initial PostgreSQL configuration scaffold, not a connected product data layer.
+- The component examples are copy-ready starting points, not a package or isolated code sandbox.
 
 ## Documents
 
-| Document | Status | Summary |
-|---|---|---|
-| [Landing page](landing-page.md) | Implemented | Every section, interaction, and limitation |
-| [Explore Studio](explore-studio.md) | Implemented shell | Layout, sidebar, routes, placeholder model |
-| [Design foundations](design-foundations.md) | Placeholder | What contributors are asked to build |
-| [Design tokens](design-tokens.md) | Placeholder | Token model, groups, validation, exports |
-| [Component library](component-library.md) | Placeholder | Registry, preview, and documentation direction |
-| [Documentation hub](documentation-hub.md) | Implemented | Collections, external links, maintenance |
-| [API reference](api-reference.md) | None | Confirms no API exists |
-
----
-
-## Product intent vs. current state
-
-Atria's long-term intent is a functional design-system workspace. Today it provides the frontend shell
-and the product narrative, not the editing workflows.
-
-The distinction matters for:
-
-- **Documentation accuracy** — never claim exports, persistence, or editors exist.
-- **Contribution scope** — Studio implementation is open work, not a bug fix.
-- **Review expectations** — a placeholder improvement is different from a feature delivery.
-- **Release notes** — do not list planned features as shipped.
-
-For the direction behind each Studio area, read the individual briefs. For the architecture that will
-support them, read [High-level design](../architecture/high-level-design.md).
+| Document | Summary |
+|---|---|
+| [Landing page](landing-page.md) | Public site sections and interactions |
+| [Explore Studio](explore-studio.md) | Workspace shell, routes, and navigation |
+| [Design foundations](design-foundations.md) | Presets, editor behaviour, local persistence, and exports |
+| [Design tokens](design-tokens.md) | Token editing, search, grouping, and export behaviour |
+| [Component library](component-library.md) | Current component set, previews, snippets, and limitations |
+| [Documentation hub](documentation-hub.md) | `/docs` content and outbound links |
+| [API reference](api-reference.md) | Current API boundary and health endpoint |
