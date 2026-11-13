@@ -1,90 +1,59 @@
 import React from 'react';
+import { Plus, RotateCcw } from '@phosphor-icons/react';
+import { useStudioData } from '../data/studioStore.js';
 
-const tasks = [
-  {
-    number: '01',
-    title: 'Colour system',
-    description: 'Create and organise palettes, including neutral, brand, and feedback colours.',
-    details: ['Define colour values and meaningful names', 'Add light and dark theme previews', 'Show accessible foreground and background pairings'],
-    output: 'A reusable colour foundation with clear usage guidance.',
-  },
-  {
-    number: '02',
-    title: 'Typography',
-    description: 'Build a type scale that documents how text should appear across products.',
-    details: ['Set font families, weights, sizes, and line heights', 'Preview headings, body text, labels, and captions', 'Document intended usage for each text style'],
-    output: 'A consistent, previewable typography scale.',
-  },
-  {
-    number: '03',
-    title: 'Spacing & layout',
-    description: 'Define the spatial rules that keep layouts predictable and consistent.',
-    details: ['Create spacing and sizing scales', 'Document grid, container, and breakpoint conventions', 'Include radius and elevation only where the system needs them'],
-    output: 'A documented set of layout and spacing foundations.',
-  },
-];
+const panel = { padding: 20, border: '1px solid var(--line)', background: '#fafaf8', marginTop: 18 };
+const input = { minWidth: 0, padding: '9px 10px', border: '1px solid var(--line)', background: '#fff', color: 'var(--ink)', font: 'inherit', fontSize: 12, borderRadius: 2 };
+const action = { padding: '9px 12px', border: '1px solid var(--ink)', background: 'var(--ink)', color: '#fff', fontSize: 11, cursor: 'pointer' };
+const subtle = { padding: '7px 9px', border: '1px solid var(--line)', background: 'transparent', color: 'var(--ink)', fontSize: 10, cursor: 'pointer' };
 
 export default function Foundations() {
-  return (
-    <div className="studio-page">
-      <div className="section-index">[ STUDIO / 01 — IMPLEMENTATION BRIEF ]</div>
-      <div className="studio-page-heading">
-        <div><span className="studio-status">PLACEHOLDER · READY FOR CONTRIBUTION</span><h2>Design Foundations</h2></div>
-        <span className="studio-page-count">01 / 03</span>
+  const [data, save, reset] = useStudioData('foundations');
+  const updateColour = (id, field, value) => save((d) => ({ ...d, colours: d.colours.map((c) => c.id === id ? { ...c, [field]: value } : c) }));
+  const addColour = () => save((d) => ({ ...d, colours: [...d.colours, { id: crypto.randomUUID(), name: 'New colour', value: '#777777' }] }));
+  const removeColour = (id) => save((d) => ({ ...d, colours: d.colours.filter((c) => c.id !== id) }));
+  const updateType = (index, field, value) => save((d) => ({ ...d, typography: d.typography.map((t, i) => i === index ? { ...t, [field]: Number(value) } : t) }));
+  const updateSpacing = (index, value) => save((d) => ({ ...d, spacing: d.spacing.map((v, i) => i === index ? Math.max(0, Number(value) || 0) : v) }));
+  const addSpacing = () => save((d) => ({ ...d, spacing: [...d.spacing, (Math.max(0, ...d.spacing) || 0) + 8] }));
+
+  return <div className="studio-page">
+    <div className="section-index">[ STUDIO / 01 — FOUNDATIONS ]</div>
+    <div className="studio-page-heading"><div><span className="studio-status">EDITABLE WORKSPACE · SAVED IN THIS BROWSER</span><h2>Design Foundations</h2></div><span className="studio-page-count">01 / 03</span></div>
+    <p className="studio-page-intro">Define the visual rules behind your system. Changes are saved automatically and are available to the token workspace on this device.</p>
+
+    <section style={panel}>
+      <div className="placeholder-panel-heading"><div><span className="studio-kicker">01 / COLOUR</span><h3>Colour palette</h3></div><button style={action} onClick={addColour}><Plus size={13}/> Add colour</button></div>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(135px,1fr))', gap:10 }}>
+        {data.colours.map((c) => <article key={c.id} style={{ border:'1px solid var(--line)', background:'#fff', padding:10, minWidth:0 }}>
+          <input aria-label={c.name + ' colour'} type="color" value={c.value} onChange={(e)=>updateColour(c.id,'value',e.target.value)} style={{ width:'100%', height:58, border:0, background:'transparent', cursor:'pointer' }}/>
+          <input aria-label="Colour name" value={c.name} onChange={(e)=>updateColour(c.id,'name',e.target.value)} style={{...input,width:'100%',marginTop:8}}/>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:5,marginTop:7}}><code style={{fontSize:10}}>{c.value.toUpperCase()}</code><button style={subtle} onClick={()=>removeColour(c.id)}>Remove</button></div>
+        </article>)}
       </div>
-      <p className="studio-page-intro">The source of truth for the visual rules behind a design system. Build the foundations here before using them in tokens and components.</p>
+    </section>
 
-
-      <section className="placeholder-panel">
-        <div className="placeholder-panel-heading"><div><span className="studio-kicker">LIVE PREVIEW / 01</span><h3>Foundation snapshot</h3></div><span className="placeholder-tag">SAMPLE DATA</span></div>
-        <div className="foundation-preview-grid">
-          <article className="foundation-preview-card">
-            <div className="placeholder-card-label">COLOUR PALETTE <span>05 SWATCHES</span></div>
-            <div className="foundation-preview-swatches">{['#20201E', '#65625B', '#A6A39B', '#DAD8D1', '#F2F1ED'].map((color) => <span key={color} style={{ background: color }} />)}</div>
-            <div className="placeholder-card-foot"><span>Neutral / 01</span><code>5 values</code></div>
-          </article>
-          <article className="foundation-preview-card type-preview">
-            <div className="placeholder-card-label">TYPE SCALE <span>PREVIEW</span></div>
-            <strong>Aa</strong><span className="type-preview-title">Display / 32</span><span className="type-preview-body">The quick brown fox jumps over the lazy dog.</span>
-            <div className="placeholder-card-foot"><span>Manrope</span><code>Regular · Semibold</code></div>
-          </article>
-          <article className="foundation-preview-card">
-            <div className="placeholder-card-label">SPACING SCALE <span>4PX BASE</span></div>
-            <div className="spacing-preview">{[4, 8, 12, 16, 24, 32].map((value) => <div key={value}><span style={{ width: value * 2 }} /><small>{value}</small></div>)}</div>
-            <div className="placeholder-card-foot"><span>6 steps defined</span><code>4–32 px</code></div>
-          </article>
-        </div>
-      </section>
-      <section className="studio-brief">
-        <span className="studio-kicker">WHAT TO BUILD</span>
-        <h3>Turn design decisions into a usable system.</h3>
-        <p>Developers should be able to add, edit, preview, and organise foundation values. Keep the interface visual and make every value understandable without needing to inspect the source code.</p>
-      </section>
-
-      <div className="studio-task-list">
-        {tasks.map((task) => (
-          <article className="studio-task" key={task.number}>
-            <div className="studio-task-number">{task.number}</div>
-            <div className="studio-task-content">
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
-              <span className="studio-kicker">IMPLEMENTATION CHECKLIST</span>
-              <ul>{task.details.map((detail) => <li key={detail}>{detail}</li>)}</ul>
-              <div className="studio-expected"><strong>Expected result</strong><span>{task.output}</span></div>
-            </div>
-          </article>
-        ))}
+    <section style={panel}>
+      <div className="placeholder-panel-heading"><div><span className="studio-kicker">02 / TYPOGRAPHY</span><h3>Type scale</h3></div><span className="workspace-section-meta">{data.typography.length} STYLES</span></div>
+      <div style={{display:'grid',gap:0}}>
+        {data.typography.map((t,i)=><div key={t.name} style={{display:'grid',gridTemplateColumns:'minmax(90px,1fr) 75px 75px 75px',gap:9,alignItems:'center',padding:'12px 0',borderTop:'1px solid var(--line)'}}>
+          <div style={{minWidth:0}}><strong style={{display:'block',fontSize:Math.min(t.size,30),lineHeight:t.lineHeight,overflow:'hidden'}}>{t.name}</strong><small style={{color:'#99968e',fontSize:9}}>{t.size}px · weight {t.weight}</small></div>
+          <label style={{fontSize:9,color:'#888'}}>Size<input aria-label={t.name+' size'} type="number" min="8" max="96" value={t.size} onChange={e=>updateType(i,'size',e.target.value)} style={{...input,width:'100%',marginTop:4}}/></label>
+          <label style={{fontSize:9,color:'#888'}}>Weight<input aria-label={t.name+' weight'} type="number" min="100" max="900" step="100" value={t.weight} onChange={e=>updateType(i,'weight',e.target.value)} style={{...input,width:'100%',marginTop:4}}/></label>
+          <label style={{fontSize:9,color:'#888'}}>Line height<input aria-label={t.name+' line height'} type="number" min="1" max="3" step=".1" value={t.lineHeight} onChange={e=>updateType(i,'lineHeight',e.target.value)} style={{...input,width:'100%',marginTop:4}}/></label>
+        </div>)}
       </div>
+    </section>
 
-      <section className="studio-dev-note">
-        <span className="studio-kicker">DEVELOPER NOTES</span>
-        <ol>
-          <li>Start with a clear data structure for each foundation type; avoid hard-coding values into the UI.</li>
-          <li>Build reusable preview and editing patterns so new foundation types can be added without duplicating the page.</li>
-          <li>Plan for validation, empty states, responsive layouts, and accessible colour contrast.</li>
-          <li>Connect saved foundations to the token workflow when persistence is introduced.</li>
-        </ol>
-      </section>
-    </div>
-  );
+    <section style={panel}>
+      <div className="placeholder-panel-heading"><div><span className="studio-kicker">03 / SPACING</span><h3>Spacing scale</h3></div><button style={action} onClick={addSpacing}><Plus size={13}/> Add step</button></div>
+      <div style={{display:'grid',gap:12}}>
+        {data.spacing.map((v,i)=><div key={i} style={{display:'grid',gridTemplateColumns:'70px minmax(50px,1fr) 55px',alignItems:'center',gap:12}}>
+          <input aria-label={'Spacing step '+(i+1)} type="number" min="0" value={v} onChange={e=>updateSpacing(i,e.target.value)} style={input}/>
+          <div style={{height:10,background:'#e8e6df',overflow:'hidden'}}><div style={{height:'100%',width:Math.min(v,240)/240*100+'%',background:'#55534f'}}/></div>
+          <code style={{fontSize:10}}>{v}px</code>
+        </div>)}
+      </div>
+    </section>
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,marginTop:20}}><small style={{color:'#99968e'}}>Edits save automatically to this browser.</small><button style={subtle} onClick={()=>{if(window.confirm('Reset foundations to the original Atria values?')) reset();}}><RotateCcw size={12}/> Reset defaults</button></div>
+  </div>;
 }
