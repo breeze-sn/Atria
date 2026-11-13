@@ -17,7 +17,7 @@ export default function Components() {
   const [clicks,setClicks]=useState(0);
   const [data]=useStudioData('tokens');
   const item=definitions.find(d=>d.id===active)||definitions[0];
-  const buttonStyle={padding:'11px 17px',fontSize:12,fontWeight:600,borderRadius:4,cursor:disabled?'not-allowed':'pointer',opacity:disabled?.45:1,background:variant==='Primary'?'#242420':variant==='Secondary'?'#fff':'transparent',color:variant==='Primary'?'#fff':'#242420',border:variant==='Tertiary'?'1px solid transparent':'1px solid #242420'};
+  const buttonStyle={padding:'11px 17px',fontSize:12,fontWeight:600,borderRadius:4,cursor:disabled?'not-allowed':'pointer',opacity:disabled ? 0.45 : 1,background:variant==='Primary'?'#242420':variant==='Secondary'?'#fff':'transparent',color:variant==='Primary'?'#fff':'#242420',border:variant==='Tertiary'?'1px solid transparent':'1px solid #242420'};
   return <div className="studio-page">
     <div className="section-index">[ STUDIO / 03 — COMPONENTS ]</div>
     <div className="studio-page-heading"><div><span className="studio-status">INTERACTIVE COMPONENT PLAYGROUND</span><h2>Component Library</h2></div><span className="studio-page-count">03 / 03</span></div>
