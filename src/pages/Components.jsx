@@ -1,54 +1,44 @@
-import React, { useState } from 'react';
-import { useStudioData } from '../data/studioStore.js';
-
-const control = { padding:'8px 9px',border:'1px solid var(--line)',background:'#fff',fontSize:11,color:'var(--ink)',minWidth:0 };
-const definitions = [
-  { id:'button',name:'Button',category:'Action',description:'Triggers an action or advances a workflow.',variants:['Primary','Secondary','Tertiary'],states:['Default','Disabled'],usage:'Use one primary action per focused section.' },
-  { id:'field',name:'Text field',category:'Input',description:'Collects a short, single-line response.',variants:['Default','Filled'],states:['Default','Disabled'],usage:'Always pair an input with a visible label.' },
-  { id:'badge',name:'Status badge',category:'Feedback',description:'Communicates a compact status or category.',variants:['Neutral','Success','Warning'],states:['Default'],usage:'Use concise labels and do not rely on colour alone.' },
+import React,{useMemo,useState} from 'react';
+import {Copy,Check,ArrowUpRight} from '@phosphor-icons/react';
+const library=[
+{id:'button',name:'Button',category:'Actions',description:'A reusable action for forms, dialogs and page flows.',variants:['Primary','Secondary','Ghost'],code:'export function Button({ children, variant = "primary", disabled = false, ...props }) {\n  return <button className={"button button--" + variant} disabled={disabled} {...props}>{children}</button>;\n}',css:'.button { display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border:1px solid #242420; border-radius:6px; font:600 14px/1.2 system-ui,sans-serif; cursor:pointer; }\n.button--primary { background:#242420; color:#fff; }\n.button--secondary { background:#fff; color:#242420; }\n.button--ghost { background:transparent; border-color:transparent; color:#242420; }\n.button:disabled { opacity:.45; cursor:not-allowed; }'},
+{id:'input',name:'Text field',category:'Forms',description:'A labelled input with focus and error states.',variants:['Default','Error','Disabled'],code:'export function TextField({ label, hint, error, ...props }) {\n  return <label className="field">\n    <span className="field__label">{label}</span>\n    <input className={error ? "field__input field__input--error" : "field__input"} aria-invalid={Boolean(error)} {...props} />\n    {(error || hint) && <small>{error || hint}</small>}\n  </label>;\n}',css:'.field { display:grid; gap:7px; font:14px/1.4 system-ui,sans-serif; }\n.field__label { color:#242420; font-weight:600; }\n.field__input { width:100%; padding:11px 12px; border:1px solid #d8d6cf; border-radius:6px; font:inherit; }\n.field__input:focus { outline:2px solid #aaa79f; outline-offset:2px; }\n.field__input--error { border-color:#b54747; }'},
+{id:'badge',name:'Status badge',category:'Feedback',description:'A compact label for status, state or category.',variants:['Neutral','Success','Warning'],code:'export function Badge({ children, tone = "neutral" }) {\n  return <span className={"badge badge--" + tone}><span className="badge__dot" />{children}</span>;\n}',css:'.badge { display:inline-flex; align-items:center; gap:7px; padding:5px 9px; border:1px solid #deddd8; border-radius:999px; background:#f4f3ef; color:#55534f; font:600 12px/1.2 system-ui,sans-serif; }\n.badge__dot { width:6px; height:6px; border-radius:50%; background:currentColor; }\n.badge--success { background:#edf4ea; border-color:#cbdcc4; color:#45633b; }\n.badge--warning { background:#fbf3e3; border-color:#ead7ad; color:#876321; }'},
+{id:'card',name:'Content card',category:'Layout',description:'A flexible container for grouped content and actions.',variants:['Default','Interactive'],code:'export function Card({ title, description, children, ...props }) {\n  return <article className="card" {...props}>\n    {title && <h3 className="card__title">{title}</h3>}\n    {description && <p className="card__description">{description}</p>}\n    <div>{children}</div>\n  </article>;\n}',css:'.card { padding:20px; border:1px solid #deddd8; border-radius:10px; background:#fff; }\n.card__title { margin:0 0 6px; font:600 18px/1.3 system-ui,sans-serif; }\n.card__description { margin:0 0 16px; color:#777; font:14px/1.6 system-ui,sans-serif; }'},
+{id:'avatar',name:'Avatar',category:'Identity',description:'An initials avatar with an accessible label.',variants:['Small','Medium','Large'],code:'export function Avatar({ name, size = "md" }) {\n  const initials = name.trim().split(/\\s+/).slice(0,2).map(part => part[0]).join("").toUpperCase();\n  return <span className={"avatar avatar--" + size} role="img" aria-label={name}>{initials}</span>;\n}',css:'.avatar { display:inline-grid; place-items:center; border-radius:50%; background:#e9e7e1; color:#45443f; font:600 12px/1 system-ui,sans-serif; }\n.avatar--sm { width:28px; height:28px; font-size:10px; }\n.avatar--md { width:40px; height:40px; }\n.avatar--lg { width:56px; height:56px; font-size:16px; }'}
 ];
-
-export default function Components() {
-  const [active,setActive]=useState('button');
-  const [variant,setVariant]=useState('Primary');
-  const [disabled,setDisabled]=useState(false);
-  const [label,setLabel]=useState('Continue');
-  const [fieldValue,setFieldValue]=useState('hello@atria.design');
-  const [clicks,setClicks]=useState(0);
-  const [data]=useStudioData('tokens');
-  const item=definitions.find(d=>d.id===active)||definitions[0];
-  const buttonStyle={padding:'11px 17px',fontSize:12,fontWeight:600,borderRadius:4,cursor:disabled?'not-allowed':'pointer',opacity:disabled ? 0.45 : 1,background:variant==='Primary'?'#242420':variant==='Secondary'?'#fff':'transparent',color:variant==='Primary'?'#fff':'#242420',border:variant==='Tertiary'?'1px solid transparent':'1px solid #242420'};
-  return <div className="studio-page">
-    <div className="section-index">[ STUDIO / 03 — COMPONENTS ]</div>
-    <div className="studio-page-heading"><div><span className="studio-status">INTERACTIVE COMPONENT PLAYGROUND</span><h2>Component Library</h2></div><span className="studio-page-count">03 / 03</span></div>
-    <p className="studio-page-intro">Explore working interface patterns, change their properties, and test their behaviour. These examples are rendered as real controls, not static illustrations.</p>
-    <div style={{display:'grid',gridTemplateColumns:'minmax(145px,.72fr) minmax(0,1.8fr)',gap:14,marginTop:24}}>
-      <aside style={{border:'1px solid var(--line)',background:'#fafaf8',padding:12}}>
-        <span className="studio-kicker">LIBRARY / {definitions.length.toString().padStart(2,'0')}</span>
-        {definitions.map((d,i)=><button key={d.id} onClick={()=>{setActive(d.id);setVariant(d.variants[0]);setDisabled(false);}} style={{display:'block',width:'100%',textAlign:'left',padding:'13px 8px',marginTop:6,border:'1px solid '+(active===d.id?'#242420':'transparent'),background:active===d.id?'#eeede9':'transparent',cursor:'pointer',color:'var(--ink)'}}><small style={{display:'block',fontSize:8,color:'#99968e'}}>{'0'+(i+1)} / {d.category.toUpperCase()}</small><strong style={{fontSize:12}}>{d.name}</strong></button>)}
-      </aside>
-      <section style={{minWidth:0,border:'1px solid var(--line)',background:'#fafaf8',padding:18}}>
-        <div className="placeholder-panel-heading"><div><span className="studio-kicker">LIVE PREVIEW / {item.category.toUpperCase()}</span><h3>{item.name}</h3></div><span className="placeholder-tag">WORKING EXAMPLE</span></div>
-        <p style={{fontSize:11,color:'#777',lineHeight:1.7}}>{item.description}</p>
-        <div style={{display:'flex',flexWrap:'wrap',gap:10,alignItems:'center',padding:24,margin:'16px 0',minHeight:130,background:'#f0efeb',border:'1px solid var(--line)'}}>
-          {active==='button'&&<button disabled={disabled} onClick={()=>setClicks(n=>n+1)} style={buttonStyle}>{label} <span aria-hidden="true">↗</span></button>}
-          {active==='field'&&<label style={{display:'grid',gap:6,width:'min(100%,280px)',fontSize:10,color:'#65625b'}}>Email address<input disabled={disabled} value={fieldValue} onChange={e=>setFieldValue(e.target.value)} placeholder="you@example.com" style={{...control,width:'100%',padding:11,borderRadius:3}}/></label>}
-          {active==='badge'&&<span style={{display:'inline-flex',alignItems:'center',gap:7,padding:'7px 11px',border:'1px solid '+(variant==='Success'?'#b9c9b2':variant==='Warning'?'#d9c69a':'#d8d6cf'),borderRadius:30,background:variant==='Success'?'#edf3e9':variant==='Warning'?'#f7f1e4':'#f0efeb',fontSize:11,color:'#55534f'}}><i style={{width:6,height:6,borderRadius:'50%',background:variant==='Success'?'#6f8c5e':variant==='Warning'?'#b28a42':'#8b8982'}}/>{variant==='Success'?'Published':variant==='Warning'?'Needs review':'Draft'}</span>}
-        </div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(135px,1fr))',gap:10}}>
-          <label style={{display:'grid',gap:6,fontSize:9,color:'#888'}}>VARIANT<select value={variant} onChange={e=>setVariant(e.target.value)} style={control}>{item.variants.map(v=><option key={v}>{v}</option>)}</select></label>
-          {active==='button'&&<label style={{display:'grid',gap:6,fontSize:9,color:'#888'}}>BUTTON LABEL<input value={label} onChange={e=>setLabel(e.target.value)} style={control}/></label>}
-          <label style={{display:'flex',alignItems:'center',gap:7,fontSize:10,color:'#777'}}><input type="checkbox" checked={disabled} onChange={e=>setDisabled(e.target.checked)}/> Disabled state</label>
-        </div>
-        {active==='button'&&<p style={{fontSize:10,color:'#777',marginTop:12}}>Interaction test: activated {clicks} time{clicks===1?'':'s'}.</p>}
-        {active==='field'&&<p style={{fontSize:10,color:'#777',marginTop:12}}>Current value: {fieldValue||'—'} · {fieldValue.includes('@')?'Looks like an email address':'Enter an email address'}</p>}
-        <div style={{borderTop:'1px solid var(--line)',marginTop:18,paddingTop:14}}><span className="studio-kicker">USAGE GUIDANCE</span><p style={{fontSize:11,color:'#777',lineHeight:1.7,marginBottom:0}}>{item.usage}</p></div>
-      </section>
-    </div>
-    <section style={{marginTop:20,padding:18,border:'1px solid var(--line)',background:'#fafaf8'}}>
-      <span className="studio-kicker">CONNECTED DESIGN TOKENS</span><h3 style={{fontSize:17,margin:'7px 0'}}>Values available to components</h3>
-      <p style={{fontSize:10,color:'#888'}}>These values come from your editable token collection ({data.length} saved tokens).</p>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:7}}>{data.slice(0,6).map(t=><div key={t.id} style={{display:'flex',justifyContent:'space-between',gap:8,padding:'9px',border:'1px solid var(--line)',background:'#fff',fontSize:9}}><span style={{overflow:'hidden',textOverflow:'ellipsis'}}>{t.name}</span><code>{t.value}</code></div>)}</div>
+const btn={display:'inline-flex',alignItems:'center',gap:6,padding:'8px 10px',border:'1px solid var(--line)',background:'#fff',color:'var(--ink)',fontSize:10,cursor:'pointer'};
+function CopyButton({value,label}){const [copied,setCopied]=useState(false);return <button style={btn} onClick={async()=>{try{await navigator.clipboard.writeText(value);setCopied(true);setTimeout(()=>setCopied(false),1300)}catch{}}}>{copied?<Check size={13}/>:<Copy size={13}/>} {copied?'Copied':label||'Copy code'}</button>}
+export default function Components(){
+ const [active,setActive]=useState('button');const [variant,setVariant]=useState('Primary');const [tab,setTab]=useState('React');const [buttonText,setButtonText]=useState('Get started');const [inputValue,setInputValue]=useState('hello@example.com');
+ const item=useMemo(()=>library.find(x=>x.id===active)||library[0],[active]);
+ const previewButton={padding:'10px 16px',border:'1px solid #242420',borderRadius:6,fontSize:12,fontWeight:600,cursor:'pointer',background:variant==='Primary'?'#242420':variant==='Secondary'?'#fff':'transparent',color:variant==='Primary'?'#fff':'#242420'};
+ return <div className="studio-page">
+  <div className="section-index">[ STUDIO / COMPONENT LIBRARY ]</div>
+  <div className="studio-page-heading"><div><span className="studio-status">OPEN COMPONENTS / COPY INTO YOUR PRODUCT</span><h2>Components</h2></div><span className="studio-page-count">{library.length.toString().padStart(2,'0')} COMPONENTS</span></div>
+  <div style={{display:'grid',gridTemplateColumns:'minmax(125px,.65fr) minmax(0,1.8fr)',gap:14,marginTop:22}}>
+   <aside style={{border:'1px solid var(--line)',background:'#fafaf8',padding:9,alignSelf:'start'}}>{library.map((c,i)=><button key={c.id} onClick={()=>{setActive(c.id);setVariant(c.variants[0])}} style={{display:'block',width:'100%',textAlign:'left',padding:'11px 9px',marginBottom:3,border:'1px solid '+(active===c.id?'#242420':'transparent'),background:active===c.id?'#eeede9':'transparent',color:'var(--ink)',cursor:'pointer'}}><small style={{display:'block',fontSize:8,color:'#999'}}>{c.category.toUpperCase()} / 0{i+1}</small><strong style={{fontSize:11}}>{c.name}</strong></button>)}</aside>
+   <main style={{minWidth:0}}>
+    <section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}>
+     <div className="placeholder-panel-heading"><div><span className="studio-kicker">{item.category.toUpperCase()} / LIVE PREVIEW</span><h3>{item.name}</h3></div><span className="placeholder-tag">INTERACTIVE</span></div>
+     <p style={{fontSize:11,color:'#777',lineHeight:1.6}}>{item.description}</p>
+     <div style={{minHeight:150,display:'grid',placeItems:'center',padding:20,marginTop:12,background:'#f3f2ee',border:'1px solid var(--line)'}}>
+      {active==='button'&&<button style={previewButton}>{buttonText||'Button'} <ArrowUpRight size={14}/></button>}
+      {active==='input'&&<label style={{display:'grid',gap:7,width:'min(100%,300px)',fontSize:11}}>Email address<input value={inputValue} onChange={e=>setInputValue(e.target.value)} placeholder="you@example.com" style={{padding:11,border:'1px solid '+(variant==='Error'?'#b54747':'#d8d6cf'),borderRadius:6,font:'inherit'}}/>{variant==='Error'&&<small style={{color:'#b54747'}}>Please enter a valid email address.</small>}</label>}
+      {active==='badge'&&<span style={{display:'inline-flex',alignItems:'center',gap:7,padding:'6px 10px',border:'1px solid '+(variant==='Success'?'#cbdcc4':variant==='Warning'?'#ead7ad':'#deddd8'),borderRadius:99,background:variant==='Success'?'#edf4ea':variant==='Warning'?'#fbf3e3':'#f4f3ef',color:variant==='Success'?'#45633b':variant==='Warning'?'#876321':'#55534f',fontSize:12,fontWeight:600}}><i style={{width:6,height:6,borderRadius:'50%',background:'currentColor'}}/>{variant==='Success'?'Published':variant==='Warning'?'Needs review':'Draft'}</span>}
+      {active==='card'&&<article style={{width:'min(100%,300px)',padding:18,border:'1px solid #deddd8',borderRadius:10,background:'#fff',boxShadow:variant==='Interactive'?'0 8px 24px #00000012':'none'}}><strong style={{fontSize:16}}>Your workspace</strong><p style={{fontSize:12,color:'#777',lineHeight:1.6}}>Keep related content and actions together in a clear, reusable container.</p><a href="#component-code" style={{fontSize:11}}>View details ↗</a></article>}
+      {active==='avatar'&&<div style={{display:'flex',alignItems:'center',gap:12}}><span style={{width:variant==='Small'?28:variant==='Large'?56:40,height:variant==='Small'?28:variant==='Large'?56:40,borderRadius:'50%',display:'grid',placeItems:'center',background:'#e9e7e1',fontSize:variant==='Large'?16:12,fontWeight:700}}>SN</span><span style={{fontSize:11}}>Sample user</span></div>}
+     </div>
+     {active==='button'&&<label style={{display:'grid',gap:5,maxWidth:220,fontSize:9,marginTop:12}}>BUTTON LABEL<input value={buttonText} onChange={e=>setButtonText(e.target.value)} style={btn}/></label>}
+     <label style={{display:'grid',gap:5,maxWidth:220,fontSize:9,marginTop:12}}>VARIANT<select value={variant} onChange={e=>setVariant(e.target.value)} style={btn}>{item.variants.map(v=><option key={v}>{v}</option>)}</select></label>
     </section>
-  </div>;
+    <section id="component-code" style={{marginTop:16,border:'1px solid var(--line)',background:'#fff',padding:15}}>
+     <div className="placeholder-panel-heading"><div><span className="studio-kicker">IMPLEMENTATION / READY TO USE</span><h3>Copy the component</h3></div><CopyButton value={tab==='React'?item.code:item.css}/></div>
+     <div style={{display:'flex',gap:5,marginBottom:10}}>{['React','CSS'].map(t=><button key={t} onClick={()=>setTab(t)} style={{...btn,background:tab===t?'#242420':'#fff',color:tab===t?'#fff':'var(--ink)'}}>{t}</button>)}</div>
+     <pre style={{whiteSpace:'pre',overflowX:'auto',padding:14,background:'#242420',color:'#e9e7e1',fontSize:10,lineHeight:1.8}}>{tab==='React'?item.code:item.css}</pre>
+     <p style={{fontSize:9,color:'#888',lineHeight:1.6,marginBottom:0}}>Copy the React component and its CSS into your project. No Atria package or dependency required.</p>
+    </section>
+   </main>
+  </div>
+ </div>;
 }
