@@ -1,11 +1,15 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom'
 import DashboardLayout from './layouts/DashboardLayout.jsx'
 import Overview from './pages/Overview.jsx'
 import Foundations from './pages/Foundations.jsx'
 import Tokens from './pages/Tokens.jsx'
 import Components from './pages/Components.jsx'
 import Studio from './pages/Studio.jsx'
+import Docs from './Docs.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
+import ThemePreviewToggle from './components/ThemePreviewToggle.jsx'
+import { ThemeProvider, useThemePreview } from './context/ThemeContext.jsx'
 import {
   ArrowDownRight,
   ArrowRight,
@@ -41,6 +45,7 @@ const tickerPhrases = ['DESIGN WITH INTENTION', 'BUILD WITH CLARITY', 'DOCUMENT 
 function LandingPage() {
   const [activeTab, setActiveTab] = useState('Button')
   const [copied, setCopied] = useState(false)
+  const { previewTheme, setPreviewTheme, isDark } = useThemePreview()
 
   const copyToken = async () => {
     try {
@@ -53,22 +58,29 @@ function LandingPage() {
   }
 
   return (
-    <main>
+    <main className="landing-page" data-theme={previewTheme}>
       <nav className="nav shell">
         <a className="brand" href="#" aria-label="Atria home">
           <span className="brand-mark"><span /><span /><span /><span /></span>
           <span>atria<span className="brand-period">.</span></span>
         </a>
         <div className="nav-links">
-          <a href="/studio">Studio</a>
+          <Link to="/studio">Studio</Link>
           <a href="#foundations">Foundation</a>
           <a href="#components">Components</a>
-          <a href="/docs">Docs</a>
+          <Link to="/docs">Docs</Link>
           <a href="#contact">Contact</a>
         </div>
-        <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
-          <GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} />
-        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <ThemePreviewToggle
+            mode={previewTheme}
+            onChange={setPreviewTheme}
+            label="Navbar theme preview toggle"
+          />
+          <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
+            <GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} />
+          </a>
+        </div>
       </nav>
 
       <section className="hero shell">
@@ -79,8 +91,8 @@ function LandingPage() {
             A thoughtful space to create, organise, and document design systems — bringing design decisions and development closer together.
           </p>
           <div className="hero-actions">
-            <a className="button button-dark" href="/explore">Explore library <ArrowRight size={16} /></a>
-            <a className="text-link" href="/studio">Open studio <ArrowUpRight size={15} /></a>
+            <Link className="button button-dark" to="/explore">Explore library <ArrowRight size={16} /></Link>
+            <Link className="text-link" to="/studio">Open studio <ArrowUpRight size={15} /></Link>
           </div>
           <div className="hero-footnote"><span className="mono">01 / 04</span><span>DESIGNED FOR TEAMS THAT CARE ABOUT THE DETAILS</span></div>
         </div>
@@ -106,7 +118,19 @@ function LandingPage() {
               </div>
               <div className="art-palette">
                 <div className="palette-heading"><span>COLOUR PALETTE</span><span>NEUTRAL / 01</span></div>
-                <div className="swatches">{swatches.map((color) => <span key={color} style={{ background: color }} />)}</div>
+                <div className="swatches">
+                  {swatches.map((color) => (
+                    <span
+                      key={color}
+                      style={{
+                        background: color,
+                        boxShadow: isDark
+                          ? '0 0 0 1px rgba(255, 255, 255, 0.25) inset, 0 0 0 1px rgba(0, 0, 0, 0.45)'
+                          : '0 0 0 1px rgba(0, 0, 0, 0.08) inset',
+                      }}
+                    />
+                  ))}
+                </div>
                 <div className="palette-values"><span>INK</span><span>STONE</span><span>ASH</span><span>MIST</span><span>PAPER</span></div>
               </div>
               <div className="art-bottom"><span><Sparkle size={13} /> A system in progress</span><span>VIEW DETAILS <ArrowUpRight size={12} /></span></div>
@@ -164,15 +188,108 @@ function LandingPage() {
         <div className="section-index">[ 03 — THE COMPONENT LIBRARY ]</div>
         <div className="component-layout">
           <div className="component-copy"><h2>From design<br />to <em>real use.</em></h2><p>Explore component anatomy, states, and usage guidance in a space made for both designers and developers.</p><div className="component-note"><Code size={17} /> ONE LANGUAGE. TWO DISCIPLINES.</div></div>
-          <div className="component-preview">
-            <div className="preview-top"><span>COMPONENT PLAYGROUND</span><span>INTERACTIVE PREVIEW <span className="live-dot" /></span></div>
-            <div className="preview-tabs">{['Button', 'Input', 'Badge'].map(tab => <button key={tab} className={activeTab === tab ? 'selected' : ''} onClick={() => setActiveTab(tab)}>{tab}</button>)}</div>
-            <div className="preview-stage">
-              {activeTab === 'Button' && <><button className="sample-button">Get started <ArrowRight size={15} /></button><button className="sample-secondary">Learn more</button></>}
-              {activeTab === 'Input' && <label className="sample-input">Email address<input type="email" placeholder="you@example.com" /></label>}
-              {activeTab === 'Badge' && <><span className="sample-badge"><span className="live-dot" /> Stable</span><span className="sample-badge muted">In progress</span></>}
+          <div
+            className="component-preview"
+            data-theme={previewTheme}
+            style={isDark ? {
+              background: '#161618',
+              border: '1px solid #2e2e34',
+              color: '#f4f3ef',
+              transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease'
+            } : { transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease' }}
+          >
+            <div className="preview-top">
+              <span>COMPONENT PLAYGROUND</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: isDark ? '#a1a1aa' : '#85837d' }}>
+                  {previewTheme.toUpperCase()} PREVIEW <span className="live-dot" />
+                </span>
+              </div>
             </div>
-            <div className="preview-footer"><span>DEFAULT STATE / {activeTab.toUpperCase()}</span><span>PREVIEW ONLY</span></div>
+            <div className="preview-tabs" style={isDark ? { borderBottomColor: '#2e2e34' } : {}}>
+              {['Button', 'Input', 'Badge'].map(tab => (
+                <button
+                  key={tab}
+                  className={activeTab === tab ? 'selected' : ''}
+                  onClick={() => setActiveTab(tab)}
+                  style={isDark ? {
+                    color: activeTab === tab ? '#ffffff' : '#a1a1aa',
+                    borderColor: activeTab === tab ? '#ffffff' : 'transparent',
+                  } : {}}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            <div
+              className="preview-stage"
+              style={isDark ? {
+                background: '#101012',
+                border: '1px solid #232328',
+                borderRadius: 4,
+                margin: '14px 0',
+                padding: 20
+              } : {}}
+            >
+              {activeTab === 'Button' && (
+                <>
+                  <button
+                    className="sample-button"
+                    style={isDark ? { background: '#ffffff', color: '#161618', border: '1px solid #ffffff' } : {}}
+                  >
+                    Get started <ArrowRight size={15} />
+                  </button>
+                  <button
+                    className="sample-secondary"
+                    style={isDark ? { background: '#242428', color: '#f4f3ef', border: '1px solid #38383e' } : {}}
+                  >
+                    Learn more
+                  </button>
+                </>
+              )}
+              {activeTab === 'Input' && (
+                <label className="sample-input" style={isDark ? { color: '#d4d4d8' } : {}}>
+                  Email address
+                  <input
+                    type="email"
+                    placeholder="you@example.com"
+                    style={isDark ? {
+                      background: '#1c1c20',
+                      color: '#f4f3ef',
+                      border: '1px solid #38383e'
+                    } : {}}
+                  />
+                </label>
+              )}
+              {activeTab === 'Badge' && (
+                <>
+                  <span
+                    className="sample-badge"
+                    style={isDark ? {
+                      background: 'rgba(34, 197, 94, 0.16)',
+                      border: '1px solid rgba(74, 222, 128, 0.4)',
+                      color: '#4ade80'
+                    } : {}}
+                  >
+                    <span className="live-dot" /> Stable
+                  </span>
+                  <span
+                    className="sample-badge muted"
+                    style={isDark ? {
+                      background: '#242428',
+                      border: '1px solid #38383e',
+                      color: '#d4d4d8'
+                    } : {}}
+                  >
+                    In progress
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="preview-footer" style={isDark ? { borderTopColor: '#2e2e34', color: '#a1a1aa' } : {}}>
+              <span>DEFAULT STATE / {activeTab.toUpperCase()}</span>
+              <span>PREVIEW ONLY ({previewTheme.toUpperCase()} MODE)</span>
+            </div>
           </div>
         </div>
       </section>
@@ -200,7 +317,7 @@ function LandingPage() {
 
       <footer className="footer shell">
         <div className="footer-top"><a className="brand" href="#"><span className="brand-mark"><span /><span /><span /><span /></span><span>atria<span className="brand-period">.</span></span></a><p>A more considered way to build<br />and maintain design systems.</p><a className="footer-github" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer"><GithubLogo size={18} /> Star the project <ArrowUpRight size={14} /></a></div>
-        <div className="footer-bottom"><span>© 2026 ATRIA STUDIO</span><span>OPEN SOURCE · EARLY DEVELOPMENT</span><a href="/docs">DOCUMENTATION</a><a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12} /></a></div>
+        <div className="footer-bottom"><span>© 2026 ATRIA STUDIO</span><span>OPEN SOURCE · EARLY DEVELOPMENT</span><Link to="/docs">DOCUMENTATION</Link><a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12} /></a></div>
       </footer>
     </main>
   )
@@ -208,20 +325,25 @@ function LandingPage() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/explore" element={<DashboardLayout />}>
-          <Route index element={<Overview />} />
-          <Route path="foundations" element={<Foundations />} />
-          <Route path="foundations/:categoryId/:resourceId" element={<Foundations />} />
-          <Route path="tokens" element={<Tokens />} />
-          <Route path="components" element={<Components />} />
-        </Route>
-        <Route path="/studio" element={<Studio />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/explore" element={<DashboardLayout />}>
+              <Route index element={<Overview />} />
+              <Route path="foundations" element={<Foundations />} />
+              <Route path="foundations/:categoryId/:resourceId" element={<Foundations />} />
+              <Route path="tokens" element={<Tokens />} />
+              <Route path="components" element={<Components />} />
+            </Route>
+            <Route path="/studio" element={<Studio />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </ErrorBoundary>
+    </ThemeProvider>
   )
 }
 

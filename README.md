@@ -61,7 +61,8 @@ Examples are starting points, not a replacement for reviewing accessibility, val
 ## Tech stack
 
 - React 19 and React DOM
-- Vite 6
+- Vite 8
+- Vitest and React Testing Library
 - React Router
 - JavaScript and CSS
 - Phosphor Icons
@@ -113,10 +114,11 @@ Atria/
 ├── src/
 │   ├── data/                 # Starter resource data and local persistence
 │   ├── layouts/              # Explore Studio layout
-│   ├── pages/                # Foundations, Tokens, Components, Overview
+│   ├── pages/                # Foundations, Tokens, Components, Overview, Studio
 │   ├── App.jsx
 │   ├── Docs.jsx
 │   └── index.css
+├── tests/                    # Vitest unit and integration test suites
 ├── index.html
 ├── package.json
 ├── package-lock.json
@@ -132,7 +134,13 @@ npm ci
 npm run build
 ```
 
-There is not yet a dedicated automated test runner or lint script. Please include reproducible manual verification steps in pull requests, especially for interactive changes and responsive layouts.
+Run the automated test suite locally with:
+
+```bash
+npm test
+```
+
+Please include reproducible manual verification steps in pull requests, especially for interactive changes and responsive layouts.
 
 ## Contributing
 

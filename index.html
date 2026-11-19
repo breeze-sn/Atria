@@ -6,6 +6,16 @@
     <meta name="theme-color" content="#f7f7f5" />
     <meta name="description" content="Atria is an open-source workspace for building, managing, and documenting design systems." />
     <title>Atria — Design System Studio</title>
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem('atria:theme-preview');
+          if (t === 'dark' || t === 'light') {
+            document.documentElement.setAttribute('data-theme', t);
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />

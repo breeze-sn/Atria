@@ -96,7 +96,7 @@ The architecture set explains what exists, how it is composed, and why it is bui
 | [Getting started index](getting-started/README.md) | Implemented docs | Setup sequence and prerequisites |
 | [Installation](getting-started/installation.md) | Implemented | Clone, install, run, build, verify, troubleshoot |
 | [Local development](getting-started/local-development.md) | Implemented | Dev loop, routes, HMR, common edits |
-| [Environment configuration](getting-started/environment-configuration.md) | Implemented | No env vars required today; safe future conventions |
+| [Environment configuration](getting-started/environment-configuration.md) | Implemented | Environment variables, .env.example, and configuration files |
 
 ### Features
 
