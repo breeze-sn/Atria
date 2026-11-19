@@ -50,13 +50,13 @@ export default function Components(){
     </article>})}
    </div>
   </section>
-  <div id="component-inspector" style={{display:'grid',gridTemplateColumns:'minmax(125px,.65fr) minmax(0,1.8fr)',gap:14,marginTop:22}}>
-   <aside style={{border:'1px solid var(--line)',background:'#fafaf8',padding:9,alignSelf:'start'}}>{library.map((c,i)=><button key={c.id} onClick={()=>{setActive(c.id);setVariant(c.variants[0])}} style={{display:'block',width:'100%',textAlign:'left',padding:'11px 9px',marginBottom:3,border:'1px solid '+(active===c.id?'#242420':'transparent'),background:active===c.id?'#eeede9':'transparent',color:'var(--ink)',cursor:'pointer'}}><small style={{display:'block',fontSize:8,color:'#999'}}>{c.category.toUpperCase()} / {String(i+1).padStart(2,'0')}</small><strong style={{fontSize:11}}>{c.name}</strong></button>)}</aside>
+  <div id="component-inspector" className="component-inspector">
+   <aside className="component-inspector-nav">{library.map((c,i)=><button key={c.id} onClick={()=>{setActive(c.id);setVariant(c.variants[0])}} className={active===c.id?'component-inspector-item active':'component-inspector-item'}><small style={{display:'block',fontSize:8,color:'#999'}}>{c.category.toUpperCase()} / {String(i+1).padStart(2,'0')}</small><strong style={{fontSize:11}}>{c.name}</strong></button>)}</aside>
    <main style={{minWidth:0}}>
     <section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}>
      <div className="placeholder-panel-heading"><div><span className="studio-kicker">{item.category.toUpperCase()} / LIVE PREVIEW</span><h3>{item.name}</h3></div><span className="placeholder-tag">INTERACTIVE</span></div>
      <p style={{fontSize:11,color:'#777',lineHeight:1.6}}>{item.description}</p>
-     <div style={{minHeight:150,display:'grid',placeItems:'center',padding:20,marginTop:12,background:'#f3f2ee',border:'1px solid var(--line)'}}>
+     <div className="component-preview-stage">
       {active==='button'&&<button style={previewButton}>{buttonText||'Button'} <ArrowUpRight size={14}/></button>}
       {active==='input'&&<label style={{display:'grid',gap:7,width:'min(100%,300px)',fontSize:11}}>Email address<input disabled={variant==='Disabled'} value={inputValue} onChange={e=>setInputValue(e.target.value)} placeholder="you@example.com" style={{padding:11,border:'1px solid '+(variant==='Error'?'#b54747':'#d8d6cf'),borderRadius:6,font:'inherit'}}/>{variant==='Error'&&<small style={{color:'#b54747'}}>Please enter a valid email address.</small>}</label>}
       {active==='badge'&&<span style={{display:'inline-flex',alignItems:'center',gap:7,padding:'6px 10px',border:'1px solid '+(variant==='Success'?'#cbdcc4':variant==='Warning'?'#ead7ad':'#deddd8'),borderRadius:99,background:variant==='Success'?'#edf4ea':variant==='Warning'?'#fbf3e3':'#f4f3ef',color:variant==='Success'?'#45633b':variant==='Warning'?'#876321':'#55534f',fontSize:12,fontWeight:600}}><i style={{width:6,height:6,borderRadius:'50%',background:'currentColor'}}/>{variant==='Success'?'Published':variant==='Warning'?'Needs review':'Draft'}</span>}
@@ -68,13 +68,13 @@ export default function Components(){
       {active==='tabs'&&<div style={{width:'min(100%,340px)'}}><div role="tablist" style={{display:'flex',gap:5,borderBottom:'1px solid #ddd'}}>{tabNames.map((x,i)=><button key={x} id={'atria-tab-'+x} role="tab" aria-selected={selectedTab===x} aria-controls="atria-tabpanel" tabIndex={selectedTab===x?0:-1} onKeyDown={e=>onTabKeyDown(e,i)} onClick={()=>setSelectedTab(x)} style={{padding:'9px 11px',border:0,borderBottom:'2px solid '+(selectedTab===x?'#242420':'transparent'),background:'transparent',fontSize:11,cursor:'pointer'}}>{x}</button>)}</div><p id="atria-tabpanel" role="tabpanel" aria-labelledby={'atria-tab-'+selectedTab} style={{fontSize:12,color:'#777',padding:12}}>{selectedTab} content panel</p></div>}
       {active==='checkbox'&&<label style={{display:'flex',alignItems:'center',gap:9,fontSize:12,opacity:variant==='Disabled'?.5:1}}><input type="checkbox" checked={variant==='Checked'?true:checked} disabled={variant==='Disabled'} onChange={e=>setChecked(e.target.checked)} style={{accentColor:'#242420',width:16,height:16}}/> Subscribe to product updates</label>}
      </div>
-     {active==='button'&&<label style={{display:'grid',gap:5,maxWidth:220,fontSize:9,marginTop:12}}>BUTTON LABEL<input value={buttonText} onChange={e=>setButtonText(e.target.value)} style={btn}/></label>}
-     <label style={{display:'grid',gap:5,maxWidth:220,fontSize:9,marginTop:12}}>PREVIEW STATE<select value={variant} onChange={e=>setVariant(e.target.value)} style={btn}>{item.variants.map(v=><option key={v}>{v}</option>)}</select></label>
+     {active==='button'&&<label className="component-inspector-control">BUTTON LABEL<input value={buttonText} onChange={e=>setButtonText(e.target.value)} style={btn}/></label>}
+     <label className="component-inspector-control">PREVIEW STATE<select value={variant} onChange={e=>setVariant(e.target.value)} style={btn}>{item.variants.map(v=><option key={v}>{v}</option>)}</select></label>
     </section>
     <section id="component-code" style={{marginTop:16,border:'1px solid var(--line)',background:'#fff',padding:15}}>
      <div className="placeholder-panel-heading"><div><span className="studio-kicker">IMPLEMENTATION / READY TO USE</span><h3>Copy the component</h3></div><CopyButton value={tab==='React'?item.code:item.css}/></div>
      <div style={{display:'flex',gap:5,marginBottom:10}}>{['React','CSS'].map(t=><button key={t} onClick={()=>setTab(t)} style={{...btn,background:tab===t?'#242420':'#fff',color:tab===t?'#fff':'var(--ink)'}}>{t}</button>)}</div>
-     <pre style={{whiteSpace:'pre',overflowX:'auto',padding:14,background:'#242420',color:'#e9e7e1',fontSize:10,lineHeight:1.8}}>{tab==='React'?item.code:item.css}</pre>
+     <pre className="studio-code-block">{tab==='React'?item.code:item.css}</pre>
      <p style={{fontSize:9,color:'#888',lineHeight:1.6,marginBottom:0}}>Copy the React component and its CSS into your project. No Atria package or dependency required.</p>
     </section>
    </main>

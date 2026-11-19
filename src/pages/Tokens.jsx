@@ -49,8 +49,8 @@ export default function Tokens(){
    </article>)}
    {!visible.length&&<p style={{padding:16,color:'#888',fontSize:11}}>No matching tokens.</p>}
   </div>
-  {activeToken&&<div role="presentation" onClick={()=>setActiveToken(null)} style={{position:'fixed',inset:0,zIndex:1100,background:'#17171780',display:'grid',placeItems:'center',padding:18}}>
-   <section role="dialog" aria-modal="true" aria-labelledby="token-detail-title" onClick={e=>e.stopPropagation()} style={{width:'min(100%,520px)',maxHeight:'85vh',overflow:'auto',background:'#fff',border:'1px solid var(--line)',padding:20}}>
+  {activeToken&&<div role="presentation" onClick={()=>setActiveToken(null)} className="studio-modal-backdrop">
+   <section role="dialog" aria-modal="true" aria-labelledby="token-detail-title" onClick={e=>e.stopPropagation()} className="studio-modal-dialog">
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}><div><span className="studio-kicker">{activeToken.group} / {activeToken.type}</span><h3 id="token-detail-title" style={{fontSize:20,margin:'7px 0'}}>{activeToken.name}</h3></div><button onClick={()=>setActiveToken(null)} aria-label="Close token details" style={control}>Close</button></div>
     <p style={{fontSize:12,color:'#777'}}>{activeToken.description||'No description added.'}</p>
     <pre style={{whiteSpace:'pre-wrap',padding:14,background:'#242420',color:'#e9e7e1',fontSize:11,lineHeight:1.7}}>--atria-{activeToken.name.replaceAll('.','-')}: {activeToken.value};</pre>
@@ -69,12 +69,12 @@ export default function Tokens(){
    {review&&<div style={{marginTop:12}}>
     {review.fileError?<p role="alert" style={{fontSize:11,color:'#b54747'}}>{review.fileError}</p>:<>
      <p aria-live="polite" style={{fontSize:11,margin:'0 0 8px'}}>{importable} of {review.rows.length} tokens can be imported.</p>
-     <ul style={{listStyle:'none',margin:0,padding:0,display:'grid',gap:5,maxHeight:260,overflow:'auto'}}>{review.rows.map(r=><li key={r.index} data-status={r.status} style={{padding:'8px 10px',border:'1px solid '+(r.status==='new'?'var(--line)':r.status==='invalid'?'#b54747':'#c47a22'),background:'#fff',fontSize:11}}><strong>{r.name||'(no name)'}</strong> <span style={{color:'#777'}}>{r.value} {r.status==='new'?'':'/ '+r.type}</span><span style={{float:'right',fontSize:9,textTransform:'uppercase',color:r.status==='new'?'#2f7d52':r.status==='invalid'?'#b54747':'#876321'}}>{r.status==='new'?'New':r.status==='invalid'?'Invalid':'Skipped'}</span>{r.error&&<small style={{display:'block',marginTop:4,color:r.status==='invalid'?'#b54747':'#876321'}}>{r.error}</small>}</li>)}</ul>
+     <ul style={{listStyle:'none',margin:0,padding:0,display:'grid',gap:5,maxHeight:260,overflow:'auto'}}>{review.rows.map(r=><li key={r.index} data-status={r.status} style={{padding:'8px 10px',border:'1px solid '+(r.status==='new'?'var(--line)':r.status==='invalid'?'#b54747':'#c47a22'),background:'#fff',fontSize:11}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',gap:8,flexWrap:'wrap'}}><div style={{minWidth:0,overflowWrap:'anywhere'}}><strong>{r.name||'(no name)'}</strong> <span style={{color:'#777'}}>{r.value} {r.status==='new'?'':'/ '+r.type}</span></div><span style={{fontSize:9,textTransform:'uppercase',flexShrink:0,color:r.status==='new'?'#2f7d52':r.status==='invalid'?'#b54747':'#876321'}}>{r.status==='new'?'New':r.status==='invalid'?'Invalid':'Skipped'}</span></div>{r.error&&<small style={{display:'block',marginTop:4,color:r.status==='invalid'?'#b54747':'#876321'}}>{r.error}</small>}</li>)}</ul>
      <button style={{...action,marginTop:10,opacity:importable?1:.5}} disabled={!importable} onClick={applyImport}>Import {importable} token{importable===1?'':'s'}</button>
     </>}
    </div>}
   </section>
-  <section style={{marginTop:22}}><div className="placeholder-panel-heading"><div><span className="studio-kicker">LIVE EXPORT PREVIEW</span><h3>CSS custom properties</h3></div><CopyValue value={css}/></div><pre style={{whiteSpace:'pre',overflowX:'auto',padding:15,background:'#242420',color:'#e9e7e1',fontSize:10,lineHeight:1.8}}>{css}</pre></section>
+  <section style={{marginTop:22}}><div className="placeholder-panel-heading"><div><span className="studio-kicker">LIVE EXPORT PREVIEW</span><h3>CSS custom properties</h3></div><CopyValue value={css}/></div><pre className="studio-code-block">{css}</pre></section>
   <div style={{display:'flex',justifyContent:'flex-end',marginTop:14}}><button style={control} onClick={()=>{if(window.confirm('Restore the starter token collection?'))reset()}}>Reset starter tokens</button></div>
  </div>;
 }

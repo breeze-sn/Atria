@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import {
   ArrowUpRight,
   GithubLogo,
@@ -67,15 +67,15 @@ export default function DashboardLayout() {
           <div className="explore-sidebar-label">EXPLORE STUDIO</div>
           <nav className="explore-section-nav">
             {sections.map((section) => (
-              <a
+              <NavLink
                 key={section.path}
-                href={section.path}
-                className="explore-section-link"
+                to={section.path}
+                className={({ isActive }) => (isActive ? 'explore-section-link active' : 'explore-section-link')}
               >
                 <span className="explore-section-icon">{section.icon}</span>
                 <span>{section.name}</span>
                 <small>{section.number}</small>
-              </a>
+              </NavLink>
             ))}
           </nav>
         </aside>
