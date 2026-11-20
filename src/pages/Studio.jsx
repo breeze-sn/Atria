@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Check, Code, Copy, Download, FloppyDisk, Palette, Plus, SquaresFour, Stack, Trash, X } from '@phosphor-icons/react';
+import { buildReactExport } from '../data/studioExport.js';
 import './studio.css';
 
 const paletteSets = [
@@ -89,7 +90,7 @@ export default function Studio() {
   if(format==='Tokens')return JSON.stringify({name,tokens},null,2);
   if(format==='CSS')return ':root {\n'+tokens.map(t=>'  --'+t.name.replaceAll('.','-')+': '+t.value+';').join('\n')+'\n}';
   if(format==='HTML')return items.map(x=>'<div class="atria-'+x.type.toLowerCase().replaceAll(' ','-')+'">'+x.text+'</div>').join('\n');
-  return items.map(x=>'export function '+x.type.replace(/[^a-z0-9]/gi,'')+'Component() { return <div style={{background:"'+x.bg+'",color:"'+x.color+'",borderRadius:'+x.radius+',padding:'+x.padding+'}}>'+x.text+'</div>; }').join('\n\n');
+  return buildReactExport(items);
  },[format,name,tokens,items]);
  const copy=async()=>{try{await navigator.clipboard.writeText(output);setCopied(true);window.setTimeout(()=>setCopied(false),1200);}catch{}};
  const download=()=>{const ext=format==='Tokens'?'json':format==='React'?'jsx':format==='HTML'?'html':'css';const url=URL.createObjectURL(new Blob([output],{type:'text/plain'}));const a=document.createElement('a');a.href=url;a.download='atria-design-system.'+ext;a.click();URL.revokeObjectURL(url);};
