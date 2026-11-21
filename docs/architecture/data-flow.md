@@ -23,6 +23,8 @@ compiled into the frontend bundle.
 | Tokens brief stages | `src/pages/Tokens.jsx` `stages` | Static array | Build-time |
 | Components brief parts | `src/pages/Components.jsx` `componentParts` | Static array of tuples | Build-time |
 | Studio navigation | `src/layouts/DashboardLayout.jsx` `sections` | Static array | Build-time |
+| Community contributions | `community/{palettes,tokens,components}/*.json` | Validated JSON modules | Build-time |
+| Community filtering | `src/pages/Community.jsx` | Local `useState` selection | Until navigation |
 | Current route | Browser URL / React Router | Runtime | User navigation |
 | Playground selection | React `useState` | Runtime | User click |
 | Copy feedback | React `useState` | Runtime | Clipboard promise |
@@ -49,6 +51,8 @@ flowchart LR
     Tree -->|No| Router[App router]
     Router --> Landing[LandingPage]
     Router --> Studio[Studio briefs]
+    Router --> Community[Community library]
+    Community --> CommunityData[Validated JSON contributions]
     URL[URL state] --> Router
     Click[User interaction] --> State[Local state]
     State --> Landing
@@ -222,6 +226,7 @@ The following data flows do **not** exist:
 - Component execution or preview isolation.
 - Analytics or telemetry.
 - Browser storage of design-system data.
+- In-app community submissions or synchronization; contributors change the static catalogue through pull requests.
 
 This is important for reviewers: any documentation that implies these flows exists is inaccurate.
 
@@ -243,6 +248,19 @@ flowchart LR
 ```
 
 ### Proposed model direction from the briefs
+
+**Community contribution schema**
+
+- `type`, unique slug `id`, `name`, and `description`;
+- contributor name and/or GitHub handle plus an HTTP(S) source URL;
+- palette HEX colours and optional usage notes;
+- token arrays for colours, typography, spacing, radius, and other supported values;
+- component preview metadata, variants, states, and optional references;
+- validation before submission and at app render time for parseable invalid entries.
+
+The initial community catalogue is implemented as repository JSON, not a hosted publishing service.
+See [Community Contributions](../features/community-contributions.md) and its
+[contributor schema](../contributing/community-contributions.md).
 
 **Tokens**
 

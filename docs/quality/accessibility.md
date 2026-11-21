@@ -22,6 +22,8 @@ claim of conformance.
 ### Interactive elements
 
 - Playground tabs are native `<button>` elements.
+- Community filters are native buttons with `aria-pressed` state, and their result count is announced.
+- Community cards use headings and lists; external source links describe their destination.
 - Navigation uses native anchors and React Router links.
 - The copy control is a native `<button>` with an `aria-label`.
 - Documentation cards are anchors with descriptive `aria-label` values.

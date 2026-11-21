@@ -13,6 +13,7 @@ documents for detail.
 | Document | Purpose |
 |---|---|
 | [Contribution workflow](contribution-workflow.md) | Fork, branch, commit, push, and open a PR |
+| [Community contributions](community-contributions.md) | Palette, token-set, and component data formats and validation |
 | [Pull request guidelines](pull-request-guidelines.md) | Required PR format and checklist |
 | [Debugging](debugging.md) | Common local, routing, and interaction problems |
 | [Documentation guidelines](documentation-guidelines.md) | Accuracy, status labels, links, diagrams |

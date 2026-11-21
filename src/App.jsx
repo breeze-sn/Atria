@@ -5,6 +5,7 @@ import Overview from './pages/Overview.jsx'
 import Foundations from './pages/Foundations.jsx'
 import Tokens from './pages/Tokens.jsx'
 import Components from './pages/Components.jsx'
+import Community from './pages/Community.jsx'
 import Studio from './pages/Studio.jsx'
 import {
   ArrowDownRight,
@@ -63,6 +64,7 @@ function LandingPage() {
           <a href="/studio">Studio</a>
           <a href="#foundations">Foundation</a>
           <a href="#components">Components</a>
+          <a href="/explore/community">Community</a>
           <a href="/docs">Docs</a>
           <a href="#contact">Contact</a>
         </div>
@@ -217,6 +219,7 @@ function App() {
           <Route path="foundations/:categoryId/:resourceId" element={<Foundations />} />
           <Route path="tokens" element={<Tokens />} />
           <Route path="components" element={<Components />} />
+          <Route path="community" element={<Community />} />
         </Route>
         <Route path="/studio" element={<Studio />} />
         <Route path="*" element={<Navigate to="/" replace />} />
