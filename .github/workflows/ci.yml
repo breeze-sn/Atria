@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   build:
-    name: Install and build
+    name: Validate, test, and build
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -30,6 +30,12 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Validate community contribution data
+        run: npm run validate:contributions
+
+      - name: Run test suite
+        run: npm test
 
       - name: Build production application
         run: npm run build

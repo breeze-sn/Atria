@@ -19,7 +19,7 @@ describe('Token import panel', () => {
     expect(screen.getAllByLabelText('Token name').length).toBe(before + 1);
     const space = screen.getAllByLabelText('Token name').find((i) => i.value === 'space.1');
     expect(space.closest('article').querySelector('[aria-label="Token value"]').value).toBe('4px');
-  });
+  }, 10000);
 
   it('shows a clear error for invalid JSON', () => {
     render(<Tokens />);

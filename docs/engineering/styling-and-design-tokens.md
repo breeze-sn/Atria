@@ -291,7 +291,7 @@ Atria uses a loose BEM-like naming convention:
 
 There is no enforced naming standard or CSS linting. New classes should:
 
-- use a clear prefix tied to the area (`explore-`, `studio-`, `doc-`, `art-`);
+- use a clear prefix tied to the area (`explore-`, `studio-`, `doc-`, `community-`, `art-`);
 - avoid generic names that could collide;
 - avoid inline styles except for data-driven values such as swatch backgrounds.
 
@@ -305,8 +305,9 @@ There is no enforced naming standard or CSS linting. New classes should:
 4. Check contrast for text and controls.
 5. Check every breakpoint.
 6. Confirm reduced-motion behaviour.
-7. Update this document with new values or breakpoints.
-8. Capture updated screenshots if the public visual changes.
+7. Check the community filters, cards, and source links at desktop and mobile widths.
+8. Update this document with new values or breakpoints.
+9. Capture updated screenshots if the public visual changes.
 
 ### Future improvement opportunities
 
