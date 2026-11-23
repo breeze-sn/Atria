@@ -3,7 +3,7 @@
 ## 1. Overview
 
 Atria's frontend is a Vite-built React single-page application written in JavaScript and JSX. It has
-two entry branches, one router, nine React components (including page functions), and one global
+two entry branches, one router, page components, static JSON contribution data, and one global
 stylesheet.
 
 ```mermaid
@@ -15,6 +15,8 @@ flowchart TD
   App --> Foundations[src/pages/Foundations.jsx]
   App --> Tokens[src/pages/Tokens.jsx]
   App --> Components[src/pages/Components.jsx]
+  App --> Community[src/pages/Community.jsx]
+  Community --> Data[community JSON + validator]
   CSS[src/index.css] --> All[All pages]
 ```
 
@@ -63,8 +65,8 @@ grows further, extracting `LandingPage` into `src/pages/LandingPage.jsx` would b
 ### `src/pages/*.jsx`
 
 - One component per Studio section.
-- Static implementation briefs.
-- No data fetching, editing, or persistence.
+- Local interactive workspaces and the community catalogue.
+- The community catalogue imports validated static JSON; it does not fetch or persist data.
 
 ### `src/index.css`
 

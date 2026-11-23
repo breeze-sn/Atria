@@ -1,7 +1,7 @@
 # Explore Studio
 
 **Status:** Implemented workspace and resource areas
-**Routes:** `/explore`, `/explore/foundations/*`, `/explore/tokens`, `/explore/components`
+**Routes:** `/explore`, `/explore/foundations/*`, `/explore/tokens`, `/explore/components`, `/explore/community`
 **Sources:** `src/layouts/DashboardLayout.jsx`, `src/pages/*.jsx`, `src/App.jsx`
 
 Explore Studio is the product workspace for Atria's foundations, tokens, and component examples.
@@ -11,7 +11,7 @@ Explore Studio is the product workspace for Atria's foundations, tokens, and com
 | Element | Behaviour |
 |---|---|
 | Header | Atria brand link and GitHub repository CTA |
-| Sidebar | Foundations, Tokens, and Components navigation |
+| Sidebar | Foundations, Tokens, Components, and Community navigation |
 | Content area | Renders the selected section through React Router's `Outlet` |
 | Footer | Project links and documentation |
 | Active state | Derived from the current route |
@@ -21,11 +21,12 @@ Explore Studio is the product workspace for Atria's foundations, tokens, and com
 
 | Route | Result |
 |---|---|
-| `/explore` | Redirects to the Overview page |
+| `/explore` | Workspace overview |
 | `/explore/foundations` | Foundations resource catalogue |
 | `/explore/foundations/:categoryId/:resourceId` | Selected foundation resource editor |
 | `/explore/tokens` | Editable token collection |
 | `/explore/components` | Component catalogue and snippet previews |
+| `/explore/community` | Filterable community palette, token-set, and component catalogue |
 | `/studio/*` | Redirects to `/explore` |
 | Unknown route | Redirects to `/` |
 
@@ -37,6 +38,7 @@ Explore Studio is the product workspace for Atria's foundations, tokens, and com
 | Foundations | `src/pages/Foundations.jsx` | Preset library, resource editor, local customisation, CSS/JSON export |
 | Tokens | `src/pages/Tokens.jsx` | Search, group filters, add/edit/delete, copy, CSS/JSON export |
 | Components | `src/pages/Components.jsx` | Ten live examples and copy-ready React/CSS snippets |
+| Community | `src/pages/Community.jsx` | Validated, static community contributions with attribution and source links |
 
 Read the [feature overview](README.md) and the section-specific documents for exact capability boundaries.
 
@@ -44,7 +46,9 @@ Read the [feature overview](README.md) and the section-specific documents for ex
 
 Foundations and Tokens use the `useStudioData` helper or resource-specific local-storage keys. This is local browser persistence, not a shared backend. Atria does not currently provide accounts, team workspaces, hosted publishing, or cross-device sync.
 
-Component preview state is held in the page while it is open. It is not persisted as a published component record.
+Component preview state is held in the page while it is open. Community contributions are committed
+as JSON files and bundled at build time; they are not user-published records and are not persisted by
+the app.
 
 ## 5. Adding a section
 
@@ -52,16 +56,17 @@ Component preview state is held in the page while it is open. It is not persiste
 2. Add a child route in `src/App.jsx`.
 3. Add the navigation entry in `src/layouts/DashboardLayout.jsx`.
 4. Reuse the existing visual language and ensure the layout works on narrow screens.
-5. Add manual verification steps and tests when test tooling is available.
+5. Add manual verification steps and focused tests.
 6. Update the relevant feature documentation and index.
 
 ## 6. Limitations
 
 - No account system, permissions, or shared workspaces.
-- No server-backed resource storage or community publishing.
+- No server-backed resource storage or self-service community publishing.
 - No automated browser test suite yet.
 - Resource and token exports are client-side.
 - Component snippets are examples, not an installable component package.
+- Community data is changed through reviewed pull requests; it is not editable in the app.
 
 ## Related documents
 

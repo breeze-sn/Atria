@@ -2,11 +2,15 @@
 
 ## 1. Current state
 
-Atria currently has no automated test runner or lint script. The enforced CI gate is a clean dependency install followed by a production build.
+Atria has a Vitest and Testing Library suite, a contribution-data validator, and no configured lint
+script. CI enforces contribution validation, the test suite, and a production build.
 
 - `npm ci` installs the lockfile-defined dependency graph.
+- `npm test` runs the Vitest suite.
+- `npm run validate:contributions` validates community JSON files.
 - `npm run build` verifies that Vite can compile the application.
-- GitHub Actions runs these commands for pushes and pull requests targeting `main`.
+- GitHub Actions runs contribution validation, tests, and the production build for pushes and pull
+  requests targeting `main`.
 - UI behaviour still needs focused manual verification.
 
 ## 2. Current quality gates
@@ -14,17 +18,21 @@ Atria currently has no automated test runner or lint script. The enforced CI gat
 | Gate | Mechanism | Status |
 |---|---|---|
 | Dependency install | `npm ci` | Enforced in CI |
+| Contribution schema | `npm run validate:contributions` | Enforced in CI |
+| Automated unit/component tests | `npm test` | Enforced in CI |
 | Production build | `npm run build` | Enforced in CI |
 | Routes and navigation | Manual checks | Required for relevant changes |
 | Editor and export behaviour | Manual checks | Required for relevant changes |
 | Responsive layout | Manual checks | Required for layout changes |
 | Keyboard and accessibility | Manual checks | Required for interactive changes |
-| Automated unit/component tests | Not configured | Future work |
+| Automated unit/component tests | Vitest and Testing Library | Configured |
+| Community data validation | Node.js validation script | Configured |
 | Linting and formatting | Not configured | Future work |
 
 ## 3. Manual test matrix
 
-Run checks with `npm run dev`. For production routing, also run `npm run build && npm run preview`.
+Run checks with `npm test`, `npm run validate:contributions`, and `npm run build`. For production
+routing, also run `npm run build && npm run preview`.
 
 ### Routes
 
@@ -37,6 +45,7 @@ Run checks with `npm run dev`. For production routing, also run `npm run build &
 | Open `/explore/foundations/colour/warm-earth` | Warm Earth resource editor renders |
 | Open `/explore/tokens` | Token workspace renders |
 | Open `/explore/components` | Component library renders |
+| Open `/explore/community` | Filterable community library renders |
 | Refresh a nested foundation route | Same resource renders after refresh |
 | Open `/studio/anything` | Redirects to `/explore` |
 | Open an unknown route | Redirects to `/` |
@@ -100,11 +109,11 @@ Run checks with `npm run dev`. For production routing, also run `npm run build &
 Recommended first targets:
 
 1. **Unit tests:** preset transformations, token naming, CSS/JSON export generation, and persistence helpers.
-2. **Component tests:** palette editing, token filters, copy feedback, and modal interactions.
+2. **Component tests:** palette editing, token filters, community contribution validation, copy feedback, and modal interactions.
 3. **End-to-end tests:** route navigation, deep-link refresh, resource edits, and export flows.
 4. **Accessibility tests:** automated landmark/label checks plus keyboard and screen-reader review.
 
-A Vite-compatible test runner such as Vitest and a browser tool such as Playwright are candidates, but neither is currently installed. Add an ADR and update CI when adopting them.
+A browser tool such as Playwright remains a candidate for end-to-end route and visual checks.
 
 ## 5. CI commands
 
@@ -112,10 +121,12 @@ The current CI workflow runs:
 
 ```bash
 npm ci
+npm run validate:contributions
+npm test
 npm run build
 ```
 
-When test and lint tooling is introduced, extend the workflow to run those checks before the production build.
+Linting is not configured.
 
 ## Related documents
 

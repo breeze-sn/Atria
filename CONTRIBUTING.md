@@ -17,6 +17,8 @@ Atria is an open-source design system studio. The product currently includes a F
 - Accessible, keyboard-friendly components and patterns.
 - Better responsive behaviour and mobile layouts.
 - Foundations, token, and component resources that solve real interface needs.
+- Community palettes, token sets, and component designs in the documented
+  [community contribution format](docs/contributing/community-contributions.md).
 - React and CSS examples with clear usage guidance.
 - Automated tests, linting, and CI improvements.
 - Documentation corrections and contributor experience improvements.
@@ -46,11 +48,17 @@ Before opening a pull request, run:
 
 ```bash
 npm ci
+npm run validate:contributions
 npm test
 npm run build
 ```
 
-The existing Vitest and Testing Library setup runs with `npm test`. Navigation tests cover primary links, library module routes, and fresh mounts at nested URLs. Also check real document navigation and nested-route refresh in the production preview, since jsdom does not navigate native links. The GitHub Actions workflow runs the production build for pushes and pull requests targeting `main`; a lint script is not configured.
+The Vitest and Testing Library setup runs with `npm test`. Use `npm run validate:contributions` when
+adding or changing community data. Navigation tests cover primary links, library module routes, and
+fresh mounts at nested URLs. Also check real document navigation and nested-route refresh in the
+production preview, since jsdom does not navigate native links. The GitHub Actions workflow runs the
+production build for pushes and pull requests targeting `main`; it also runs the test suite and
+community contribution validator. A lint script is not configured.
 
 For UI changes, check:
 - desktop and narrow mobile layouts;

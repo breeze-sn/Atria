@@ -25,10 +25,13 @@ This section describes the Atria product as implemented in the repository. Statu
 | Token CSS and JSON export | Implemented, local | `/explore/tokens` | `src/pages/Tokens.jsx` |
 | Component library with live examples | Implemented, limited | `/explore/components` | `src/pages/Components.jsx` |
 | React and CSS component snippets | Implemented | `/explore/components` | `src/pages/Components.jsx` |
+| Community palettes, token sets, and component designs | Implemented, static | `/explore/community` | `community/`, `src/pages/Community.jsx` |
+| Community contribution validation | Implemented | `npm run validate:contributions` | `src/data/communityValidation.js`, `scripts/validate-community-contributions.js` |
 | Local browser persistence | Implemented, local | Foundations and Tokens | `src/data/studioStore.js` |
 | Hosted accounts, team sync, publishing | Planned | — | — |
 | Database-backed resource API | Planned | — | Express and Prisma scaffolds only |
-| Automated test runner and linting | Not configured | — | See [Testing strategy](../quality/testing-strategy.md) |
+| Automated tests | Vitest and Testing Library | `npm test` | `tests/` |
+| Linting | Not configured | — | See [Testing strategy](../quality/testing-strategy.md) |
 
 ## Studio capabilities
 
@@ -47,7 +50,8 @@ The component library currently includes Button, Text Field, Status Badge, Conte
 ## Important product boundaries
 
 - Local storage is browser- and device-specific; it does not sync between people.
-- There is no account system, hosted publishing, collaboration, or shared community catalogue yet.
+- Community entries are reviewed JSON files shipped with the static app; there is no account system,
+  user submission service, or hosted publishing.
 - The Express server currently exposes a health-check route only.
 - Prisma is an initial PostgreSQL configuration scaffold, not a connected product data layer.
 - The component examples are copy-ready starting points, not a package or isolated code sandbox.
@@ -62,5 +66,6 @@ The component library currently includes Button, Text Field, Status Badge, Conte
 | [Design foundations](design-foundations.md) | Presets, editor behaviour, local persistence, and exports |
 | [Design tokens](design-tokens.md) | Token editing, search, grouping, and export behaviour |
 | [Component library](component-library.md) | Catalogue of ten component examples, usage guidance, and accessibility notes |
+| [Community contributions](community-contributions.md) | Browsable community library and static contribution workflow |
 | [Documentation hub](documentation-hub.md) | `/docs` content and outbound links |
 | [API reference](api-reference.md) | Current API boundary and health endpoint |

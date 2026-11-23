@@ -7,6 +7,7 @@ import {
   Coin,
   PuzzlePiece,
   Sparkle,
+  UsersThree,
 } from '@phosphor-icons/react';
 import ThemePreviewToggle from '../components/ThemePreviewToggle.jsx';
 import ErrorBoundary from '../components/ErrorBoundary.jsx';
@@ -17,6 +18,7 @@ const sections = [
   { name: 'Foundations', path: '/explore/foundations', icon: <Palette size={17} weight="regular" />, number: '01' },
   { name: 'Tokens', path: '/explore/tokens', icon: <Coin size={17} weight="regular" />, number: '02' },
   { name: 'Components', path: '/explore/components', icon: <PuzzlePiece size={17} weight="regular" />, number: '03' },
+  { name: 'Community', path: '/explore/community', icon: <UsersThree size={17} weight="regular" />, number: '05' },
 ];
 
 function AtriaMark({ small = false }) {

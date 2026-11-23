@@ -23,6 +23,11 @@ with it.
 | `src/pages/Foundations.jsx` | Page | Static Foundations implementation brief |
 | `src/pages/Tokens.jsx` | Page | Static Tokens implementation brief |
 | `src/pages/Components.jsx` | Page | Static Components implementation brief |
+| `src/pages/Community.jsx` | Page | Filterable community contribution catalogue |
+| `src/data/communityContributions.js` | Data | Imports contribution JSON and filters invalid records |
+| `src/data/communityValidation.js` | Validation | Checks contribution shape, values, URLs, and duplicate IDs |
+| `community/{palettes,tokens,components}/*.json` | Content | Static, reviewed contribution records |
+| `scripts/validate-community-contributions.js` | CLI | Reports malformed JSON and schema errors before pull requests |
 | `src/index.css` | Stylesheet | Full visual system, responsive rules, motion handling |
 
 ### Application configuration
@@ -181,10 +186,11 @@ no component code is exposed or generated.
   <Routes>
     <Route path="/" element={<LandingPage />} />
     <Route path="/explore" element={<DashboardLayout />}>
-      <Route index element={<Navigate to="foundations" replace />} />
+      <Route index element={<Overview />} />
       <Route path="foundations" element={<Foundations />} />
       <Route path="tokens" element={<Tokens />} />
       <Route path="components" element={<Components />} />
+      <Route path="community" element={<Community />} />
     </Route>
     <Route path="/studio/*" element={<Navigate to="/explore" replace />} />
     <Route path="*" element={<Navigate to="/" replace />} />
@@ -197,10 +203,11 @@ Route table:
 | Path | Result | Notes |
 |---|---|---|
 | `/` | Landing page | |
-| `/explore` | Layout + index redirect | Redirects to `foundations` |
+| `/explore` | Layout + Overview | Workspace overview |
 | `/explore/foundations` | Layout + Foundations | |
 | `/explore/tokens` | Layout + Tokens | |
 | `/explore/components` | Layout + Components | |
+| `/explore/community` | Layout + Community | |
 | `/studio/*` | Redirect to `/explore` | Legacy/alternate path |
 | `*` | Redirect to `/` | Catch-all |
 

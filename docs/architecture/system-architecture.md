@@ -19,7 +19,8 @@ experience:
 - a public marketing and demonstration page;
 - a documentation hub;
 - an Explore Studio navigation shell;
-- static implementation briefs for Foundations, Tokens, and Components;
+- Foundations, Tokens, and Components workspaces;
+- a static, pull-request-maintained community contribution library;
 - a responsive CSS design language;
 - build, CI, and hosting configuration.
 
@@ -30,7 +31,7 @@ The repository does **not** contain:
 - authentication or user accounts;
 - persistent storage for foundations, tokens, or components;
 - token export generation;
-- automated tests or linters.
+- a configured lint script.
 
 These absences are architectural facts, not omissions in the documentation.
 
@@ -160,13 +161,13 @@ flowchart TD
   DocsCheck -->|No| Router[App.jsx / BrowserRouter]
   Router --> RootRoute{Matches a route?}
   RootRoute -->|/| Landing[LandingPage]
-  RootRoute -->|/explore| ExploreIndex[Index redirect to foundations]
+  RootRoute -->|/explore| OverviewPage[Overview]
   RootRoute -->|/explore/foundations| FoundationsPage[Foundations]
   RootRoute -->|/explore/tokens| TokensPage[Tokens]
   RootRoute -->|/explore/components| ComponentsPage[Components]
+  RootRoute -->|/explore/community| CommunityPage[Community]
   RootRoute -->|/studio/*| StudioRedirect[Redirect to /explore]
   RootRoute -->|No match| CatchAll[Redirect to /]
-  ExploreIndex --> FoundationsPage
 ```
 
 ---
@@ -231,9 +232,10 @@ without a persistence requirement would add complexity without product value.
 | Landing page | `src/App.jsx` (`LandingPage`) | Hero, ticker, cards, playground, token demo, contact | Studio navigation, documentation cards |
 | Documentation hub | `src/Docs.jsx` | Document collections and outbound cards | App routing, Studio shell |
 | Studio layout | `src/layouts/DashboardLayout.jsx` | Header, sidebar, footer, outlet | Section content |
-| Foundations brief | `src/pages/Foundations.jsx` | Static foundation guidance | Editing, persistence, tokens |
-| Tokens brief | `src/pages/Tokens.jsx` | Static token guidance | Token CRUD, validation, export |
-| Components brief | `src/pages/Components.jsx` | Static component guidance | Component registry, preview runtime |
+| Foundations | `src/pages/Foundations.jsx` | Presets, editor, and local exports | Shared community publication |
+| Tokens | `src/pages/Tokens.jsx` | Token editing, validation, and exports | Shared community publication |
+| Components | `src/pages/Components.jsx` | Component examples and snippets | Hosted component registry |
+| Community | `src/pages/Community.jsx` | Validated, static contribution browser | Account-based submission or synchronization |
 | Styling | `src/index.css` | Entire visual system and responsive rules | Runtime data, routing |
 
 Read [Component architecture](component-architecture.md) for the full tree and coupling notes.
@@ -297,6 +299,7 @@ the root font and DM Mono through `--mono`. Headings use Georgia for italic emph
 | Tokens brief stages | `src/pages/Tokens.jsx` `stages` array | Static guidance |
 | Components brief parts | `src/pages/Components.jsx` `componentParts` array | Static guidance |
 | Studio navigation | `src/layouts/DashboardLayout.jsx` `sections` array | Static routes and icons |
+| Community resources | `community/{palettes,tokens,components}/*.json` | Validated JSON bundled at build time |
 
 ### No persistence
 
@@ -329,7 +332,7 @@ flowchart LR
 - `vercel.json` sets `framework` to `vite`, `buildCommand` to `npm run build`, `outputDirectory` to
   `dist`, and rewrites every path to `/index.html`.
 - `.github/workflows/ci.yml` runs on pushes and pull requests to `main` using Node.js 20, runs
-  `npm install`, optionally `npm run lint --if-present`, and `npm run build`.
+  `npm ci`, community contribution validation, `npm test`, and `npm run build`.
 - CI does not deploy. Deployment is handled through Vercel.
 - The live site responds at `https://atriastudio.vercel.app`, and `/explore` and `/docs` return the
   SPA shell via rewrites.
@@ -386,7 +389,7 @@ Weaknesses:
 - global CSS file grows with every feature;
 - repeated brand/footer markup across landing, docs, and Studio layout;
 - `App.jsx` contains both the landing page and route configuration;
-- no automated tests;
+- no automated accessibility or end-to-end tests;
 - no linter or formatter configuration;
 - no shared data or persistence model for Studio sections.
 
@@ -449,7 +452,8 @@ Each step should have its own ADR and documentation update.
 The architecture described here was verified against:
 
 - `src/main.jsx`, `src/App.jsx`, `src/Docs.jsx`, `src/layouts/DashboardLayout.jsx`;
-- `src/pages/Foundations.jsx`, `src/pages/Tokens.jsx`, `src/pages/Components.jsx`;
+- `src/pages/Foundations.jsx`, `src/pages/Tokens.jsx`, `src/pages/Components.jsx`, `src/pages/Community.jsx`;
+- community JSON files, the contribution validator, and its CLI;
 - `src/index.css`, `index.html`, `vite.config.js`, `vercel.json`;
 - `package.json`, `package-lock.json`, `.github/workflows/ci.yml`;
 - a successful `npm run build`;
