@@ -4,6 +4,7 @@ import {Plus,Copy,Download,Trash,MagnifyingGlass,Check} from '@phosphor-icons/re
 import {useStudioData} from '../data/studioStore.js';
 import {parseTokenImport,rowsToTokens} from '../data/tokenImport.js';
 import {validateName,validateValue,validateToken} from '../data/tokenValidation.js';
+import {BUILT_IN_COLLECTIONS, DEFAULT_COLLECTION, changeCollection, restoreTokenWorkspace, validateCollectionName} from '../data/tokenWorkspace.js';
 import { useThemePreview } from '../context/ThemeContext.jsx';
 
 const errorText={display:'block',marginTop:5,fontSize:10,color:'#b54747',lineHeight:1.4};
@@ -13,26 +14,63 @@ const action={display:'inline-flex',alignItems:'center',gap:6,padding:'8px 10px'
 function CopyValue({value,color}){const [done,setDone]=useState(false);return <button title="Copy" onClick={async()=>{try{await navigator.clipboard.writeText(value);setDone(true);setTimeout(()=>setDone(false),1200)}catch{}}} style={{border:0,background:'transparent',cursor:'pointer',color:color||'inherit'}}>{done?<Check size={14}/>:<Copy size={14}/>}</button>}
 
 export default function Tokens(){
- const [tokens,save,reset]=useStudioData('tokens');const [query,setQuery]=useState('');const [group,setGroup]=useState('All');const [selected,setSelected]=useState([]);const [activeToken,setActiveToken]=useState(null);const [importText,setImportText]=useState('');const [review,setReview]=useState(null);const [draftErrors,setDraftErrors]=useState({});const [edits,setEdits]=useState({});
- const [draft,setDraft]=useState({name:'',value:'',type:'color',description:'',group:'Primitive'});
+ const [{tokens, collections},saveWorkspace,reset]=useStudioData('tokens');
+ const [query,setQuery]=useState('');const [group,setGroup]=useState(null);const [selected,setSelected]=useState([]);const [activeTokenId,setActiveToken]=useState(null);const [importText,setImportText]=useState('');const [review,setReview]=useState(null);const [draftErrors,setDraftErrors]=useState({});const [edits,setEdits]=useState({});
+ const [draft,setDraft]=useState({name:'',value:'',type:'color',description:'',group:DEFAULT_COLLECTION});
+ const [collectionDraft,setCollectionDraft]=useState('');
+ const [editingCollection,setEditingCollection]=useState(null);
+ const [collectionError,setCollectionError]=useState('');
  let outlet=null;try{outlet=useOutletContext()}catch{outlet=null}
  const themeContext=useThemePreview();const previewTheme=outlet?.previewTheme??themeContext?.previewTheme??'light';
  const isDark = previewTheme === 'dark';
+ const selectedCollection=collections.includes(group)?group:null;
+ const canManage=selectedCollection!==null&&!BUILT_IN_COLLECTIONS.includes(selectedCollection);
+ const activeToken=tokens.find(token=>token.id===activeTokenId);
+ const save=updateTokens=>saveWorkspace(current=>({...current,tokens:updateTokens(current.tokens)}));
 
- const visible=useMemo(()=>tokens.filter(t=>(group==='All'||t.group===group)&&[t.name,t.value,t.description].join(' ').toLowerCase().includes(query.toLowerCase())),[tokens,group,query]);
+ const visible=useMemo(()=>tokens.filter(t=>(selectedCollection===null||t.group===selectedCollection)&&[t.name,t.value,t.description].join(' ').toLowerCase().includes(query.toLowerCase())),[tokens,selectedCollection,query]);
  const css=':root {\n'+tokens.map(t=>'  --atria-'+t.name.replaceAll('.','-')+': '+t.value+';').join('\n')+'\n}';
  const json=JSON.stringify(tokens.map(({name,value,type,description,group})=>({name,value,type,description,group})),null,2);
  const download=kind=>{const url=URL.createObjectURL(new Blob([kind==='json'?json:css],{type:kind==='json'?'application/json':'text/css'}));const a=document.createElement('a');a.href=url;a.download='atria-tokens.'+kind;a.click();URL.revokeObjectURL(url)};
- const add=()=>{const errors=validateToken(draft,tokens);setDraftErrors(errors);if(Object.keys(errors).length)return;save(items=>[...items,{...draft,name:draft.name.trim(),value:draft.value.trim(),id:crypto.randomUUID()}]);setDraft({name:'',value:'',type:'color',description:'',group:'Primitive'})};
+ const add=()=>{const errors=validateToken(draft,tokens);setDraftErrors(errors);if(Object.keys(errors).length)return;const token={...draft,group:collections.includes(draft.group)?draft.group:DEFAULT_COLLECTION,name:draft.name.trim(),value:draft.value.trim(),id:crypto.randomUUID()};save(items=>[...items,token]);setDraft({name:'',value:'',type:'color',description:'',group:token.group})};
  const previewImport=()=>setReview(parseTokenImport(importText,tokens));
  const loadImportFile=async e=>{const file=e.target.files?.[0];if(!file)return;try{const text=await file.text();setImportText(text);setReview(parseTokenImport(text,tokens))}catch{setReview({fileError:'Could not read that file.',rows:[]})}e.target.value=''};
- const applyImport=()=>{const fresh=rowsToTokens(review.rows,()=>crypto.randomUUID());if(!fresh.length)return;save(items=>[...items,...fresh]);setReview(null);setImportText('')};
+ const applyImport=()=>{const fresh=rowsToTokens(review.rows,()=>crypto.randomUUID());if(!fresh.length)return;saveWorkspace(current=>restoreTokenWorkspace({...current,tokens:[...current.tokens,...fresh]},[]));setReview(null);setImportText('')};
  const importable=review?review.rows.filter(r=>r.status==='new').length:0;
  const update=(id,field,value)=>save(items=>items.map(t=>t.id===id?{...t,[field]:value}:t));
  const editFor=(t,field)=>edits[t.id]&&field in edits[t.id]?edits[t.id][field]:t[field];
  const errorFor=(t,field)=>{const e=edits[t.id];if(!e||!(field in e))return '';return field==='name'?validateName(e.name,tokens,t.id):validateValue(e.value,t.type)};
  const edit=(t,field,value)=>{const error=field==='name'?validateName(value,tokens,t.id):validateValue(value,t.type);if(error){setEdits(old=>({...old,[t.id]:{...old[t.id],[field]:value}}));return}setEdits(old=>{const {[field]:_,...rest}=old[t.id]||{};const next={...old,[t.id]:rest};if(!Object.keys(rest).length)delete next[t.id];return next});update(t.id,field,value)};
  const revert=(t,field)=>setEdits(old=>{if(!old[t.id])return old;const {[field]:_,...rest}=old[t.id];const next={...old,[t.id]:rest};if(!Object.keys(rest).length)delete next[t.id];return next});
+
+ function clearCollectionEditor() {
+   setEditingCollection(null);
+   setCollectionDraft('');
+   setCollectionError('');
+ }
+
+ function selectCollection(name) {
+   setGroup(name);
+   clearCollectionEditor();
+ }
+
+ function submitCollection(event) {
+   event.preventDefault();
+   const error=validateCollectionName(collectionDraft,collections,editingCollection);
+   setCollectionError(error);
+   if(error)return;
+   const name=collectionDraft.trim();
+   saveWorkspace(current=>changeCollection(current,editingCollection,name));
+   setDraft(current=>current.group===editingCollection?{...current,group:name}:current);
+   selectCollection(name);
+ }
+
+ function deleteCollection() {
+   if(!window.confirm('Delete this collection? Its tokens will move to Primitive.'))return;
+   saveWorkspace(current=>changeCollection(current,selectedCollection,null));
+   setDraft(current=>current.group===selectedCollection?{...current,group:DEFAULT_COLLECTION}:current);
+   selectCollection(DEFAULT_COLLECTION);
+ }
 
  const cardControlStyle = isDark ? {
    ...control,
@@ -55,8 +93,16 @@ export default function Tokens(){
     <MagnifyingGlass size={14} color={isDark?'#a1a1aa':undefined}/>
     <input placeholder="Find a token..." value={query} onChange={e=>setQuery(e.target.value)} style={{...cardControlStyle,borderWidth:0,width:'100%'}}/>
    </div>
-   {['All','Primitive','Semantic'].map(g=><button key={g} onClick={()=>setGroup(g)} style={{...cardControlStyle,background:group===g?(isDark?'#f4f3ef':'#242420'):(isDark?'#27272a':'#fff'),color:group===g?(isDark?'#121214':'#fff'):(isDark?'#f4f3ef':'var(--ink)'),borderColor:isDark?'#38383e':'var(--line)',cursor:'pointer'}}>{g}</button>)}
+   {[null,...collections].map(name=><button key={name===null?'all-tokens':'collection-'+name} type="button" aria-pressed={selectedCollection===name} onClick={()=>selectCollection(name)} style={{...cardControlStyle,background:selectedCollection===name?(isDark?'#f4f3ef':'#242420'):(isDark?'#27272a':'#fff'),color:selectedCollection===name?(isDark?'#121214':'#fff'):(isDark?'#f4f3ef':'var(--ink)'),borderColor:isDark?'#38383e':'var(--line)',cursor:'pointer',maxWidth:'100%',overflowWrap:'anywhere'}}>{name??'All tokens'}</button>)}
   </div>
+  <form aria-label="Token collections" onSubmit={submitCollection} style={{display:'flex',gap:8,flexWrap:'wrap',alignItems:'center',margin:'0 0 14px'}}>
+   <input aria-label={editingCollection?'Rename collection':'New collection name'} placeholder={editingCollection?'Collection name':'New collection name'} aria-invalid={Boolean(collectionError)} aria-describedby={collectionError?'collection-name-error':undefined} maxLength={60} value={collectionDraft} onChange={e=>{setCollectionDraft(e.target.value);setCollectionError('')}} style={{...cardControlStyle,flex:'1 1 180px'}}/>
+   <button type="submit" style={action}>{editingCollection?'Save name':'Create collection'}</button>
+   {editingCollection&&<button type="button" onClick={clearCollectionEditor} style={cardControlStyle}>Cancel</button>}
+   {canManage&&!editingCollection&&<button type="button" onClick={()=>{setEditingCollection(selectedCollection);setCollectionDraft(selectedCollection);setCollectionError('')}} style={cardControlStyle}>Rename collection</button>}
+   {canManage&&!editingCollection&&<button type="button" onClick={deleteCollection} style={cardControlStyle}>Delete collection</button>}
+   {collectionError&&<span id="collection-name-error" role="alert" style={{...errorText,flexBasis:'100%'}}>{collectionError}</span>}
+  </form>
   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:10,flexWrap:'wrap',margin:'12px 0'}}>
    <p style={{fontSize:10,color:'#888',margin:0}}>Select multiple tokens to copy them as CSS variables.</p>
    <button style={{...action,opacity:selected.length?1:.5}} disabled={!selected.length} onClick={()=>navigator.clipboard.writeText(':root {\n'+tokens.filter(t=>selected.includes(t.id)).map(t=>'  --atria-'+t.name.replaceAll('.','-')+': '+t.value+';').join('\n')+'\n}') }><Copy size={13}/> Copy selected CSS ({selected.length})</button>
@@ -71,7 +117,7 @@ export default function Tokens(){
      transition:'background 0.2s ease, border-color 0.2s ease'
    }}>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,marginBottom:12}}>
-     <span style={{fontSize:8,letterSpacing:'.08em',color:isDark?'#a1a1aa':'#999',textTransform:'uppercase'}}>{t.group} / {t.type}</span>
+     <span style={{fontSize:10,fontWeight:600,overflowWrap:'anywhere',color:isDark?'#a1a1aa':'#55534f'}}>{t.group} / {t.type}</span>
      <input type="checkbox" aria-label={'Select '+t.name} checked={selected.includes(t.id)} onChange={e=>setSelected(old=>e.target.checked?[...old,t.id]:old.filter(id=>id!==t.id))} style={{accentColor:isDark?'#f4f3ef':'#242420'}}/>
     </div>
     <input value={editFor(t,'name')} aria-label="Token name" aria-invalid={Boolean(errorFor(t,'name'))} aria-describedby={errorFor(t,'name')?'err-name-'+t.id:undefined} onChange={e=>edit(t,'name',e.target.value)} onBlur={()=>revert(t,'name')} style={{...cardControlStyle,width:'100%',fontWeight:600,borderColor:errorFor(t,'name')?'#b54747':isDark?'#38383e':'var(--line)'}}/>
@@ -84,7 +130,12 @@ export default function Tokens(){
     </div>
     {errorFor(t,'value')&&<small id={'err-value-'+t.id} role="alert" style={{...errorText,color:isDark?'#f87171':'#b54747'}}>{errorFor(t,'value')}</small>}
     <p style={{fontSize:10,color:isDark?'#a1a1aa':'#888',lineHeight:1.5,minHeight:28,margin:'9px 0 0'}}>{t.description||'No description added.'}</p>
-    <button onClick={()=>setActiveToken(t)} style={{...cardControlStyle,width:'100%',marginTop:10,cursor:'pointer'}}>Open token <span style={{float:'right'}}>↗</span></button>
+    <label style={{display:'grid',gap:4,fontSize:10}}>Collection
+     <select aria-label={'Move '+t.name+' to collection'} value={t.group} onChange={e=>update(t.id,'group',e.target.value)} style={{...cardControlStyle,width:'100%'}}>
+      {collections.map(name=><option key={name}>{name}</option>)}
+     </select>
+    </label>
+    <button onClick={()=>setActiveToken(t.id)} style={{...cardControlStyle,width:'100%',marginTop:10,cursor:'pointer'}}>Open token <span style={{float:'right'}}>↗</span></button>
    </article>)}
    {!visible.length&&<p style={{padding:16,color:'#888',fontSize:11}}>No matching tokens.</p>}
   </div>
@@ -109,7 +160,7 @@ export default function Tokens(){
      {draftErrors.value&&<small id="draft-value-error" role="alert" style={{...errorText,color:isDark?'#f87171':'#b54747'}}>{draftErrors.value}</small>}
     </div>
     <select aria-label="Token type" value={draft.type} onChange={e=>setDraft({...draft,type:e.target.value})} style={cardControlStyle}><option value="color">Colour</option><option value="dimension">Dimension</option><option value="font">Font</option><option value="number">Number</option><option value="string">String</option></select>
-    <select aria-label="Token group" value={draft.group} onChange={e=>setDraft({...draft,group:e.target.value})} style={cardControlStyle}><option>Primitive</option><option>Semantic</option></select>
+    <select aria-label="Token group" value={collections.includes(draft.group)?draft.group:DEFAULT_COLLECTION} onChange={e=>setDraft({...draft,group:e.target.value})} style={cardControlStyle}>{collections.map(name=><option key={name}>{name}</option>)}</select>
    </div>
    <div style={{display:'flex',gap:8,marginTop:8}}>
     <input aria-label="Description" placeholder="Short usage note (optional)" value={draft.description} onChange={e=>setDraft({...draft,description:e.target.value})} style={{...cardControlStyle,flex:1}}/>
@@ -133,6 +184,6 @@ export default function Tokens(){
    </div>}
   </section>
   <section style={{marginTop:22}}><div className="placeholder-panel-heading"><div><span className="studio-kicker" style={{color:isDark?'#71717a':'#999'}}>LIVE EXPORT PREVIEW</span><h3 style={{color:isDark?'#f4f3ef':'inherit'}}>CSS custom properties</h3></div><CopyValue value={css} color={isDark?'#f4f3ef':undefined}/></div><pre style={{whiteSpace:'pre',overflowX:'auto',padding:15,background:isDark?'#141416':'#242420',color:'#e9e7e1',border:'1px solid '+(isDark?'#27272a':'#333'),fontSize:10,lineHeight:1.8}}>{css}</pre></section>
-  <div style={{display:'flex',justifyContent:'flex-end',marginTop:14}}><button style={{...cardControlStyle,cursor:'pointer'}} onClick={()=>{if(window.confirm('Restore the starter token collection?'))reset()}}>Reset starter tokens</button></div>
+  <div style={{display:'flex',justifyContent:'flex-end',marginTop:14}}><button style={{...cardControlStyle,cursor:'pointer'}} onClick={()=>{if(window.confirm('Restore starter tokens and collections?')){reset();selectCollection(null)}}}>Reset starter tokens</button></div>
  </div>;
 }

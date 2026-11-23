@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { restoreTokenWorkspace } from './tokenWorkspace.js';
 
 const defaults = {
   foundations: {
@@ -49,15 +50,17 @@ const defaults = {
   ],
 };
 
+function restoreCollection(collection, saved) {
+  if (collection === 'tokens') return restoreTokenWorkspace(saved, defaults.tokens);
+  return saved ?? defaults[collection];
+}
+
 export function useStudioData(collection) {
   const [data, setData] = useState(() => {
     try {
       const saved = localStorage.getItem('atria:' + collection);
-      if (!saved) return defaults[collection];
+      if (!saved) return restoreCollection(collection, null);
       const parsed = JSON.parse(saved);
-      if (collection === 'tokens' && Array.isArray(parsed)) {
-        return [...defaults.tokens.filter((item) => !parsed.some((savedItem) => savedItem.id === item.id || savedItem.name === item.name)), ...parsed];
-      }
       if (collection === 'foundations' && parsed && typeof parsed === 'object') {
         const savedColours = Array.isArray(parsed.colours) ? parsed.colours : [];
         return {
@@ -69,16 +72,16 @@ export function useStudioData(collection) {
           ],
         };
       }
-      return parsed;
+      return restoreCollection(collection, parsed);
     } catch {
-      return defaults[collection];
+      return restoreCollection(collection, null);
     }
   });
 
   useEffect(() => {
     const onStorage = (event) => {
-      if (event.key === 'atria:' + collection && event.newValue) {
-        try { setData(JSON.parse(event.newValue)); } catch { /* ignore invalid storage */ }
+      if (event.key === 'atria:' + collection && (event.newValue || collection === 'tokens')) {
+        try { setData(restoreCollection(collection, JSON.parse(event.newValue))); } catch { /* ignore invalid storage */ }
       }
     };
     window.addEventListener('storage', onStorage);
@@ -95,7 +98,7 @@ export function useStudioData(collection) {
 
   const reset = useCallback(() => {
     try { localStorage.removeItem('atria:' + collection); } catch { /* ignore */ }
-    setData(defaults[collection]);
+    setData(restoreCollection(collection, null));
   }, [collection]);
 
   return [data, save, reset];
