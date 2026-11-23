@@ -16,6 +16,7 @@ The Tokens workspace is a small editable collection for reusable design values. 
 - Delete tokens.
 - Copy an individual token value.
 - Export the current collection as CSS custom properties or JSON.
+- Preview tokens across light and dark modes with distinguishable contrast rims for both light and dark swatches (without altering saved token values).
 - Import tokens from JSON with a review step (see [Importing tokens](#importing-tokens)).
 - Reset the collection to its starter values.
 

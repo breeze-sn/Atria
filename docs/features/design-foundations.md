@@ -22,6 +22,8 @@ The catalogue contains 16 starter resources. Presets are defined in the page's l
 Selecting a resource opens a dedicated route. The detail view provides:
 
 - editable values and live visual previews;
+- light and dark mode preview switcher for testing contrast without mutating custom values;
+- distinguishable swatch borders and contrast rims in both light and dark themes;
 - colour pickers and editable colour names for palettes;
 - editable type sizes and weights for typography;
 - editable numeric spacing and radius values;

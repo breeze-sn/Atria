@@ -5,8 +5,8 @@
 Install:
 
 - **Git** — https://git-scm.com/
-- **Node.js 20 or newer** — https://nodejs.org/
-- **npm** — included with Node.js
+- **Node.js 20 or newer** — https://nodejs.org/ (Node 20 LTS, 22, and 24 are verified)
+- **npm** — included with Node.js (v10 or newer)
 
 Verify your tools:
 
@@ -17,7 +17,7 @@ git --version
 ```
 
 Expected: Node.js `v20.x` or newer. The CI workflow uses Node.js 20. Local verification has also been
-performed with Node.js 24.
+performed with Node.js 22 and 24.
 
 ---
 
@@ -50,29 +50,51 @@ npm install
 This reads `package.json` and `package-lock.json` and installs the exact dependency graph into
 `node_modules/`.
 
+The repository includes an `.npmrc` file configuring `legacy-peer-deps=true` to ensure clean resolution
+across dependencies.
+
 ### Reproducible install
 
-For a clean, lockfile-exact install:
+For a clean, lockfile-exact install (matching CI):
 
 ```bash
 npm ci
 ```
 
-`npm ci` removes `node_modules/` and installs strictly from the lockfile. It is useful when
-reproducing CI behaviour.
+`npm ci` removes `node_modules/` and installs strictly from the lockfile.
 
 ---
 
-## 4. Start the development server
+## 4. Configure environment (Optional)
+
+The frontend client runs without any environment variables. However, if running the Express backend
+server or configuring database options, copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Default variables in `.env.example`:
+
+| Variable | Default / Purpose |
+|---|---|
+| `PORT` | `3000` — Port for Express server |
+| `DATABASE_URL` | PostgreSQL connection string declared for Prisma schema |
+
+---
+
+## 5. Start the development server
+
+### Start frontend client
 
 ```bash
 npm run dev
 ```
 
-Vite prints a local URL:
+(Or `npm run dev:client`). Vite prints a local URL:
 
 ```text
-VITE v6.x  ready in ... ms
+VITE v8.x  ready in ... ms
 ➜  Local:   http://localhost:5173/
 ```
 
@@ -85,22 +107,52 @@ specific port:
 npm run dev -- --port 3000
 ```
 
+### Start backend API (Optional)
+
+To start the Express server with live reload:
+
+```bash
+npm run dev:server
+```
+
+Server runs on `http://localhost:3000`. You can verify health via:
+
+```bash
+curl http://localhost:3000/api/health
+```
+
 ---
 
-## 5. Verify the routes
+## 6. Verify the routes
 
 | URL | Expected result |
 |---|---|
-| `http://localhost:5173/` | Landing page |
+| `http://localhost:5173/` | Landing page with interactive playground and foundations |
 | `http://localhost:5173/docs` | Documentation hub |
-| `http://localhost:5173/explore` | Redirect to `/explore/foundations` |
-| `http://localhost:5173/explore/foundations` | Foundations brief |
-| `http://localhost:5173/explore/tokens` | Tokens brief |
-| `http://localhost:5173/explore/components` | Components brief |
+| `http://localhost:5173/explore` | Explore Studio overview dashboard with navigation cards |
+| `http://localhost:5173/explore/foundations` | Foundations catalogue |
+| `http://localhost:5173/explore/foundations/:categoryId/:resourceId` | Resource detail editor (e.g. `/explore/foundations/colour/warm-earth`) |
+| `http://localhost:5173/explore/tokens` | Design tokens editor with import and export |
+| `http://localhost:5173/explore/components` | Component library catalogue and preview snippets |
+| `http://localhost:5173/studio` | Interactive Studio visual builder workspace |
+| `http://localhost:3000/api/health` | JSON response: `{"status":"ok",...}` |
 
 ---
 
-## 6. Verify the production build
+## 7. Run automated tests
+
+Atria uses Vitest with React Testing Library.
+
+```bash
+npm test
+```
+
+Runs all test suites (including navigation journeys, token import workflows, and keyboard accessibility
+specifications).
+
+---
+
+## 8. Verify the production build
 
 ```bash
 npm run build
@@ -114,65 +166,58 @@ dist/assets/index-*.css
 dist/assets/index-*.js
 ```
 
-Then preview the production build:
+Then preview the production build locally:
 
 ```bash
 npm run preview
 ```
 
-Open the printed URL (typically `http://localhost:4173/`). Direct navigation to `/docs` and
-`/explore/tokens` should work because Vite preview provides SPA fallback. In production, Vercel
-provides the equivalent fallback through `vercel.json` rewrites.
+Open the printed URL (typically `http://localhost:4173/`). Direct navigation to client routes works
+because Vite preview provides SPA fallback. In production, Vercel provides equivalent fallback through
+`vercel.json` rewrites.
 
 ---
 
-## 7. Optional: reproduce CI locally
+## 9. Reproduce CI locally
 
 CI performs:
 
 ```bash
-npm install
-npm run lint --if-present
+npm ci
 npm run build
 ```
 
-Because there is no `lint` script, the lint step is a no-op. The meaningful local check is:
+Local verification before pushing should also include tests:
 
 ```bash
-npm install
+npm test
 npm run build
 ```
 
 ---
 
-## 8. Environment variables
-
-**None are required.** Atria reads no environment variables and has no `.env` file. Do not create one
-for the current feature set.
-
-If configuration becomes necessary, follow
-[Environment configuration](environment-configuration.md).
-
----
-
-## 9. Troubleshooting installation
+## 10. Troubleshooting installation
 
 | Problem | Likely cause | Fix |
 |---|---|---|
 | `node: command not found` | Node.js not installed or not on PATH | Install Node.js 20+ and reopen the terminal |
 | Unsupported engine or Vite error | Node.js too old | Upgrade to Node.js 20+ |
-| `npm install` fails behind a proxy | Registry access blocked | Configure npm proxy or use a permitted network |
-| Port already in use | Another dev server is running | Stop it or use `--port` |
-| Blank page at `/docs` | Trailing slash or path mismatch | Use exactly `/docs` |
+| `npm install` peer dependency conflict | npm resolving strict peer trees | Ensure `.npmrc` has `legacy-peer-deps=true` or pass `--legacy-peer-deps` |
+| Port `5173` already in use | Another Vite dev server running | Vite will pick next port, or specify `--port 3001` |
+| Port `3000` already in use | Express server collision | Change `PORT` in `.env` or stop the conflicting process |
+| `vitest: command not found` | Dependencies not installed | Run `npm install` first |
+| Vitest out of memory on Windows (`Zone Allocation failed`) | JSDOM concurrency memory overhead | Run with `npx vitest run --poolOptions.threads.singleThread` |
+| Blank page at `/docs` | Trailing slash or path mismatch | Navigate directly to `/docs` |
 | Fonts look different offline | Google Fonts unavailable | Browser fallback fonts are used |
-| Clipboard copy does nothing | Browser permission or insecure context | Use `localhost`/HTTPS and allow clipboard access |
+| Clipboard copy does nothing | Browser permission or insecure context | Use `localhost` / HTTPS and allow clipboard access |
 
 For more, see [Debugging](../contributing/debugging.md).
 
 ---
 
-## 10. Next steps
+## 11. Next steps
 
 - [Local development](local-development.md)
+- [Environment configuration](environment-configuration.md)
 - [Contribution workflow](../contributing/contribution-workflow.md)
 - [Testing strategy](../quality/testing-strategy.md)

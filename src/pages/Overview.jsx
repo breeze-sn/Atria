@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -8,6 +8,7 @@ import {
   PuzzlePiece,
   Sparkle,
 } from '@phosphor-icons/react';
+import { useThemePreview } from '../context/ThemeContext.jsx';
 
 const palette = [
   { name: 'INK', value: '#171717' },
@@ -45,8 +46,14 @@ const modules = [
 ];
 
 export default function Overview() {
+  const globalTheme = useThemePreview();
+  const outlet = useOutletContext();
+  const previewTheme = outlet?.previewTheme || globalTheme?.previewTheme || 'light';
+  const setPreviewTheme = outlet?.setPreviewTheme || globalTheme?.setPreviewTheme || (() => {});
+  const isDark = previewTheme === 'dark';
+
   return (
-    <div className="workspace-overview">
+    <div className="workspace-overview" data-theme={previewTheme}>
       <div className="workspace-overview-topline">
         <span className="section-index">[ YOUR WORKSPACE ]</span>
         <span className="workspace-live"><span className="live-dot" /> WORKSPACE OVERVIEW</span>
@@ -96,7 +103,15 @@ export default function Overview() {
         <div className="workspace-swatches">
           {palette.map((item) => (
             <div className="workspace-swatch" key={item.name}>
-              <span className="workspace-swatch-colour" style={{ background: item.value }} />
+              <span
+                className="workspace-swatch-colour"
+                style={{
+                  background: item.value,
+                  boxShadow: isDark
+                    ? '0 0 0 1px rgba(255, 255, 255, 0.25) inset, 0 0 0 1px rgba(0, 0, 0, 0.45)'
+                    : '0 0 0 1px rgba(0, 0, 0, 0.1) inset'
+                }}
+              />
               <span>{item.name}</span>
               <code>{item.value}</code>
             </div>
