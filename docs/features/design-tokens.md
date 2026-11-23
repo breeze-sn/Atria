@@ -4,13 +4,15 @@
 **Route:** `/explore/tokens`
 **Source:** `src/pages/Tokens.jsx`, `src/data/studioStore.js`
 
-The Tokens workspace is a small editable collection for reusable design values. It supports primitive and semantic groups, search, inline editing, and client-side exports.
+The Tokens workspace organizes reusable design values into built-in and named collections. It supports search, inline editing, and client-side exports.
 
 ## 1. Current capabilities
 
 - Starter tokens for colour, spacing, radius, and typography-related values.
 - Search across token name, value, and description.
-- Filter by All, Primitive, or Semantic.
+- Filter by All tokens, a built-in collection, or a named collection.
+- Create, rename, and delete named collections. Deleting a collection moves its tokens to Primitive.
+- Move a token between collections from its card.
 - Add a token with a name, value, type, group, and optional description.
 - Edit token names and values inline.
 - Delete tokens.
@@ -30,7 +32,7 @@ A token currently contains:
 | `name` | Dot-separated token name |
 | `value` | Raw string value |
 | `type` | Colour, dimension, font, number, or string |
-| `group` | Primitive or Semantic |
+| `group` | Built-in or custom collection name |
 | `description` | Optional usage note |
 
 Example:
@@ -52,7 +54,7 @@ CSS exports transform dots in token names into hyphens and prefix each custom pr
 
 ## 4. Persistence and boundaries
 
-The collection is saved in browser local storage through `useStudioData('tokens')`. It persists in the same browser but is not shared between users or devices. There is no server-side validation, reference resolution, cloud sync, or version history.
+Tokens and collection names are saved together in browser local storage through `useStudioData('tokens')`. Existing saved token arrays are read into the new format, keeping each token's ID, value, description, and named group. Tokens without a group are placed in Primitive. The first edit stores the new format and keeps empty named collections across reloads. The workspace persists in the same browser.
 
 ## 5. Current limitations
 
@@ -67,7 +69,7 @@ The collection is saved in browser local storage through `useStudioData('tokens'
 - Add schema validation for names, types, and values.
 - Introduce explicit token references with missing-reference and cycle detection.
 - Add import and round-trip export tests.
-- Support themes and token collections.
+- Support token themes.
 - Provide clear empty, invalid, and export-error states.
 - Add accessibility and keyboard interaction tests.
 

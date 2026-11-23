@@ -1,6 +1,7 @@
+import { DEFAULT_COLLECTION } from './tokenWorkspace.js';
+
 const NAME_PATTERN = /^[a-z0-9][a-z0-9._-]*$/i;
 export const TOKEN_TYPES = ['color', 'dimension', 'font', 'number', 'string'];
-const GROUPS = ['Primitive', 'Semantic'];
 
 function toEntries(data) {
   if (Array.isArray(data)) return data;
@@ -39,7 +40,7 @@ export function parseTokenImport(text, existingTokens = []) {
       value,
       type,
       description: typeof item.description === 'string' ? item.description : '',
-      group: GROUPS.includes(item.group) ? item.group : 'Primitive',
+      group: typeof item.group === 'string' && item.group.trim() ? item.group.trim() : DEFAULT_COLLECTION,
       status: 'new',
       error: '',
       index,
