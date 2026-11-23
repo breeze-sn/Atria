@@ -1,8 +1,21 @@
 import React, { useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, Check, Copy, Download, Plus, ArrowCounterClockwise as RotateCounterClockwise } from '@phosphor-icons/react';
+import { useThemePreview } from '../context/ThemeContext.jsx';
 
-const buttonStyle = { display:'inline-flex', alignItems:'center', justifyContent:'center', gap:7, padding:'9px 12px', border:'1px solid var(--line)', background:'#fff', color:'var(--ink)', fontSize:11, cursor:'pointer' };
+const getButtonStyle = (dark) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 7,
+  padding: '9px 12px',
+  border: '1px solid ' + (dark ? '#38383e' : 'var(--line)'),
+  background: dark ? '#27272a' : '#fff',
+  color: dark ? '#f4f3ef' : 'var(--ink)',
+  fontSize: 11,
+  cursor: 'pointer',
+});
+const buttonStyle = getButtonStyle(false);
 const palettes = [
   {id:'neutral',name:'Neutral & Minimal',description:'A quiet, versatile foundation for product interfaces.',tags:['Neutral','Versatile'],colors:[['Ink','#171717'],['Graphite','#454545'],['Stone','#85827B'],['Mist','#D5D1C8'],['Paper','#EEECE7']]},
   {id:'warm-earth',name:'Warm Earth',description:'Grounded clay, sand and natural tones.',tags:['Warm','Organic'],colors:[['Cocoa','#49352D'],['Terracotta','#A85D43'],['Clay','#C98768'],['Sand','#E6CDB2'],['Linen','#F5EBDD']]},
@@ -40,18 +53,66 @@ const categories = [
  {id:'spacing',label:'Spacing',description:'Layout rhythm and spacing scales',resources:spaceSets},
  {id:'radius',label:'Radius & shadows',description:'Surface shape and elevation',resources:radiusSets}
 ];
-function CopyButton({value,label='Copy'}) { const [copied,setCopied]=useState(false); return <button style={buttonStyle} onClick={async()=>{try{await navigator.clipboard.writeText(value);setCopied(true);window.setTimeout(()=>setCopied(false),1200)}catch{}}}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?'Copied':label}</button>; }
+function CopyButton({value,label='Copy',isDark}) { const [copied,setCopied]=useState(false); return <button style={getButtonStyle(isDark)} onClick={async()=>{try{await navigator.clipboard.writeText(value);setCopied(true);window.setTimeout(()=>setCopied(false),1200)}catch{}}}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?'Copied':label}</button>; }
 function downloadFile(name,content,type='text/css'){const url=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);}
-function ResourceCard({resource,category,onClick,selected,onSelect}) {
- return <article style={{textAlign:'left',border:'1px solid '+(selected?'#242420':'var(--line)'),background:'#fff',padding:14,minWidth:0}}>
-  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}><span className="studio-kicker">{category.label.toUpperCase()}</span><label style={{display:'flex',alignItems:'center',gap:5,fontSize:9,color:'#777'}}><input type="checkbox" checked={selected} onChange={onSelect} aria-label={'Select '+resource.name} style={{accentColor:'#242420'}}/> Select</label></div>
-  {category.id==='colour' ? <div style={{display:'flex',gap:5,marginBottom:14}}>{resource.colors.map(([n,c])=><span key={n} title={n} style={{height:56,flex:1,minWidth:0,borderRadius:30,background:c,border:'1px solid rgba(0,0,0,.06)'}}/>)}</div> :
-   category.id==='typography' ? <div style={{height:56,display:'flex',flexDirection:'column',justifyContent:'center',gap:3,marginBottom:14}}><strong style={{fontSize:24,lineHeight:1}}>Aa</strong><span style={{fontSize:10,color:'#888'}}>Aa Bb Cc 123</span></div> :
-   category.id==='spacing' ? <div style={{height:56,display:'flex',alignItems:'end',gap:5,marginBottom:14}}>{resource.items.slice(0,6).map((v,i)=><span key={i} style={{width:18,height:Math.max(8,v),maxHeight:52,background:'#55534F'}}/>)}</div> :
-   <div style={{height:56,display:'flex',alignItems:'center',gap:10,marginBottom:14}}>{resource.items.slice(1,4).map((v,i)=><span key={i} style={{width:38,height:38,background:'#eeede9',border:'1px solid #d8d6cf',borderRadius:v}}/>)}</div>}
-  <strong style={{display:'block',fontSize:13,marginBottom:5}}>{resource.name}</strong><span style={{display:'block',fontSize:11,lineHeight:1.5,color:'#777',minHeight:34}}>{resource.description}</span>
-  <div style={{display:'flex',gap:5,flexWrap:'wrap',marginTop:12}}>{resource.tags.map(tag=><span key={tag} style={{fontSize:9,padding:'4px 6px',background:'#f3f2ef',color:'#666'}}>{tag}</span>)}</div>
-  <button onClick={onClick} style={{...buttonStyle,width:'100%',justifyContent:'center',marginTop:13}}>Open foundation <ArrowUpRight size={13}/></button>
+function ResourceCard({resource,category,onClick,selected,onSelect,isDark}) {
+ return <article style={{
+   textAlign:'left',
+   border:'1px solid '+(selected?(isDark?'#f4f3ef':'#242420'):(isDark?'#2e2e34':'var(--line)')),
+   background:isDark?'#1c1c1f':'#fff',
+   color:isDark?'#f4f3ef':'inherit',
+   padding:14,
+   minWidth:0,
+   transition:'background 0.2s ease, border-color 0.2s ease'
+ }}>
+  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
+   <span className="studio-kicker" style={{color:isDark?'#a1a1aa':'#999'}}>{category.label.toUpperCase()}</span>
+   <label style={{display:'flex',alignItems:'center',gap:5,fontSize:9,color:isDark?'#a1a1aa':'#777'}}>
+    <input type="checkbox" checked={selected} onChange={onSelect} aria-label={'Select '+resource.name} style={{accentColor:isDark?'#f4f3ef':'#242420'}}/> Select
+   </label>
+  </div>
+  {category.id==='colour' ? (
+    <div style={{display:'flex',gap:5,marginBottom:14}}>
+      {resource.colors.map(([n,c])=>(
+        <span key={n} title={n} style={{
+          height:56,
+          flex:1,
+          minWidth:0,
+          borderRadius:30,
+          background:c,
+          border:'1px solid '+(isDark?'rgba(255,255,255,0.18)':'rgba(0,0,0,0.08)'),
+          boxShadow:isDark?'0 0 0 1px rgba(255,255,255,0.1)':'none'
+        }}/>
+      ))}
+    </div>
+  ) : category.id==='typography' ? (
+    <div style={{height:56,display:'flex',flexDirection:'column',justifyContent:'center',gap:3,marginBottom:14}}>
+      <strong style={{fontSize:24,lineHeight:1}}>Aa</strong>
+      <span style={{fontSize:10,color:isDark?'#a1a1aa':'#888'}}>Aa Bb Cc 123</span>
+    </div>
+  ) : category.id==='spacing' ? (
+    <div style={{height:56,display:'flex',alignItems:'end',gap:5,marginBottom:14}}>
+      {resource.items.slice(0,6).map((v,i)=><span key={i} style={{width:18,height:Math.max(8,v),maxHeight:52,background:isDark?'#a1a1aa':'#55534F'}}/>)}
+    </div>
+  ) : (
+    <div style={{height:56,display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
+      {resource.items.slice(1,4).map((v,i)=><span key={i} style={{width:38,height:38,background:isDark?'#27272a':'#eeede9',border:'1px solid '+(isDark?'#3f3f46':'#d8d6cf'),borderRadius:v}}/>)}
+    </div>
+  )}
+  <strong style={{display:'block',fontSize:13,marginBottom:5}}>{resource.name}</strong>
+  <span style={{display:'block',fontSize:11,lineHeight:1.5,color:isDark?'#a1a1aa':'#777',minHeight:34}}>{resource.description}</span>
+  <div style={{display:'flex',gap:5,flexWrap:'wrap',marginTop:12}}>
+    {resource.tags.map(tag=><span key={tag} style={{fontSize:9,padding:'4px 6px',background:isDark?'#27272a':'#f3f2ef',color:isDark?'#d4d4d8':'#666',borderRadius:2}}>{tag}</span>)}
+  </div>
+  <button onClick={onClick} style={{
+    ...buttonStyle,
+    width:'100%',
+    justifyContent:'center',
+    marginTop:13,
+    background:isDark?'#27272a':'#fff',
+    color:isDark?'#f4f3ef':'var(--ink)',
+    border:'1px solid '+(isDark?'#38383e':'var(--line)')
+  }}>Open foundation <ArrowUpRight size={13}/></button>
  </article>;
 }
 function foundationResourceCss(category,resource){
@@ -61,37 +122,186 @@ function foundationResourceCss(category,resource){
 }
 function FoundationsLibrary(){
  const navigate=useNavigate();const [selected,setSelected]=useState({});
+ const outlet=useOutletContext();const themeContext=useThemePreview();
+ const previewTheme=outlet?.previewTheme??themeContext.previewTheme;
+ const setPreviewTheme=outlet?.setPreviewTheme??themeContext.setPreviewTheme;
+ const isDark=previewTheme==='dark';
+
  return <div className="studio-page">
   <div className="section-index">[ STUDIO / FOUNDATIONS ]</div>
-  <div className="studio-page-heading"><div><span className="studio-status">DESIGN RESOURCE LIBRARY</span><h2>Foundations</h2></div></div>
-  <p style={{fontSize:13,color:'#777',lineHeight:1.7,maxWidth:600,margin:'8px 0 28px'}}>Explore ready-to-use foundations for your next product. Open any resource to customise its values, copy them or export them for your project.</p>
+  <div className="studio-page-heading">
+   <div><span className="studio-status">DESIGN RESOURCE LIBRARY</span><h2>Foundations</h2></div>
+  </div>
+  <p style={{fontSize:13,color:isDark?'#a1a1aa':'#777',lineHeight:1.7,maxWidth:600,margin:'8px 0 28px'}}>Explore ready-to-use foundations for your next product. Open any resource to customise its values, copy them or export them for your project.</p>
   {categories.map(category=><section key={category.id} style={{marginBottom:30}}>
-   <div style={{display:'flex',justifyContent:'space-between',alignItems:'end',gap:12,marginBottom:12}}><div><span className="studio-kicker">{category.resources.length} RESOURCES</span><h3 style={{fontSize:18,margin:'5px 0'}}>{category.label}</h3><p style={{fontSize:11,color:'#888',margin:0}}>{category.description}</p></div></div>
-   <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(190px,1fr))',gap:10}}>{category.resources.map(resource=><ResourceCard key={resource.id} resource={resource} category={category} selected={(selected[category.id]||[]).includes(resource.id)} onSelect={()=>setSelected(old=>({...old,[category.id]:(old[category.id]||[]).includes(resource.id)?old[category.id].filter(id=>id!==resource.id):[...(old[category.id]||[]),resource.id]}))} onClick={()=>navigate('/explore/foundations/'+category.id+'/'+resource.id)}/>)}</div><div style={{display:'flex',justifyContent:'flex-end',marginTop:10}}><button style={buttonStyle} disabled={!(selected[category.id]||[]).length} onClick={()=>navigator.clipboard.writeText(category.resources.filter(r=>(selected[category.id]||[]).includes(r.id)).map(r=>'/* '+r.name+' */\n'+foundationResourceCss(category,r)).join('\n\n'))}><Copy size={13}/> Copy selected CSS ({(selected[category.id]||[]).length})</button></div>
+   <div style={{display:'flex',justifyContent:'space-between',alignItems:'end',gap:12,marginBottom:12}}><div><span className="studio-kicker">{category.resources.length} RESOURCES</span><h3 style={{fontSize:18,margin:'5px 0',color:isDark?'#f4f3ef':'inherit'}}>{category.label}</h3><p style={{fontSize:11,color:isDark?'#a1a1aa':'#888',margin:0}}>{category.description}</p></div></div>
+   <div data-theme={previewTheme} style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(190px,1fr))',gap:10}}>
+     {category.resources.map(resource=><ResourceCard key={resource.id} resource={resource} category={category} selected={(selected[category.id]||[]).includes(resource.id)} onSelect={()=>setSelected(old=>({...old,[category.id]:(old[category.id]||[]).includes(resource.id)?old[category.id].filter(id=>id!==resource.id):[...(old[category.id]||[]),resource.id]}))} onClick={()=>navigate('/explore/foundations/'+category.id+'/'+resource.id)} isDark={isDark}/>)}
+   </div>
+   <div style={{display:'flex',justifyContent:'flex-end',marginTop:10}}>
+     <button style={getButtonStyle(isDark)} disabled={!(selected[category.id]||[]).length} onClick={()=>navigator.clipboard.writeText(category.resources.filter(r=>(selected[category.id]||[]).includes(r.id)).map(r=>'/* '+r.name+' */\n'+foundationResourceCss(category,r)).join('\n\n'))}><Copy size={13}/> Copy selected CSS ({(selected[category.id]||[]).length})</button>
+   </div>
   </section>)}
  </div>;
 }
 function ResourceDetail({category,resource}){
  const navigate=useNavigate();
  const storageKey='atria:foundation-resource:'+category.id+':'+resource.id;
+ const outlet=useOutletContext();const themeContext=useThemePreview();
+ const previewTheme=outlet?.previewTheme??themeContext.previewTheme;
+ const setPreviewTheme=outlet?.setPreviewTheme??themeContext.setPreviewTheme;
+ const isDark=previewTheme==='dark';
+
  const [values,setValues]=useState(()=>{try{const saved=localStorage.getItem(storageKey);return saved?JSON.parse(saved):category.id==='colour'?resource.colors.map(([name,value])=>({name,value})):category.id==='typography'?resource.items.map(([name,size,weight,lineHeight])=>({name,size,weight,lineHeight})):resource.items.map((value,i)=>({name:category.id==='spacing'?'Space '+(i+1):['None','Small','Medium','Large','Pill'][i],value}));}catch{return [];}});
- const [newName,setNewName]=useState('');
  const save=next=>{setValues(next);try{localStorage.setItem(storageKey,JSON.stringify(next));}catch{}};
- const css=useMemo(()=>{if(category.id==='colour')return ':root {\n'+values.map(v=>'  --color-'+v.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')+': '+v.value+';').join('\n')+'\n}';if(category.id==='typography')return ':root {\n'+values.map(v=>'  --font-'+v.name.toLowerCase()+': '+v.size+'px;').join('\n')+'\n}';return ':root {\n'+values.map((v,i)=>'  --'+(category.id==='spacing'?'space-'+(i+1):'radius-'+v.name.toLowerCase())+': '+v.value+'px;').join('\n')+'\n}';},[values,category]);
+ const css=useMemo(()=>{if(category.id==='colour')return ':root {\n'+values.map(v=>'  --color-'+v.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')+': '+v.value+';').join('\n')+'\n}';if(category.id==='typography')return ':root {\n'+values.map(v=>'  --font-'+v.name.toLowerCase()+': '+v.size+'px;\n  --font-weight-'+v.name.toLowerCase()+': '+v.weight+';\n  --line-height-'+v.name.toLowerCase()+': '+v.lineHeight+';').join('\n')+'\n}';return ':root {\n'+values.map((v,i)=>'  --'+(category.id==='spacing'?'space-'+(i+1):'radius-'+v.name.toLowerCase())+': '+v.value+'px;').join('\n')+'\n}';},[values,category]);
  const json=JSON.stringify(values,null,2);
  const update=(index,field,value)=>save(values.map((v,i)=>i===index?{...v,[field]:value}:v));
  const reset=()=>{const initial=category.id==='colour'?resource.colors.map(([name,value])=>({name,value})):category.id==='typography'?resource.items.map(([name,size,weight,lineHeight])=>({name,size,weight,lineHeight})):resource.items.map((value,i)=>({name:category.id==='spacing'?'Space '+(i+1):['None','Small','Medium','Large','Pill'][i],value}));save(initial);};
+
+ const detailControlStyle = isDark ? {
+   ...buttonStyle,
+   background: '#161618',
+   color: '#f4f3ef',
+   border: '1px solid #38383e',
+ } : buttonStyle;
+
  return <div className="studio-page">
-  <button onClick={()=>navigate('/explore/foundations')} style={{...buttonStyle,marginBottom:22}}><ArrowLeft size={14}/> All foundations</button>
+  <button onClick={()=>navigate('/explore/foundations')} style={{...getButtonStyle(isDark),marginBottom:22}}><ArrowLeft size={14}/> All foundations</button>
   <div className="section-index">[ FOUNDATIONS / {category.label.toUpperCase()} ]</div>
-  <div className="studio-page-heading"><div><span className="studio-status">CUSTOMISABLE RESOURCE</span><h2>{resource.name}</h2></div><div style={{display:'flex',gap:7,flexWrap:'wrap'}}><CopyButton value={css} label="Copy CSS"/><button style={buttonStyle} onClick={()=>downloadFile(resource.id+'.css',css)}><Download size={14}/> Export CSS</button></div></div>
-  <p style={{fontSize:12,color:'#777',lineHeight:1.6,margin:'8px 0 22px'}}>{resource.description} Changes are saved in this browser and won't alter the original library preset.</p>
-  {category.id==='colour'&&<section><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(145px,1fr))',gap:10}}>{values.map((v,i)=><article key={i} style={{border:'1px solid var(--line)',background:'#fff',padding:12}}><input type="color" aria-label={v.name+' colour'} value={v.value} onChange={e=>update(i,'value',e.target.value)} style={{display:'block',width:82,height:82,aspectRatio:'1',borderRadius:'50%',overflow:'hidden',border:'1px solid var(--line)',padding:0,margin:'4px auto 12px',cursor:'pointer'}}/><input value={v.name} onChange={e=>update(i,'name',e.target.value)} aria-label="Colour name" style={{width:'100%',border:0,borderBottom:'1px solid var(--line)',padding:'7px 2px',fontSize:12}}/><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:8}}><code style={{fontSize:11}}>{v.value.toUpperCase()}</code><CopyButton value={v.value}/></div></article>)}</div><button style={{...buttonStyle,marginTop:12}} onClick={()=>save([...values,{name:'New colour',value:'#A0A0A0'}])}><Plus size={14}/> Add colour</button></section>}
-  {category.id==='typography'&&<section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}>{values.map((v,i)=><div key={i} style={{display:'grid',gridTemplateColumns:'minmax(0,1fr) 70px 70px',gap:10,alignItems:'center',padding:'14px 0',borderBottom:'1px solid var(--line)'}}><div style={{minWidth:0}}><div style={{fontSize:'clamp(16px,'+Math.min(v.size,38)+'px,38px)',fontWeight:v.weight,lineHeight:v.lineHeight,overflowWrap:'anywhere'}}>The quick brown fox</div><input value={v.name} onChange={e=>update(i,'name',e.target.value)} style={{fontSize:10,border:0,padding:'5px 0',width:'100%'}}/></div><label style={{fontSize:9}}>Size<input type="number" min="8" max="96" value={v.size} onChange={e=>update(i,'size',Number(e.target.value))} style={{...buttonStyle,width:'100%',marginTop:4}}/></label><label style={{fontSize:9}}>Weight<input type="number" min="100" max="900" step="100" value={v.weight} onChange={e=>update(i,'weight',Number(e.target.value))} style={{...buttonStyle,width:'100%',marginTop:4}}/></label></div>)}</section>}
-  {category.id==='spacing'&&<section style={{border:'1px solid var(--line)',background:'#fff',padding:16}}>{values.map((v,i)=><div key={i} style={{display:'grid',gridTemplateColumns:'72px minmax(0,1fr) 70px',gap:12,alignItems:'center',padding:'9px 0'}}><code style={{fontSize:10}}>space-{i+1}</code><div style={{height:20,background:'#f0efeb'}}><div style={{height:20,width:Math.min(v.value,240),maxWidth:'100%',background:'#55534f'}}/></div><input type="number" min="0" value={v.value} onChange={e=>update(i,'value',Math.max(0,Number(e.target.value)||0))} style={buttonStyle}/></div>)}</section>}
-  {category.id==='radius'&&<section style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(130px,1fr))',gap:12}}>{values.map((v,i)=><article key={i} style={{border:'1px solid var(--line)',background:'#fff',padding:14,textAlign:'center'}}><div style={{height:86,background:'#eeede9',border:'1px solid #d8d6cf',borderRadius:v.value,marginBottom:12}}/><input value={v.name} onChange={e=>update(i,'name',e.target.value)} style={{width:'100%',textAlign:'center',border:0,fontSize:11}}/><label style={{display:'block',fontSize:9,color:'#888',marginTop:8}}>RADIUS (PX)<input type="number" min="0" value={v.value} onChange={e=>update(i,'value',Math.max(0,Number(e.target.value)||0))} style={{...buttonStyle,width:'100%',marginTop:4}}/></label></article>)}</section>}
-  <section style={{marginTop:26}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:10,marginBottom:10}}><div><span className="studio-kicker">DEVELOPER HANDOFF</span><h3 style={{margin:'4px 0',fontSize:16}}>Export your resource</h3></div><div style={{display:'flex',gap:6,flexWrap:'wrap'}}><CopyButton value={json} label="Copy JSON"/><button style={buttonStyle} onClick={()=>downloadFile(resource.id+'.json',json,'application/json')}><Download size={14}/> JSON</button></div></div><pre style={{whiteSpace:'pre',overflowX:'auto',padding:15,background:'#242420',color:'#e9e7e1',fontSize:10,lineHeight:1.8}}>{css}</pre></section>
-  <div style={{display:'flex',justifyContent:'flex-end',marginTop:16}}><button style={buttonStyle} onClick={reset}><RotateCounterClockwise size={14}/> Reset this resource</button></div>
+  <div className="studio-page-heading">
+   <div><span className="studio-status">CUSTOMISABLE RESOURCE</span><h2>{resource.name}</h2></div>
+   <div style={{display:'flex',gap:7,flexWrap:'wrap',alignItems:'center'}}>
+    <CopyButton value={css} label="Copy CSS" isDark={isDark}/>
+    <button style={getButtonStyle(isDark)} onClick={()=>downloadFile(resource.id+'.css',css)}><Download size={14}/> Export CSS</button>
+   </div>
+  </div>
+  <p style={{fontSize:12,color:isDark?'#a1a1aa':'#777',lineHeight:1.6,margin:'8px 0 22px'}}>{resource.description} Changes are saved in this browser and won't alter the original library preset.</p>
+  
+  {category.id==='colour'&&<section>
+    <div data-theme={previewTheme} style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(145px,1fr))',gap:10}}>
+      {values.map((v,i)=>(
+        <article key={i} style={{
+          border:'1px solid '+(isDark?'#2e2e34':'var(--line)'),
+          background:isDark?'#1c1c1f':'#fff',
+          color:isDark?'#f4f3ef':'inherit',
+          padding:12,
+          borderRadius:4,
+          transition:'background 0.2s ease, border-color 0.2s ease'
+        }}>
+          <input
+            type="color"
+            aria-label={v.name+' colour'}
+            value={v.value}
+            onChange={e=>update(i,'value',e.target.value)}
+            style={{
+              display:'block',
+              width:82,
+              height:82,
+              aspectRatio:'1',
+              borderRadius:'50%',
+              overflow:'hidden',
+              border:'1px solid '+(isDark?'#3f3f46':'var(--line)'),
+              boxShadow:isDark?'0 0 0 1px rgba(255,255,255,0.22)':'0 0 0 1px rgba(0,0,0,0.12)',
+              padding:0,
+              margin:'4px auto 12px',
+              cursor:'pointer'
+            }}
+          />
+          <input
+            value={v.name}
+            onChange={e=>update(i,'name',e.target.value)}
+            aria-label="Colour name"
+            style={{
+              width:'100%',
+              border:0,
+              borderBottom:'1px solid '+(isDark?'#38383e':'var(--line)'),
+              background:'transparent',
+              color:isDark?'#f4f3ef':'inherit',
+              padding:'7px 2px',
+              fontSize:12
+            }}
+          />
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:8}}>
+            <code style={{fontSize:11,color:isDark?'#f4f3ef':'inherit'}}>{v.value.toUpperCase()}</code>
+            <CopyButton value={v.value} isDark={isDark}/>
+          </div>
+        </article>
+      ))}
+    </div>
+    <button style={{...getButtonStyle(isDark),marginTop:12}} onClick={()=>save([...values,{name:'New colour',value:'#A0A0A0'}])}><Plus size={14}/> Add colour</button>
+  </section>}
+
+  {category.id==='typography'&&<section data-theme={previewTheme} style={{
+    border:'1px solid '+(isDark?'#2e2e34':'var(--line)'),
+    background:isDark?'#1c1c1f':'#fff',
+    color:isDark?'#f4f3ef':'inherit',
+    padding:16,
+    borderRadius:4,
+    transition:'background 0.2s ease, border-color 0.2s ease'
+  }}>
+    {values.map((v,i)=>(
+      <div key={i} style={{display:'grid',gridTemplateColumns:'minmax(0,1fr) 70px 70px',gap:10,alignItems:'center',padding:'14px 0',borderBottom:'1px solid '+(isDark?'#2e2e34':'var(--line)')}}>
+        <div style={{minWidth:0}}>
+          <div style={{fontSize:'clamp(16px,'+Math.min(v.size,38)+'px,38px)',fontWeight:v.weight,lineHeight:v.lineHeight,overflowWrap:'anywhere',color:isDark?'#f4f3ef':'inherit'}}>The quick brown fox</div>
+          <input value={v.name} onChange={e=>update(i,'name',e.target.value)} style={{fontSize:10,border:0,padding:'5px 0',width:'100%',background:'transparent',color:isDark?'#a1a1aa':'#888'}}/>
+        </div>
+        <label style={{fontSize:9,color:isDark?'#a1a1aa':'inherit'}}>Size<input type="number" min="8" max="96" value={v.size} onChange={e=>update(i,'size',Number(e.target.value))} style={{...detailControlStyle,width:'100%',marginTop:4}}/></label>
+        <label style={{fontSize:9,color:isDark?'#a1a1aa':'inherit'}}>Weight<input type="number" min="100" max="900" step="100" value={v.weight} onChange={e=>update(i,'weight',Number(e.target.value))} style={{...detailControlStyle,width:'100%',marginTop:4}}/></label>
+      </div>
+    ))}
+  </section>}
+
+  {category.id==='spacing'&&<section data-theme={previewTheme} style={{
+    border:'1px solid '+(isDark?'#2e2e34':'var(--line)'),
+    background:isDark?'#1c1c1f':'#fff',
+    color:isDark?'#f4f3ef':'inherit',
+    padding:16,
+    borderRadius:4,
+    transition:'background 0.2s ease, border-color 0.2s ease'
+  }}>
+    {values.map((v,i)=>(
+      <div key={i} style={{display:'grid',gridTemplateColumns:'72px minmax(0,1fr) 70px',gap:12,alignItems:'center',padding:'9px 0'}}>
+        <code style={{fontSize:10,color:isDark?'#f4f3ef':'inherit'}}>space-{i+1}</code>
+        <div style={{height:20,background:isDark?'#27272a':'#f0efeb',borderRadius:2}}>
+          <div style={{height:20,width:Math.min(v.value,240),maxWidth:'100%',background:isDark?'#a1a1aa':'#55534f',borderRadius:2}}/>
+        </div>
+        <input type="number" min="0" value={v.value} onChange={e=>update(i,'value',Math.max(0,Number(e.target.value)||0))} style={detailControlStyle}/>
+      </div>
+    ))}
+  </section>}
+
+  {category.id==='radius'&&<section data-theme={previewTheme} style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(130px,1fr))',gap:12}}>
+    {values.map((v,i)=>(
+      <article key={i} style={{
+        border:'1px solid '+(isDark?'#2e2e34':'var(--line)'),
+        background:isDark?'#1c1c1f':'#fff',
+        color:isDark?'#f4f3ef':'inherit',
+        padding:14,
+        textAlign:'center',
+        borderRadius:4,
+        transition:'background 0.2s ease, border-color 0.2s ease'
+      }}>
+        <div style={{height:86,background:isDark?'#27272a':'#eeede9',border:'1px solid '+(isDark?'#3f3f46':'#d8d6cf'),borderRadius:v.value,marginBottom:12}}/>
+        <input value={v.name} onChange={e=>update(i,'name',e.target.value)} style={{width:'100%',textAlign:'center',border:0,background:'transparent',color:isDark?'#f4f3ef':'inherit',fontSize:11}}/>
+        <label style={{display:'block',fontSize:9,color:isDark?'#a1a1aa':'#888',marginTop:8}}>RADIUS (PX)<input type="number" min="0" value={v.value} onChange={e=>update(i,'value',Math.max(0,Number(e.target.value)||0))} style={{...detailControlStyle,width:'100%',marginTop:4}}/></label>
+      </article>
+    ))}
+  </section>}
+
+  <section style={{marginTop:26}}>
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:10,marginBottom:10}}>
+      <div><span className="studio-kicker" style={{color:isDark?'#71717a':'#999'}}>DEVELOPER HANDOFF</span><h3 style={{margin:'4px 0',fontSize:16,color:isDark?'#f4f3ef':'inherit'}}>Export your resource</h3></div>
+      <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+        <CopyButton value={json} label="Copy JSON" isDark={isDark}/>
+        <button style={getButtonStyle(isDark)} onClick={()=>downloadFile(resource.id+'.json',json,'application/json')}><Download size={14}/> JSON</button>
+      </div>
+    </div>
+    <pre style={{whiteSpace:'pre',overflowX:'auto',padding:15,background:isDark?'#141416':'#242420',color:'#e9e7e1',border:'1px solid '+(isDark?'#27272a':'#333'),fontSize:10,lineHeight:1.8}}>{css}</pre>
+  </section>
+  <div style={{display:'flex',justifyContent:'flex-end',marginTop:16}}>
+    <button style={getButtonStyle(isDark)} onClick={reset}><RotateCounterClockwise size={14}/> Reset this resource</button>
+  </div>
  </div>;
 }
 export default function Foundations(){
