@@ -4,7 +4,7 @@
 **Route:** `/explore/components`
 **Source:** `src/pages/Components.jsx`
 
-The Components page is a curated catalogue of ten reusable interface examples. Each entry includes an interactive live preview, state and variant switchers, and copy-ready React and CSS snippets.
+The Components page is a curated catalogue of ten reusable interface examples. Each entry includes an interactive live preview with light and dark mode toggling, state and variant switchers, and copy-ready React and CSS snippets.
 
 ---
 

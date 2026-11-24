@@ -45,10 +45,11 @@ Only the first two render the documentation hub.
   <Routes>
     <Route path="/" element={<LandingPage />} />
     <Route path="/explore" element={<DashboardLayout />}>
-      <Route index element={<Navigate to="foundations" replace />} />
+      <Route index element={<Overview />} />
       <Route path="foundations" element={<Foundations />} />
       <Route path="tokens" element={<Tokens />} />
       <Route path="components" element={<Components />} />
+      <Route path="community" element={<Community />} />
     </Route>
     <Route path="/studio/*" element={<Navigate to="/explore" replace />} />
     <Route path="*" element={<Navigate to="/" replace />} />
@@ -59,10 +60,11 @@ Only the first two render the documentation hub.
 | Route | Result | Type |
 |---|---|---|
 | `/` | Landing page | Page |
-| `/explore` | Layout + index redirect to `foundations` | Redirect |
+| `/explore` | Layout + Overview | Nested page |
 | `/explore/foundations` | Layout + Foundations brief | Nested page |
 | `/explore/tokens` | Layout + Tokens brief | Nested page |
 | `/explore/components` | Layout + Components brief | Nested page |
+| `/explore/community` | Layout + Community contribution library | Nested page |
 | `/studio/*` | Redirect to `/explore` | Legacy redirect |
 | `*` | Redirect to `/` | Catch-all |
 | `/docs` | Never reaches this router | Special entry branch |
@@ -74,6 +76,7 @@ Only the first two render the documentation hub.
 ### Landing page
 
 - Internal hash links: `#studio`, `#foundations`, `#components`, `#contact`.
+- Community link: `/explore/community`.
 - Studio CTA: native anchor to `/explore`.
 - Docs link: native anchor to `/docs` (full page load).
 - External links open new tabs.

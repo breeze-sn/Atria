@@ -2,10 +2,10 @@
 
 ## 1. Overview
 
-Atria uses GitHub Actions to verify that the project installs and builds. Deployment is handled
-separately by Vercel.
+Atria uses GitHub Actions to install locked dependencies, validate community contributions, run the
+test suite, and build the production application. Deployment is handled separately by Vercel.
 
-This distinction matters: a green CI run means the build succeeds, not that the site was deployed.
+This distinction matters: a green CI run means these checks pass, not that the site was deployed.
 
 ---
 
@@ -14,7 +14,7 @@ This distinction matters: a green CI run means the build succeeds, not that the 
 File: `.github/workflows/ci.yml`
 
 ```yaml
-name: Frontend CI Pipeline
+name: CI
 
 on:
   push:
@@ -23,25 +23,28 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-lint:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run Linter
-        run: npm run lint --if-present
+      - name: Validate community contributions
+        run: npm run validate:contributions
 
-      - name: Build Vite App
+      - name: Run tests
+        run: npm test
+
+      - name: Build Vite app
         run: npm run build
 ```
 
@@ -63,32 +66,27 @@ covers contributions targeted at `main`.
 
 | Step | Command | Meaning |
 |---|---|---|
-| Checkout | `actions/checkout@v4` | Fetch the repository |
-| Node setup | `actions/setup-node@v4` | Node.js 20 with npm cache |
-| Install | `npm install` | Install dependencies |
-| Lint | `npm run lint --if-present` | No-op; no lint script exists |
+| Checkout | `actions/checkout@v7` | Fetch the repository |
+| Node setup | `actions/setup-node@v7` | Node.js 20 with npm cache |
+| Install | `npm ci` | Install lockfile-defined dependencies |
+| Contribution validation | `npm run validate:contributions` | Reject invalid JSON contribution files |
+| Tests | `npm test` | Run Vitest and Testing Library tests |
 | Build | `npm run build` | Verify the Vite production build |
 
-### The lint step
+### Linting
 
-`--if-present` makes npm exit successfully when the script is missing. Because `package.json` has no
-`lint` script, this step succeeds without linting anything. The step name is therefore misleading.
-
-To enable real linting:
-
-1. Choose a linter and configuration.
-2. Add a `lint` script to `package.json`.
-3. Run it locally and fix existing issues.
-4. Update this document.
-5. Optionally remove `--if-present` once the script is guaranteed.
+No lint step runs because `package.json` does not define a `lint` script. A successful CI run is not
+evidence that lint checks have run. If linting is added later, update both the workflow and this
+document to show the actual command.
 
 ---
 
 ## 5. What CI does not do
 
 - Deploy to Vercel.
-- Run unit, integration, or end-to-end tests.
+- Run end-to-end tests.
 - Run accessibility checks.
+- Run linting (no lint script is configured).
 - Run type checking.
 - Publish build artifacts.
 - Check documentation links.
@@ -101,7 +99,7 @@ To enable real linting:
 ```mermaid
 flowchart LR
   PR[Pull request] --> CI[GitHub Actions]
-  CI -->|install + build| Status[Status check]
+  CI -->|install + validate + test + build| Status[Status check]
   Status --> Review[Review]
   Review --> Merge[Merge to main]
   Merge --> Vercel[Vercel build + deploy]
@@ -120,8 +118,9 @@ Use the same major Node.js version as CI:
 
 ```bash
 node --version
-npm install
-npm run lint --if-present
+npm ci
+npm run validate:contributions
+npm test
 npm run build
 ```
 
@@ -140,13 +139,12 @@ The build must succeed before opening a pull request.
 Recommended future steps:
 
 1. Add a lint script and real lint step.
-2. Add a test framework and test step.
-3. Add a format check.
-4. Add an accessibility check.
-5. Add a documentation link checker.
-6. Add a bundle-size check.
-7. Pin actions to trusted versions or SHAs.
-8. Add dependency review for pull requests.
+2. Add a format check.
+3. Add an accessibility check.
+4. Add a documentation link checker.
+5. Add a bundle-size check.
+6. Pin actions to trusted versions or SHAs.
+7. Add dependency review for pull requests.
 
 Each addition should include documentation and a working local command.
 
@@ -158,7 +156,6 @@ Each addition should include documentation and a working local command.
 |---|---|---|
 | Install fails | Lockfile or registry issue | Run `npm install` locally and commit the lockfile |
 | Build fails in CI but not locally | Node version mismatch | Use Node.js 20 locally or update CI intentionally |
-| Lint step appears to pass | No lint script exists | Add one if linting is required |
 | Deploy did not happen | CI is not a deploy pipeline | Check Vercel's deployment status |
 | Cache issues | npm cache mismatch | Clear cache or update lockfile |
 

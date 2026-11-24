@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import ThemePreviewToggle from './components/ThemePreviewToggle.jsx'
+import { useThemePreview } from './context/ThemeContext.jsx'
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -39,15 +42,24 @@ const groups = [
 ]
 
 function Docs() {
+  const { previewTheme, setPreviewTheme, isDark } = useThemePreview()
+
   return (
-    <main className="docs-page">
+    <main className="docs-page" data-theme={previewTheme}>
       <nav className="nav shell">
         <a className="brand" href="/" aria-label="Atria home">
           <span className="brand-mark"><span /><span /><span /><span /></span>
           <span>atria<span className="brand-period">.</span></span>
         </a>
         <div className="nav-links"><a href="/">Home</a><a href="/#foundations">Foundation</a><a href="/#components">Components</a><a href="/docs">Docs</a><a href="/#contact">Contact</a></div>
-        <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer"><GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} /></a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <ThemePreviewToggle
+            mode={previewTheme}
+            onChange={setPreviewTheme}
+            label="Docs theme preview toggle"
+          />
+          <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer"><GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} /></a>
+        </div>
       </nav>
 
       <section className="docs-hero shell">

@@ -1,0 +1,45 @@
+{
+  "type": "tokens",
+  "id": "quiet-interface",
+  "name": "Quiet Interface",
+  "description": "A compact, neutral token foundation for a focused product UI.",
+  "tokens": {
+    "colors": [
+      { "name": "color.ink", "value": "#20201E", "description": "Primary text." },
+      { "name": "color.surface", "value": "#F7F7F5", "description": "Default page surface." }
+    ],
+    "typography": [
+      {
+        "name": "type.body",
+        "fontFamily": "Manrope, sans-serif",
+        "fontSize": "14px",
+        "fontWeight": 400,
+        "lineHeight": 1.7
+      },
+      {
+        "name": "type.heading",
+        "fontFamily": "Manrope, sans-serif",
+        "fontSize": "32px",
+        "fontWeight": 600,
+        "lineHeight": 1.2
+      }
+    ],
+    "spacing": [
+      { "name": "space.2", "value": "8px" },
+      { "name": "space.4", "value": "16px" },
+      { "name": "space.8", "value": "32px" }
+    ],
+    "radius": [
+      { "name": "radius.control", "value": "4px" },
+      { "name": "radius.card", "value": "8px" }
+    ],
+    "other": [
+      { "name": "shadow.card", "type": "shadow", "value": "0 8px 24px rgba(32, 32, 30, 0.08)" }
+    ]
+  },
+  "contributor": {
+    "name": "Atria Community",
+    "github": "breeze-sn"
+  },
+  "sourceUrl": "https://github.com/breeze-sn/Atria"
+}

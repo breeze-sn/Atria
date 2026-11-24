@@ -23,6 +23,7 @@ Choose the path that matches what you need.
 | Make my first contribution | [Contribution workflow](contributing/contribution-workflow.md) |
 | Know exactly what is implemented | [Feature overview](features/README.md) |
 | Work on the Foundations, Tokens, or Components Studio area | [Explore Studio](features/explore-studio.md) |
+| Add a palette, token set, or component design to the community library | [Community contributions](contributing/community-contributions.md) |
 | Review a pull request | [Pull request guidelines](contributing/pull-request-guidelines.md) |
 | Write or update documentation | [Documentation guidelines](contributing/documentation-guidelines.md) |
 | Understand deployment | [Build and deployment](deployment/build-and-deployment.md) |
@@ -58,7 +59,8 @@ Choose the path that matches what you need.
 4. [Design foundations](features/design-foundations.md)
 5. [Design tokens](features/design-tokens.md)
 6. [Component library](features/component-library.md)
-7. [Accessibility](quality/accessibility.md)
+7. [Community contributions](contributing/community-contributions.md)
+8. [Accessibility](quality/accessibility.md)
 
 **Maintainer or reviewer**
 
@@ -96,7 +98,7 @@ The architecture set explains what exists, how it is composed, and why it is bui
 | [Getting started index](getting-started/README.md) | Implemented docs | Setup sequence and prerequisites |
 | [Installation](getting-started/installation.md) | Implemented | Clone, install, run, build, verify, troubleshoot |
 | [Local development](getting-started/local-development.md) | Implemented | Dev loop, routes, HMR, common edits |
-| [Environment configuration](getting-started/environment-configuration.md) | Implemented | No env vars required today; safe future conventions |
+| [Environment configuration](getting-started/environment-configuration.md) | Implemented | Environment variables, .env.example, and configuration files |
 
 ### Features
 
@@ -108,6 +110,7 @@ The architecture set explains what exists, how it is composed, and why it is bui
 | [Design foundations](features/design-foundations.md) | Implemented, local | Resource catalogue, editable presets, and exports |
 | [Design tokens](features/design-tokens.md) | Implemented, local | Token editing, search, filters, and exports |
 | [Component library](features/component-library.md) | Implemented, limited | Catalogue of ten component examples, usage guidance, and accessibility notes |
+| [Community contributions](features/community-contributions.md) | Implemented, local | Reviewed JSON contributions, validation, and community browser |
 | [Documentation hub](features/documentation-hub.md) | Implemented | `/docs` collections and outbound documents |
 | [API reference](features/api-reference.md) | Limited | Documents the Express health-check endpoint and planned API boundaries |
 
@@ -130,7 +133,7 @@ The architecture set explains what exists, how it is composed, and why it is bui
 | Document | Status | Summary |
 |---|---|---|
 | [Quality index](quality/README.md) | Implemented docs | Quality documentation map |
-| [Testing strategy](quality/testing-strategy.md) | Weak / manual | No automated tests; production build and manual matrix |
+| [Testing strategy](quality/testing-strategy.md) | Configured + manual | Vitest, contribution validation, production build, and manual matrix |
 | [Accessibility](quality/accessibility.md) | Partial | Present features, gaps, manual checks |
 | [Coding standards](quality/coding-standards.md) | Implemented docs | Observed conventions and review rules |
 | [Review checklist](quality/review-checklist.md) | Implemented docs | Practical merge checklist |
@@ -150,6 +153,7 @@ The architecture set explains what exists, how it is composed, and why it is bui
 |---|---|---|
 | [Contributing index](contributing/README.md) | Implemented docs | Contribution documentation map |
 | [Contribution workflow](contributing/contribution-workflow.md) | Implemented docs | Fork, branch, commit, PR, sync |
+| [Community contributions](contributing/community-contributions.md) | Implemented docs | Contribution folder structure, schemas, validation, submission, review, and updates |
 | [Pull request guidelines](contributing/pull-request-guidelines.md) | Implemented docs | Required PR format and review checklist |
 | [Debugging](contributing/debugging.md) | Implemented docs | Common local and runtime problems |
 | [Documentation guidelines](contributing/documentation-guidelines.md) | Implemented docs | Accuracy, status labels, Mermaid, link verification |
@@ -182,6 +186,7 @@ docs/
 │   └── README.md
 ├── contributing/
 │   ├── README.md
+│   ├── community-contributions.md
 │   ├── contribution-workflow.md
 │   ├── debugging.md
 │   ├── documentation-guidelines.md
@@ -233,7 +238,7 @@ docs/
 - The Vite + React single-page application and its entry points.
 - The `/docs` documentation hub and its six outbound document cards.
 - The public landing page and its interactive playground and clipboard demo.
-- The Explore Studio shell and its three placeholder sections.
+- The Explore Studio shell, Foundations, Tokens, Components, and the static Community library.
 - The CSS design system, responsive breakpoints, and reduced-motion handling.
 - Routing, redirects, build scripts, CI, and Vercel configuration.
 

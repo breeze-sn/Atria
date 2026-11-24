@@ -53,6 +53,7 @@ flowchart TD
   Outlet --> FoundationsPage[Foundations]
   Outlet --> TokensPage[Tokens]
   Outlet --> ComponentsPage[Components]
+  Outlet --> CommunityPage[Community]
 ```
 
 ---
@@ -70,9 +71,10 @@ flowchart TD
 | `Foundations` | `src/pages/Foundations.jsx` | Page function | None | None | Brief sections |
 | `Tokens` | `src/pages/Tokens.jsx` | Page function | None | None | Brief sections |
 | `Components` | `src/pages/Components.jsx` | Page function | None | None | Brief sections |
+| `Community` | `src/pages/Community.jsx` | Page function | None | `activeFilter` | Validated community catalogue |
 
-Only `AtriaMark` accepts a prop. No component receives data as props from a parent; every page owns or
-imports its own static data.
+Only `AtriaMark` accepts a prop. No component receives data as props from a parent. Community entries
+are imported from validated JSON files; other pages own or import their static data.
 
 ---
 
@@ -119,6 +121,12 @@ It does not render section content directly. Each child route renders its own br
 Own static contributor guidance for one section each. They do not share a brief component; they share
 CSS classes and a visual pattern.
 
+### Community
+
+Owns the contribution filters and renders palette, token-set, and component cards from validated,
+build-time JSON. Cards display contributor/source attribution; component previews are rendered from
+safe data fields and do not execute submitted code.
+
 ### AtriaMark
 
 Owns the four-square rotated brand mark. Used in the Explore header and footer. The landing page and
@@ -143,6 +151,7 @@ flowchart LR
 | Current route | React Router / browser URL | Application | Browser history |
 | `activeTab` | `LandingPage` | Landing page | None; resets on unmount |
 | `copied` | `LandingPage` | Landing page | None; resets after 1.8s or unmount |
+| `activeFilter` | `Community` | Community page | None; resets on unmount |
 | Sidebar active state | `NavLink` derived from URL | Explore layout | Browser URL |
 
 There is no context provider, global store, reducer, or persistence.

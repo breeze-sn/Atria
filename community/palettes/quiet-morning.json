@@ -1,0 +1,19 @@
+{
+  "type": "palette",
+  "id": "quiet-morning",
+  "name": "Quiet Morning",
+  "description": "A soft, grounded palette for calm product interfaces.",
+  "usageNotes": "Use the darker tones for text and actions; reserve the pale tones for spacious surfaces.",
+  "colors": [
+    { "name": "Pine", "hex": "#263B35", "notes": "Primary text and strong actions." },
+    { "name": "Moss", "hex": "#6F8A72", "notes": "Secondary actions and accents." },
+    { "name": "Sage", "hex": "#B6C5AE" },
+    { "name": "Oat", "hex": "#E7E1D2" },
+    { "name": "Dawn", "hex": "#F7F5EF" }
+  ],
+  "contributor": {
+    "name": "Atria Community",
+    "github": "breeze-sn"
+  },
+  "sourceUrl": "https://github.com/breeze-sn/Atria"
+}

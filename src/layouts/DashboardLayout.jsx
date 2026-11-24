@@ -1,5 +1,5 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Outlet, Link, NavLink } from 'react-router-dom';
 import {
   ArrowUpRight,
   GithubLogo,
@@ -7,13 +7,18 @@ import {
   Coin,
   PuzzlePiece,
   Sparkle,
+  UsersThree,
 } from '@phosphor-icons/react';
+import ThemePreviewToggle from '../components/ThemePreviewToggle.jsx';
+import ErrorBoundary from '../components/ErrorBoundary.jsx';
+import { useThemePreview } from '../context/ThemeContext.jsx';
 
 const sections = [
   { name: 'Studio', path: '/studio', icon: <Sparkle size={17} weight="regular" />, number: '04' },
   { name: 'Foundations', path: '/explore/foundations', icon: <Palette size={17} weight="regular" />, number: '01' },
   { name: 'Tokens', path: '/explore/tokens', icon: <Coin size={17} weight="regular" />, number: '02' },
   { name: 'Components', path: '/explore/components', icon: <PuzzlePiece size={17} weight="regular" />, number: '03' },
+  { name: 'Community', path: '/explore/community', icon: <UsersThree size={17} weight="regular" />, number: '05' },
 ];
 
 function AtriaMark({ small = false }) {
@@ -28,10 +33,10 @@ function ExploreFooter() {
   return (
     <footer className="footer explore-footer shell">
       <div className="footer-top">
-        <a className="brand" href="/" aria-label="Atria home">
+        <Link className="brand" to="/" aria-label="Atria home">
           <AtriaMark />
           <span>atria<span className="brand-period">.</span></span>
-        </a>
+        </Link>
         <p>A more considered way to build<br />and maintain design systems.</p>
         <a className="footer-github" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
           <GithubLogo size={18} /> Star the project <ArrowUpRight size={14} />
@@ -40,7 +45,7 @@ function ExploreFooter() {
       <div className="footer-bottom">
         <span>© 2026 ATRIA STUDIO</span>
         <span>OPEN SOURCE · EARLY DEVELOPMENT</span>
-        <a href="/docs">DOCUMENTATION</a>
+        <Link to="/docs">DOCUMENTATION</Link>
         <a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12} /></a>
       </div>
     </footer>
@@ -48,17 +53,26 @@ function ExploreFooter() {
 }
 
 export default function DashboardLayout() {
+  const { previewTheme, setPreviewTheme, isDark } = useThemePreview();
+
   return (
-    <div className="explore-page">
+    <div className="explore-page" data-theme={previewTheme}>
       <header className="explore-header">
         <nav className="nav shell explore-top-nav" aria-label="Explore Studio navigation">
-          <a className="brand" href="/" aria-label="Atria home">
+          <Link className="brand" to="/" aria-label="Atria home">
             <AtriaMark />
             <span>atria<span className="brand-period">.</span></span>
-          </a>
-          <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
-            <GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} />
-          </a>
+          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <ThemePreviewToggle
+              mode={previewTheme}
+              onChange={setPreviewTheme}
+              label="Explore Studio navbar theme toggle"
+            />
+            <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
+              <GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} />
+            </a>
+          </div>
         </nav>
       </header>
 
@@ -67,21 +81,25 @@ export default function DashboardLayout() {
           <div className="explore-sidebar-label">EXPLORE STUDIO</div>
           <nav className="explore-section-nav">
             {sections.map((section) => (
-              <a
+              <NavLink
                 key={section.path}
-                href={section.path}
-                className="explore-section-link"
+                to={section.path}
+                className={({ isActive }) =>
+                  isActive ? 'explore-section-link active' : 'explore-section-link'
+                }
               >
                 <span className="explore-section-icon">{section.icon}</span>
                 <span>{section.name}</span>
                 <small>{section.number}</small>
-              </a>
+              </NavLink>
             ))}
           </nav>
         </aside>
 
         <main className="explore-content">
-          <Outlet />
+          <ErrorBoundary>
+            <Outlet context={{ previewTheme, setPreviewTheme, isDark }} />
+          </ErrorBoundary>
         </main>
       </div>
 

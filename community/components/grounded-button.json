@@ -1,0 +1,28 @@
+{
+  "type": "component",
+  "id": "grounded-button",
+  "name": "Grounded Button",
+  "description": "A clear, high-contrast call to action with a quiet secondary variant.",
+  "preview": {
+    "kind": "button",
+    "label": "Continue",
+    "background": "#263B35",
+    "foreground": "#FFFFFF"
+  },
+  "variants": [
+    { "name": "Primary", "description": "For the main action in a view." },
+    { "name": "Secondary", "description": "For a supporting action beside a primary button." }
+  ],
+  "states": [
+    { "name": "Default", "description": "Ready for interaction." },
+    { "name": "Disabled", "description": "Use when the action is unavailable." }
+  ],
+  "references": [
+    { "label": "Button accessibility guidance", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/" }
+  ],
+  "contributor": {
+    "name": "Atria Community",
+    "github": "breeze-sn"
+  },
+  "sourceUrl": "https://github.com/breeze-sn/Atria"
+}
