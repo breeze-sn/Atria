@@ -66,6 +66,7 @@ function LandingPage() {
           <span>atria<span className="brand-period">.</span></span>
         </a>
         <div className="nav-links">
+          <Link to="/explore/community">Community</Link>
           <Link to="/studio">Studio</Link>
           <a href="#foundations">Foundation</a>
           <a href="#components">Components</a>
