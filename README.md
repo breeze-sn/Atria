@@ -74,7 +74,7 @@ The frontend is a client-rendered application. The current resource collections 
 
 ## Run locally
 
-**Requirements:** Node.js 20+ and npm.
+**Requirements:** Node.js 22.23.5 (the CI runtime) and npm.
 
 ```bash
 git clone https://github.com/breeze-sn/Atria.git
