@@ -36,7 +36,7 @@ describe('Studio panel controls', () => {
   it('returns an added component to the canvas and saves the updated workspace', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Library', exact: true }));
     const library = screen.getByRole('complementary', { name: 'Component library tools' });
-    fireEvent.click(within(library).getByRole('button', { name: /^B Button$/ }));
+    fireEvent.click(within(library).getByRole('button', { name: /^B\s*Button$/ }));
     expect(screen.getByRole('button', { name: 'Canvas', exact: true })).toHaveAttribute('aria-pressed', 'true');
     fireEvent.click(screen.getByRole('button', { name: 'Save', exact: true }));
     expect(JSON.parse(localStorage.getItem('atria:builder:elements'))).toHaveLength(4);
