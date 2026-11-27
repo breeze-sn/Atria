@@ -1565,3 +1565,27 @@ html { scroll-behavior:auto; }
   .docs-page .docs-group:nth-of-type(odd) .docs-card:nth-child(2),
   .docs-page .docs-group:nth-of-type(odd) .docs-card:nth-child(3) { grid-column:1/-1; }
 }
+
+
+/* Flat visual finish: no gradients, shadows, glows or blurred decoration. */
+.landing-page *,
+.explore-page *,
+.docs-page *,
+.studio-page *,
+.atria-builder *,
+.landing-page *::before,
+.landing-page *::after,
+.explore-page *::before,
+.explore-page *::after,
+.docs-page *::before,
+.docs-page *::after,
+.studio-page *::before,
+.studio-page *::after,
+.atria-builder *::before,
+.atria-builder *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  background-image: none !important;
+}
