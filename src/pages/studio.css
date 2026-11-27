@@ -247,3 +247,53 @@
  .builder-inspector-content{display:block;max-height:none}.builder-inspector-content label{font-size:12px}
  .builder-modal-bg{padding:12px}.builder-modal{min-width:0;max-height:calc(100dvh - 24px);box-sizing:border-box}.builder-modal nav{flex-wrap:wrap}
 }
+
+
+/* Studio — dark creative tool with controlled neon accents */
+.atria-builder[data-theme="dark"] { background:#0e100f; color:#fffce1; }
+.atria-builder[data-theme="dark"] .builder-topbar,
+.atria-builder[data-theme="dark"] .builder-left,
+.atria-builder[data-theme="dark"] .builder-right { background:#121612; border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-wordmark span { color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-back,
+.atria-builder[data-theme="dark"] .builder-brand-wrap>small { color:#a5a69a; }
+.atria-builder[data-theme="dark"] .builder-name { color:#fffce1; }
+.atria-builder[data-theme="dark"] .builder-actions button,
+.atria-builder[data-theme="dark"] .builder-explore { background:#171d17; color:#fffce1; border-color:#3b4738; border-radius:999px; }
+.atria-builder[data-theme="dark"] .builder-actions .dark { background:#0ae448; color:#0e100f; border-color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-actions button:hover,
+.atria-builder[data-theme="dark"] .builder-explore:hover { border-color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-left { border-right-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-right { border-left-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-tabs { border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-tabs button { background:#121612; color:#858b7d; }
+.atria-builder[data-theme="dark"] .builder-tabs button.active { color:#0ae448; border-color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-label { color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-add-item { background:#121612; color:#fffce1; }
+.atria-builder[data-theme="dark"] .builder-add-item:hover { background:#1b241b; border-color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-add-item>span { background:#252d24; color:#abff84; }
+.atria-builder[data-theme="dark"] .builder-layer.selected { background:#1a241a; border-color:#0ae44866; }
+.atria-builder[data-theme="dark"] .builder-layer b { color:#fffce1; }
+.atria-builder[data-theme="dark"] .builder-add-inline { background:#121612; border-color:#4a5945; color:#abff84; }
+.atria-builder[data-theme="dark"] .builder-token { border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-token b { color:#d8e7cf; }
+.atria-builder[data-theme="dark"] .builder-palette { background:#121612; border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-palette b { color:#fffce1; }
+.atria-builder[data-theme="dark"] .builder-main { background:#0b0e0b; }
+.atria-builder[data-theme="dark"] .builder-canvas-head { background:#121612; border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-canvas-head b { color:#fffce1; }
+.atria-builder[data-theme="dark"] .builder-canvas-scroll { background-image:radial-gradient(#354033 .7px,transparent .7px); }
+.atria-builder[data-theme="dark"] .builder-artboard { background:#171d17; border-color:#3a4438; box-shadow:0 16px 55px #0009,0 0 45px #0ae4480a; }
+.atria-builder[data-theme="dark"] .builder-artboard-head,
+.atria-builder[data-theme="dark"] .builder-artboard-foot { border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-main-foot { background:#121612; border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-inspector-head { border-color:#303a2f; color:#fffce1; }
+.atria-builder[data-theme="dark"] .builder-inspector-content section { border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-inspector-content label { color:#a5a69a; }
+.atria-builder[data-theme="dark"] .builder-inspector-content input:focus { border-color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-modal { background:#151a15; color:#fffce1; border-color:#3a4438; }
+.atria-builder[data-theme="dark"] .builder-modal nav button.active { background:#0ae448; color:#0e100f; }
+.atria-builder[data-theme="dark"] .builder-mobile-nav { background:#121612; border-color:#303a2f; }
+.atria-builder[data-theme="dark"] .builder-mobile-nav [aria-pressed="true"] { border-color:#0ae448; color:#0ae448; }
+.atria-builder[data-theme="dark"] .builder-inspector-dismiss { background:#1a2119; border-color:#3a4438; color:#fffce1; }
+.atria-builder[data-theme="dark"] :focus-visible { outline-color:#0ae448; }
