@@ -297,3 +297,37 @@
 .atria-builder[data-theme="dark"] .builder-mobile-nav [aria-pressed="true"] { border-color:#0ae448; color:#0ae448; }
 .atria-builder[data-theme="dark"] .builder-inspector-dismiss { background:#1a2119; border-color:#3a4438; color:#fffce1; }
 .atria-builder[data-theme="dark"] :focus-visible { outline-color:#0ae448; }
+
+
+/* Dark-only studio surfaces in Atria's fixed four-colour palette */
+.atria-builder { background:#111111 !important; color:#EDEBE4 !important; }
+.atria-builder .builder-topbar,
+.atria-builder .builder-left,
+.atria-builder .builder-right,
+.atria-builder .builder-canvas-head,
+.atria-builder .builder-main-foot,
+.atria-builder .builder-inspector-head { background:#171717 !important; border-color:#393832 !important; }
+.atria-builder .builder-main { background:#111111 !important; }
+.atria-builder .builder-canvas-scroll { background-color:#111111 !important; background-image:radial-gradient(#393832 .7px,transparent .7px) !important; }
+.atria-builder .builder-artboard { background:#171717 !important; border-color:#393832 !important; box-shadow:none !important; }
+.atria-builder .builder-tabs button,
+.atria-builder .builder-add-item,
+.atria-builder .builder-palette,
+.atria-builder .builder-add-inline,
+.atria-builder .builder-label button,
+.atria-builder .builder-actions button,
+.atria-builder .builder-explore { background:#171717 !important; color:#EDEBE4 !important; border-color:#393832 !important; }
+.atria-builder .builder-tabs button.active,
+.atria-builder .builder-actions .dark,
+.atria-builder .builder-modal nav button.active { background:#1D4ED8 !important; color:#EDEBE4 !important; border-color:#1D4ED8 !important; }
+.atria-builder .builder-artboard-head,
+.atria-builder .builder-artboard-foot,
+.atria-builder .builder-label,
+.atria-builder .builder-token b,
+.atria-builder .builder-inspector-content label { color:#EDEBE4 !important; }
+.atria-builder input:not([type=color]),
+.atria-builder select,
+.atria-builder textarea { background:#111111 !important; color:#EDEBE4 !important; border-color:#55534d !important; }
+.atria-builder .builder-remove { background:#2a151b !important; color:#F43F5E !important; border-color:#F43F5E !important; }
+.atria-builder :focus-visible { outline-color:#F43F5E !important; }
+@media(min-width:1200px){.builder-grid{grid-template-columns:clamp(230px,19vw,320px) minmax(0,1fr) clamp(270px,22vw,360px)}.builder-canvas-scroll{padding:clamp(28px,4vw,64px)}}
