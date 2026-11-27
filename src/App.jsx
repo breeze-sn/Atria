@@ -45,7 +45,7 @@ const tickerPhrases = ['DESIGN WITH INTENTION', 'BUILD WITH CLARITY', 'DOCUMENT 
 function LandingPage() {
   const [activeTab, setActiveTab] = useState('Button')
   const [copied, setCopied] = useState(false)
-  const { previewTheme } = useThemePreview()
+  useThemePreview()
 
   const copyToken = async () => {
     try {
@@ -75,47 +75,35 @@ function LandingPage() {
       <section className="home-hero">
         <div className="home-hero-copy">
           <div className="eyebrow"><span className="live-dot"/> OPEN-SOURCE DESIGN SYSTEM WORKSPACE</div>
-          <h1 aria-label="Make consistency feel effortless">Make your<br/>system <em>make sense.</em></h1>
+          <h1 aria-label="Make consistency feel effortless">Make your system<br/><em>make sense.</em></h1>
           <p>Atria brings foundations, tokens and components into one connected workspace — so teams can make better design decisions and carry them into code.</p>
           <div className="hero-actions">
-            <Link className="button button-dark" to="/explore">Explore workspace <ArrowRight size={16}/></Link>
+            <Link className="button button-dark" to="/explore">Explore Library <ArrowRight size={16}/></Link>
             <Link className="text-link" to="/studio">Open Studio <ArrowUpRight size={15}/></Link>
           </div>
           <div className="home-hero-meta"><span>DESIGN SYSTEMS, WITHOUT THE SCATTER</span><span>01 — 04</span></div>
         </div>
-        <div className="home-hero-visual">
-          <div className="home-visual-head"><span>ATRIA / WORKSPACE</span><span>LIVE PREVIEW&nbsp; ↗</span></div>
-          <div className="home-product">
-            <aside className="home-product-rail">
-              <div className="mini-brand"><span className="brand-mark small"><span/><span/><span/><span/></span> atria</div>
-              <span className="side-label">WORKSPACE</span>
-              <div className="side-item active"><SquaresFour size={14}/> Overview</div>
-              <div className="side-item"><Palette size={14}/> Foundations</div>
-              <div className="side-item"><Stack size={14}/> Tokens</div>
-              <div className="side-item"><Cube size={14}/> Components</div>
-              <div className="side-item"><Globe size={14}/> Community</div>
-              <div className="home-rail-bottom">YOUR DESIGN SYSTEM</div>
-            </aside>
-            <div className="home-product-main">
-              <div className="home-product-title"><div><span className="side-label">YOUR WORKSPACE / OVERVIEW</span><h2>Everything<br/>in its place.</h2></div><span className="home-product-index">01 / 05</span></div>
-              <div className="home-stat-row">
-                <div><span>FOUNDATIONS</span><b>04</b><small>Core principles</small></div>
-                <div><span>COMPONENTS</span><b>12</b><small>Reusable patterns</small></div>
-                <div><span>TOKENS</span><b>28</b><small>Shared decisions</small></div>
-              </div>
-              <div className="home-palette-block">
-                <div><span>ATRIA COLOUR SYSTEM</span><span>01 — 04</span></div>
-                <div className="home-swatches">{swatches.map(color=><i key={color} style={{backgroundColor:color}}/>)}</div>
-                <div className="home-swatch-labels"><span>IVORY</span><span>INK</span><span>BLUE</span><span>CORAL</span></div>
-              </div>
-              <div className="home-product-foot"><span>DESIGN INTENT → DEVELOPER HANDOFF</span><ArrowUpRight size={15}/></div>
-            </div>
+        <div className="home-hero-visual" aria-label="Atria visual identity">
+          <div className="home-visual-head"><span>ATRIA / DESIGN LANGUAGE</span><span>BUILT WITH INTENTION</span></div>
+          <div className="home-hero-art" aria-hidden="true">
+            <div className="home-art-orbit home-art-orbit-one"/>
+            <div className="home-art-orbit home-art-orbit-two"/>
+            <div className="home-art-disc"/>
+            <div className="home-art-block home-art-block-blue"/>
+            <div className="home-art-block home-art-block-coral"/>
+            <div className="home-art-letter">A<span>.</span></div>
+            <div className="home-art-note home-art-note-top">FOUNDATIONS<br/>01 / 04</div>
+            <div className="home-art-note home-art-note-bottom">A SYSTEM OF<br/>CONNECTED IDEAS</div>
+            <div className="home-art-cross">✳</div>
           </div>
-          <div className="home-visual-caption"><span>FIG. 01</span><span>A CONNECTED DESIGN LANGUAGE</span></div>
+          <div className="home-visual-caption"><span>FIG. 01</span><span>FORM FOLLOWS INTENTION</span></div>
         </div>
       </section>
 
-      <div className="home-marquee"><span>MAKE WITH INTENTION</span><i>✳</i><span>BUILD WITH CLARITY</span><i>✳</i><span>SHIP WITH CONFIDENCE</span><i>✳</i><span>MAKE WITH INTENTION</span></div>
+      <div className="home-marquee ticker" role="region" aria-label="Atria principles">
+        <div className="ticker-group"><span>MAKE WITH INTENTION</span><i>✳</i><span>BUILD WITH CLARITY</span><i>✳</i><span>SHIP WITH CONFIDENCE</span><i>✳</i></div>
+        <div className="ticker-group" aria-hidden="true"><span>MAKE WITH INTENTION</span><i>✳</i><span>BUILD WITH CLARITY</span><i>✳</i><span>SHIP WITH CONFIDENCE</span><i>✳</i></div>
+      </div>
 
       <section className="home-intro shell">
         <div className="section-index">[ 01 — THE IDEA ]</div>
