@@ -75,7 +75,7 @@ function LandingPage() {
       <section className="home-hero">
         <div className="home-hero-copy">
           <div className="eyebrow"><span className="live-dot"/> OPEN-SOURCE DESIGN SYSTEM WORKSPACE</div>
-          <h1>Make your<br/>system <em>make sense.</em></h1>
+          <h1 aria-label="Make consistency feel effortless">Make your<br/>system <em>make sense.</em></h1>
           <p>Atria brings foundations, tokens and components into one connected workspace — so teams can make better design decisions and carry them into code.</p>
           <div className="hero-actions">
             <Link className="button button-dark" to="/explore">Explore workspace <ArrowRight size={16}/></Link>
