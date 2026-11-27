@@ -42,19 +42,6 @@ export default function MotionController() {
               .from('.home-hero-copy .hero-actions > *', { y: 14, autoAlpha: 0, stagger: 0.12, duration: 0.55 }, '-=0.35')
               .from('.home-hero-meta', { scaleX: 0, transformOrigin: 'left center', duration: 0.6 }, '-=0.2')
 
-            gsap.from('.home-hero-art > *', {
-              scale: (index) => index % 2 ? 0.7 : 1.18,
-              rotate: (index) => index % 2 ? -18 : 12,
-              autoAlpha: 0,
-              stagger: 0.08,
-              duration: 1.05,
-              delay: 0.25,
-              ease: 'expo.out',
-              clearProps: 'opacity,visibility'
-            })
-            gsap.from('.home-visual-head,.home-visual-caption', {
-              y: 12, autoAlpha: 0, stagger: 0.12, duration: 0.55, delay: 0.4
-            })
             gsap.from('.home-intro > div:last-child h2', {
               clipPath: 'inset(0 0 100% 0)', y: 28, duration: 0.95, ease: 'power4.out',
               scrollTrigger: { trigger: '.home-intro', start: 'top 76%', once: true }
@@ -77,16 +64,7 @@ export default function MotionController() {
               scrollTrigger: { trigger: '.home-contact', start: 'top 82%', once: true }
             })
 
-            if (conditions.desktop) {
-              gsap.to('.home-art-orbit-one', {
-                rotate: 328, ease: 'none',
-                scrollTrigger: { trigger: '.home-hero', start: 'top top', end: 'bottom top', scrub: 1.2 }
-              })
-              gsap.to('.home-art-orbit-two', {
-                rotate: -318, ease: 'none',
-                scrollTrigger: { trigger: '.home-hero', start: 'top top', end: 'bottom top', scrub: 1.4 }
-              })
-            }
+
           }
 
           // Explore overview: dashboard data comes alive like a working
