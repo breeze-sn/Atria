@@ -9,8 +9,6 @@ import Community from './pages/Community.jsx'
 import Studio from './pages/Studio.jsx'
 import Docs from './Docs.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
-import ThemePreviewToggle from './components/ThemePreviewToggle.jsx'
-import MotionController from './components/MotionController.jsx'
 import { ThemeProvider, useThemePreview } from './context/ThemeContext.jsx'
 import {
   ArrowDownRight,
@@ -41,13 +39,13 @@ const foundations = [
   { icon: Cube, name: 'Components', detail: 'Document reusable interface patterns', meta: 'LIBRARY / 04' },
 ]
 
-const swatches = ['#171717', '#55534F', '#99958D', '#D5D1C8', '#EEECE7']
+const swatches = ['#EDEBE4', '#111111', '#1D4ED8', '#F43F5E']
 const tickerPhrases = ['DESIGN WITH INTENTION', 'BUILD WITH CLARITY', 'DOCUMENT EVERYTHING']
 
 function LandingPage() {
   const [activeTab, setActiveTab] = useState('Button')
   const [copied, setCopied] = useState(false)
-  const { previewTheme, setPreviewTheme, isDark } = useThemePreview()
+  const { previewTheme, isDark } = useThemePreview()
 
   const copyToken = async () => {
     try {
@@ -134,7 +132,7 @@ function LandingPage() {
                     />
                   ))}
                 </div>
-                <div className="palette-values"><span>INK</span><span>STONE</span><span>ASH</span><span>MIST</span><span>PAPER</span></div>
+                <div className="palette-values"><span>IVORY</span><span>INK</span><span>BLUE</span><span>CORAL</span></div>
               </div>
               <div className="art-bottom"><span><Sparkle size={13} /> DESIGN DECISIONS / IN ONE PLACE</span><span>VIEW DETAILS <ArrowUpRight size={12} /></span></div>
             </div>
@@ -330,7 +328,6 @@ function App() {
     <ThemeProvider>
       <ErrorBoundary>
         <BrowserRouter>
-          <MotionController />
           <Routes>
             <Route path="/" element={<LandingPage />} />
 
