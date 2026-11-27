@@ -396,3 +396,40 @@
     gap: 12px;
   }
 }
+
+/* Documentation — midnight knowledge space */
+.docs-page[data-theme="dark"] {
+  --paper:#0e100f; --ink:#fffce1; --muted:#a5a69a; --line:#30342e;
+  background:#0e100f; color:#fffce1;
+}
+.docs-page[data-theme="dark"] .nav { border-color:#30342e; }
+.docs-page[data-theme="dark"] .brand-period { color:#0ae448; }
+.docs-page[data-theme="dark"] .nav-links { color:#a5a69a; }
+.docs-page[data-theme="dark"] .nav-links a:hover { color:#0ae448; }
+.docs-page[data-theme="dark"] .nav-cta { border-color:#50554b; color:#fffce1; border-radius:999px; }
+.docs-page[data-theme="dark"] .nav-cta:hover { background:#0ae448; color:#0e100f; border-color:#0ae448; }
+.docs-page[data-theme="dark"] .eyebrow,
+.docs-page[data-theme="dark"] .section-index { color:#0ae448; }
+.docs-page[data-theme="dark"] h1 em,
+.docs-page[data-theme="dark"] h2 em { color:#0ae448; }
+.docs-page[data-theme="dark"] .hero-description,
+.docs-page[data-theme="dark"] .docs-group-heading p { color:#a5a69a; }
+.docs-page[data-theme="dark"] .button-dark { background:#0ae448; color:#0e100f; border-radius:999px; }
+.docs-page[data-theme="dark"] .button-dark:hover { background:#abff84; }
+.docs-page[data-theme="dark"] .text-link:hover { color:#0ae448; }
+.docs-page[data-theme="dark"] .docs-index-panel { background:radial-gradient(circle at 88% 10%,#0ae4481c,transparent 40%),#151a15; border-color:#3a4438; }
+.docs-page[data-theme="dark"] .docs-index-panel strong { color:#0ae448; }
+.docs-page[data-theme="dark"] .docs-jump { border-color:#30342e; }
+.docs-page[data-theme="dark"] .docs-jump a { background:#151915; border-color:#3a4438; color:#d9dccf; border-radius:999px; }
+.docs-page[data-theme="dark"] .docs-jump a:hover { background:#0ae448; border-color:#0ae448; color:#0e100f; }
+.docs-page[data-theme="dark"] .docs-group { border-color:#30342e; }
+.docs-page[data-theme="dark"] .docs-card { background:#151915; border-color:#343b31; }
+.docs-page[data-theme="dark"] .docs-card-icon { background:#222a21; color:#0ae448; border-radius:8px; }
+.docs-page[data-theme="dark"] .docs-card p { color:#a5a69a; }
+.docs-page[data-theme="dark"] .docs-card-action { border-color:#303a2f; color:#fffce1; }
+.docs-page[data-theme="dark"] .docs-card:hover { background:#1b241b; border-color:#0ae448; box-shadow:0 16px 44px #0ae44812; }
+.docs-page[data-theme="dark"] .docs-group:nth-of-type(odd) .docs-group-number { color:#9d95ff; }
+.docs-page[data-theme="dark"] .docs-footer { border-color:#30342e; }
+.docs-page[data-theme="dark"] .footer-top p,
+.docs-page[data-theme="dark"] .footer-bottom { color:#858b7d; }
+.docs-page[data-theme="dark"] .footer-github:hover { color:#0ae448; }
