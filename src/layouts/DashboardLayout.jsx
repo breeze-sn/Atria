@@ -44,7 +44,7 @@ function ExploreFooter() {
       </div>
       <div className="footer-bottom">
         <span>© 2026 ATRIA STUDIO</span>
-        <span>OPEN SOURCE · EARLY DEVELOPMENT</span>
+        <span>OPEN SOURCE · DESIGN SYSTEM STUDIO</span>
         <Link to="/docs">DOCUMENTATION</Link>
         <a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12} /></a>
       </div>
