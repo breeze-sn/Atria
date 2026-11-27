@@ -101,7 +101,7 @@ export default function Studio() {
  const panels=[['Add',<Plus size={15}/>],['Layers',<SquaresFour size={15}/>],['Tokens',<Stack size={15}/>],['Palettes',<Palette size={15}/>]];
  return <div className="atria-builder" data-theme={previewTheme}>
   <header className="builder-topbar">
-   <div className="builder-brand-wrap"><Link to="/" className="builder-back"><ArrowLeft size={15}/> Atria</Link><span className="builder-divider"/><strong className="builder-wordmark">atria<span>.</span></strong><small>/ STUDIO</small></div>
+   <div className="builder-brand-wrap"><Link to="/" className="builder-back" aria-label="Atria"><ArrowLeft size={15}/> Atria</Link><span className="builder-divider"/><strong className="builder-wordmark">atria<span>.</span></strong><small>/ STUDIO</small></div>
    <input className="builder-name" aria-label="Design system name" value={name} onChange={e=>setName(e.target.value)}/>
    <div className="builder-actions">
      <ThemePreviewToggle
