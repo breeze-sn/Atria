@@ -11,11 +11,10 @@ import {
 import { useThemePreview } from '../context/ThemeContext.jsx';
 
 const palette = [
-  { name: 'INK', value: '#171717' },
-  { name: 'STONE', value: '#55534F' },
-  { name: 'ASH', value: '#99958D' },
-  { name: 'MIST', value: '#D5D1C8' },
-  { name: 'PAPER', value: '#EEECE7' },
+  { name: 'IVORY', value: '#EDEBE4' },
+  { name: 'INK', value: '#111111' },
+  { name: 'BLUE', value: '#1D4ED8' },
+  { name: 'CORAL', value: '#F43F5E' },
 ];
 
 const modules = [
