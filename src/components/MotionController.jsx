@@ -33,83 +33,58 @@ export default function MotionController() {
           const isStudio = root.matches('.studio-page') || Boolean(root.querySelector('.studio-page'))
           const path = location.pathname
 
-          // Landing: a composed hero entrance, with each part of the mock
-          // workspace arriving on its own beat instead of one generic reveal.
+          // Landing: expressive typography and one composed identity graphic.
           if (isLanding) {
             const hero = gsap.timeline({ defaults: { ease: 'power4.out' } })
-            hero.from('.hero-copy .eyebrow', { y: 18, autoAlpha: 0, duration: 0.7 })
-              .from('.hero-copy h1', { yPercent: 115, skewY: 4, duration: 1.05, transformOrigin: 'left bottom' }, '-=0.28')
-              .from('.hero-description', { y: 24, autoAlpha: 0, duration: 0.75 }, '-=0.52')
-              .from('.hero-actions > *', { y: 14, autoAlpha: 0, stagger: 0.12, duration: 0.6 }, '-=0.42')
-              .from('.hero-footnote', { scaleX: 0, transformOrigin: 'left center', duration: 0.65 }, '-=0.25')
+            hero.from('.home-hero-copy .eyebrow', { y: 18, autoAlpha: 0, duration: 0.65 })
+              .from('.home-hero h1', { yPercent: 115, skewY: 3, duration: 1.1, transformOrigin: 'left bottom' }, '-=0.2')
+              .from('.home-hero-copy > p', { y: 22, autoAlpha: 0, duration: 0.7 }, '-=0.5')
+              .from('.home-hero-copy .hero-actions > *', { y: 14, autoAlpha: 0, stagger: 0.12, duration: 0.55 }, '-=0.35')
+              .from('.home-hero-meta', { scaleX: 0, transformOrigin: 'left center', duration: 0.6 }, '-=0.2')
 
-            const art = root.querySelector('.hero-art')
-            if (art) {
-              gsap.fromTo(art, { clipPath: 'inset(12% 0 0 0 round 5px)', y: 90, rotate: 2.5, autoAlpha: 0 }, {
-                clipPath: 'inset(0% 0 0 0 round 5px)', y: 0, rotate: 0, autoAlpha: 1,
-                duration: 1.35, delay: 0.25, ease: 'expo.out'
-              })
-              gsap.from('.art-sidebar', { x: -24, autoAlpha: 0, duration: 0.75, delay: 0.8, ease: 'power3.out' })
-              gsap.from('.art-stats > div', { y: 18, autoAlpha: 0, stagger: 0.12, duration: 0.6, delay: 0.85 })
-              gsap.from('.swatches span', { scaleY: 0, transformOrigin: 'bottom', stagger: 0.09, duration: 0.65, delay: 1.05, ease: 'back.out(1.7)' })
-            }
-
-            gsap.from('.ticker-item', {
-              x: 35, autoAlpha: 0, stagger: 0.08, duration: 0.7, ease: 'power3.out',
-              scrollTrigger: { trigger: '.ticker', start: 'top 92%', once: true }
+            gsap.from('.home-hero-art > *', {
+              scale: (index) => index % 2 ? 0.7 : 1.18,
+              rotate: (index) => index % 2 ? -18 : 12,
+              autoAlpha: 0,
+              stagger: 0.08,
+              duration: 1.05,
+              delay: 0.25,
+              ease: 'expo.out',
+              clearProps: 'opacity,visibility'
             })
-
-            gsap.from('.intro-content h2', {
-              clipPath: 'inset(0 0 100% 0)', y: 35, duration: 1.05, ease: 'power4.out',
-              scrollTrigger: { trigger: '.intro-section', start: 'top 72%', once: true }
+            gsap.from('.home-visual-head,.home-visual-caption', {
+              y: 12, autoAlpha: 0, stagger: 0.12, duration: 0.55, delay: 0.4
             })
-            gsap.from('.intro-aside', {
-              x: 45, autoAlpha: 0, duration: 0.9, ease: 'power3.out',
-              scrollTrigger: { trigger: '.intro-section', start: 'top 70%', once: true }
+            gsap.from('.home-intro > div:last-child h2', {
+              clipPath: 'inset(0 0 100% 0)', y: 28, duration: 0.95, ease: 'power4.out',
+              scrollTrigger: { trigger: '.home-intro', start: 'top 76%', once: true }
             })
-
-            gsap.from('.foundation-card', {
-              y: (index) => index % 2 ? 65 : 28,
-              rotate: (index) => index % 2 ? 2.5 : -1.5,
-              autoAlpha: 0, stagger: 0.14, duration: 0.95, ease: 'power3.out',
-              scrollTrigger: { trigger: '.foundation-grid', start: 'top 82%', once: true }
+            gsap.from('.home-foundation-item', {
+              y: 40, rotate: (index) => index % 2 ? 1.5 : -1.5, autoAlpha: 0,
+              stagger: 0.12, duration: 0.8, ease: 'power3.out',
+              scrollTrigger: { trigger: '.home-foundation-grid', start: 'top 82%', once: true }
             })
-            gsap.from('.foundation-icon', {
-              scale: 0.3, rotate: -35, autoAlpha: 0, stagger: 0.12, duration: 0.7, delay: 0.25, ease: 'back.out(1.8)',
-              scrollTrigger: { trigger: '.foundation-grid', start: 'top 82%', once: true }
+            gsap.from('.home-playground', {
+              x: 55, rotateY: -8, autoAlpha: 0, transformPerspective: 1000, duration: 0.95, ease: 'power3.out',
+              scrollTrigger: { trigger: '.home-playground', start: 'top 82%', once: true }
             })
-
-            gsap.from('.component-copy', {
-              x: -65, autoAlpha: 0, duration: 1, ease: 'power3.out',
-              scrollTrigger: { trigger: '.component-layout', start: 'top 76%', once: true }
+            gsap.from('.home-token-layout > div', {
+              y: 32, autoAlpha: 0, stagger: 0.16, duration: 0.8, ease: 'power3.out',
+              scrollTrigger: { trigger: '.home-token-band', start: 'top 82%', once: true }
             })
-            gsap.from('.component-preview', {
-              rotateY: -16, rotateX: 7, x: 75, autoAlpha: 0, transformPerspective: 1000,
-              duration: 1.15, ease: 'power3.out',
-              scrollTrigger: { trigger: '.component-layout', start: 'top 76%', once: true }
-            })
-            gsap.from('.preview-stage > *', {
-              scale: 0.82, y: 15, autoAlpha: 0, stagger: 0.1, duration: 0.55, delay: 0.35, ease: 'back.out(1.5)',
-              scrollTrigger: { trigger: '.component-preview', start: 'top 78%', once: true }
-            })
-
-            gsap.from('.token-inner > div:first-child h2', {
-              x: -55, autoAlpha: 0, duration: 0.9, ease: 'power3.out',
-              scrollTrigger: { trigger: '.token-strip', start: 'top 78%', once: true }
-            })
-            gsap.from('.code-snippet', {
-              clipPath: 'inset(0 100% 0 0)', duration: 1.1, ease: 'power4.inOut',
-              scrollTrigger: { trigger: '.token-strip', start: 'top 78%', once: true }
-            })
-            gsap.from('.contact-links .contact-link', {
-              x: 55, autoAlpha: 0, stagger: 0.12, duration: 0.75, ease: 'power3.out',
-              scrollTrigger: { trigger: '.contact-layout', start: 'top 78%', once: true }
+            gsap.from('.home-contact-links a', {
+              x: 35, autoAlpha: 0, stagger: 0.1, duration: 0.65, ease: 'power3.out',
+              scrollTrigger: { trigger: '.home-contact', start: 'top 82%', once: true }
             })
 
             if (conditions.desktop) {
-              gsap.to('.hero-art', {
-                yPercent: -11, rotate: -1, ease: 'none',
-                scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.1 }
+              gsap.to('.home-art-orbit-one', {
+                rotate: 328, ease: 'none',
+                scrollTrigger: { trigger: '.home-hero', start: 'top top', end: 'bottom top', scrub: 1.2 }
+              })
+              gsap.to('.home-art-orbit-two', {
+                rotate: -318, ease: 'none',
+                scrollTrigger: { trigger: '.home-hero', start: 'top top', end: 'bottom top', scrub: 1.4 }
               })
             }
           }
