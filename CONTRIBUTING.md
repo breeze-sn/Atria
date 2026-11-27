@@ -25,7 +25,7 @@ Atria is an open-source design system studio. The product currently includes a F
 
 ## Development setup
 
-Requirements: Node.js 20 or newer, npm, and Git.
+Requirements: Node.js 22.23.5, npm, and Git. CI uses the same runtime; the locked jsdom/undici test dependencies do not support Node 20.
 
 ```bash
 git clone https://github.com/<your-username>/Atria.git
