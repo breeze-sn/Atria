@@ -86,9 +86,9 @@ export default function Overview() {
           <small>Foundations, tokens & UI</small>
         </article>
         <article>
-          <span>WORKSPACE STATUS</span>
-          <strong className="workspace-status-value">In progress</strong>
-          <small>Building the Atria system</small>
+          <span>YOUR WORKSPACE</span>
+          <strong className="workspace-status-value">Ready to use</strong>
+          <small>Customise, save and export</small>
         </article>
       </section>
 
