@@ -52,7 +52,7 @@ function ExploreFooter() {
 }
 
 export default function DashboardLayout() {
-  const { previewTheme, isDark } = useThemePreview();
+  const { previewTheme, setPreviewTheme, isDark } = useThemePreview();
 
   return (
     <div className="explore-page" data-theme={previewTheme}>
@@ -63,11 +63,6 @@ export default function DashboardLayout() {
             <span>atria<span className="brand-period">.</span></span>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <ThemePreviewToggle
-              mode={previewTheme}
-              onChange={setPreviewTheme}
-              label="Explore Studio navbar theme toggle"
-            />
             <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
               <GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} />
             </a>
