@@ -1200,3 +1200,162 @@ h2 { font-size: clamp(38px, 5vw, 57px); line-height: 1.05; letter-spacing: -.07e
 .explore-page[data-theme="dark"] .studio-page button:disabled { opacity:.42; }
 .explore-page[data-theme="dark"] .studio-page input[type="checkbox"],
 .explore-page[data-theme="dark"] .studio-page input[type="radio"] { accent-color:#0ae448; }
+
+
+/* ATRIA — monochrome canvas with a four-colour identity */
+:root,
+:root[data-theme="dark"],
+:root[data-theme="light"] {
+  color-scheme: dark !important;
+  --paper: #111111;
+  --ink: #EDEBE4;
+  --muted: #aaa79f;
+  --line: #393832;
+  --atria-ivory: #EDEBE4;
+  --atria-black: #111111;
+  --atria-blue: #1D4ED8;
+  --atria-coral: #F43F5E;
+  background: #111111 !important;
+  color: #EDEBE4 !important;
+}
+html, body, #root { min-height:100%; background:#111111 !important; color:#EDEBE4 !important; }
+body { background:#111111 !important; }
+:root[data-theme="light"] body { background:#111111 !important; color:#EDEBE4 !important; }
+.landing-page, .explore-page, .docs-page, .studio-page, .atria-builder,
+.landing-page[data-theme], .explore-page[data-theme], .docs-page[data-theme],
+.atria-builder[data-theme] {
+  background:#111111 !important; color:#EDEBE4 !important;
+  --paper:#111111 !important; --ink:#EDEBE4 !important; --muted:#aaa79f !important; --line:#393832 !important;
+}
+.landing-page :is(h1,h2,h3,h4,strong), .explore-page :is(h1,h2,h3,h4,strong),
+.docs-page :is(h1,h2,h3,h4,strong), .studio-page :is(h1,h2,h3,h4,strong) { color:#EDEBE4; }
+.landing-page :is(p,small), .explore-page :is(p,small), .docs-page :is(p,small),
+.studio-page :is(p,small) { color:#aaa79f; }
+.landing-page em, .explore-page em, .docs-page em, .studio-page em { color:#1D4ED8 !important; }
+.landing-page .brand-period, .explore-page .brand-period { color:#F43F5E !important; }
+.brand-mark span { background:#EDEBE4 !important; }
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) a { color:inherit; }
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(a:hover,button:hover) { border-color:#1D4ED8; }
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :focus-visible {
+  outline:2px solid #F43F5E !important; outline-offset:3px;
+}
+::selection { background:#1D4ED8; color:#EDEBE4; }
+
+/* Header and navigation */
+.landing-page .nav, .explore-page .nav, .docs-page .nav,
+.explore-header, .explore-sidebar, .footer, .footer-bottom { border-color:#393832 !important; }
+.nav-links, .explore-section-link { color:#aaa79f !important; }
+.nav-links a:hover, .text-link:hover, .explore-section-link:hover { color:#EDEBE4 !important; }
+.nav-cta, .footer-github, .community-submit-link {
+  background:transparent !important; color:#EDEBE4 !important; border:1px solid #55534d !important;
+  border-radius:3px !important;
+}
+.nav-cta:hover, .footer-github:hover { background:#1D4ED8 !important; border-color:#1D4ED8 !important; color:#EDEBE4 !important; }
+.nav-cta svg, .footer-github svg { color:inherit; }
+.explore-section-link.active { background:#1D4ED8 !important; border-color:#1D4ED8 !important; color:#EDEBE4 !important; }
+.explore-section-link.active small, .explore-section-link.active svg { color:#EDEBE4 !important; }
+
+/* Landing page — editorial, spacious, and product-led */
+.landing-page .hero { background:none !important; }
+.landing-page .eyebrow, .landing-page .section-index, .landing-page .card-meta,
+.explore-page .section-index, .explore-page .studio-kicker, .explore-page .studio-status {
+  color:#F43F5E !important;
+}
+.landing-page .live-dot { background:#F43F5E !important; box-shadow:none !important; }
+.landing-page h1 em, .landing-page h2 em { color:#1D4ED8 !important; }
+.landing-page .button-dark, .landing-page .sample-button {
+  background:#1D4ED8 !important; border:1px solid #1D4ED8 !important; color:#EDEBE4 !important;
+  border-radius:3px !important;
+}
+.landing-page .button-dark:hover, .landing-page .sample-button:hover { background:#F43F5E !important; border-color:#F43F5E !important; }
+.landing-page .hero-art, .landing-page .art-window, .landing-page .component-preview,
+.landing-page .foundation-card, .landing-page .code-snippet {
+  background:#171717 !important; border:1px solid #393832 !important; box-shadow:none !important;
+}
+.landing-page .art-sidebar, .landing-page .art-stats, .landing-page .art-stats div,
+.landing-page .art-palette, .landing-page .preview-tabs, .landing-page .preview-footer,
+.landing-page .contact-links, .landing-page .contact-link { border-color:#393832 !important; }
+.landing-page .art-stats strong, .landing-page .foundation-card h3 { color:#EDEBE4 !important; }
+.landing-page .art-stats div:nth-child(2) strong, .landing-page .art-stats div:nth-child(3) strong { color:#1D4ED8 !important; }
+.landing-page .art-stats div:nth-child(3) strong { color:#F43F5E !important; }
+.landing-page .ticker, .landing-page .foundations-section, .landing-page .token-strip {
+  background:#171717 !important; border-color:#393832 !important; color:#EDEBE4 !important;
+}
+.landing-page .ticker-track i, .landing-page .token-foot { color:#F43F5E !important; }
+.landing-page .foundation-card { border-radius:3px !important; }
+.landing-page .foundation-card:hover { border-color:#1D4ED8 !important; box-shadow:none !important; }
+.landing-page .foundation-icon { color:#1D4ED8 !important; }
+.landing-page .foundation-card:nth-child(4n+2) .foundation-icon,
+.landing-page .foundation-card:nth-child(4n+4) .foundation-icon { color:#F43F5E !important; }
+.landing-page .foundation-card:nth-child(n) { box-shadow:none !important; border-top:2px solid #393832 !important; }
+.landing-page .foundation-card:nth-child(4n+1) { border-top-color:#1D4ED8 !important; }
+.landing-page .foundation-card:nth-child(4n+2) { border-top-color:#F43F5E !important; }
+.landing-page .preview-tabs button.selected { color:#1D4ED8 !important; border-color:#1D4ED8 !important; }
+.landing-page .sample-secondary { background:#222222 !important; color:#EDEBE4 !important; border:1px solid #55534d !important; }
+.landing-page .sample-badge { background:#1D4ED8 !important; color:#EDEBE4 !important; border-color:#1D4ED8 !important; }
+.landing-page .sample-badge.muted { background:#F43F5E !important; color:#EDEBE4 !important; border-color:#F43F5E !important; }
+.landing-page .code-snippet code span { color:#1D4ED8 !important; }
+.landing-page .contact-link:hover, .landing-page .contact-email { color:#F43F5E !important; }
+
+/* Workspace surfaces and resource cards */
+.explore-page .workspace-overview, .explore-page .workspace-welcome,
+.explore-page .workspace-palette, .explore-page .workspace-module-list,
+.explore-page .workspace-metrics article, .explore-page .workspace-module,
+.explore-page .community-card, .explore-page .community-preview,
+.explore-page .studio-page article, .explore-page .studio-page aside,
+.explore-page .studio-page [class*="card"], .explore-page .studio-page [class*="panel"],
+.explore-page .studio-page [class*="preview"] {
+  background-color:#171717 !important; color:#EDEBE4 !important; border-color:#393832 !important;
+  box-shadow:none !important; border-radius:3px !important;
+}
+.explore-page .workspace-welcome h1 em, .explore-page .studio-page-heading h2 em { color:#1D4ED8 !important; }
+.explore-page .workspace-metrics strong { color:#EDEBE4 !important; }
+.explore-page .workspace-metrics article:nth-child(2) strong { color:#1D4ED8 !important; }
+.explore-page .workspace-metrics article:nth-child(3) strong { color:#F43F5E !important; }
+.explore-page .workspace-module-icon, .explore-page .community-card-kicker { color:#1D4ED8 !important; }
+.explore-page .workspace-module:nth-child(even) .workspace-module-icon,
+.explore-page .community-card:nth-child(even) .community-card-kicker { color:#F43F5E !important; }
+.explore-page .workspace-module:hover, .explore-page .community-card:hover {
+  background:#1b1b1b !important; border-color:#1D4ED8 !important; box-shadow:none !important;
+}
+.explore-page .community-filters button, .explore-page .studio-page button,
+.explore-page .studio-page input:not([type="color"]), .explore-page .studio-page select,
+.explore-page .studio-page textarea {
+  background:#111111 !important; color:#EDEBE4 !important; border:1px solid #55534d !important;
+  border-radius:3px !important;
+}
+.explore-page .community-filters button[aria-pressed="true"],
+.explore-page .studio-page button[aria-pressed="true"],
+.explore-page .studio-page [role="tab"][aria-selected="true"] {
+  background:#1D4ED8 !important; border-color:#1D4ED8 !important; color:#EDEBE4 !important;
+}
+.explore-page .community-submit-link { color:#F43F5E !important; border-color:#F43F5E !important; }
+.explore-page .studio-page pre, .explore-page .studio-code-block {
+  background:#0b0b0b !important; color:#EDEBE4 !important; border-color:#393832 !important;
+}
+.explore-page .studio-page input[type="checkbox"], .explore-page .studio-page input[type="radio"] { accent-color:#1D4ED8 !important; }
+
+/* Documentation remains visually consistent without changing its content */
+.docs-page .docs-index-panel, .docs-page .docs-card, .docs-page .docs-group,
+.docs-page [class*="panel"], .docs-page [class*="card"] {
+  background:#171717 !important; color:#EDEBE4 !important; border-color:#393832 !important;
+  box-shadow:none !important;
+}
+.docs-page .docs-card:hover { border-color:#1D4ED8 !important; }
+.docs-page .docs-hero { background:none !important; }
+.docs-page .docs-group-heading { color:#F43F5E !important; }
+
+/* Studio builder — keep canvas dark, reserve the two accents for actions */
+.atria-builder :is(header,aside,main,section,article) { border-color:#393832 !important; }
+.atria-builder :is(button,[role="tab"])[aria-pressed="true"],
+.atria-builder button.active { background:#1D4ED8 !important; color:#EDEBE4 !important; border-color:#1D4ED8 !important; }
+.atria-builder button, .atria-builder input, .atria-builder select, .atria-builder textarea {
+  background:#171717; color:#EDEBE4; border-color:#55534d;
+}
+.atria-builder .builder-artboard, .atria-builder .builder-left,
+.atria-builder .builder-right, .atria-builder .builder-canvas-scroll { background:#111111 !important; }
+.atria-builder .builder-remove { color:#F43F5E !important; border-color:#F43F5E !important; }
+
+/* Keep motion purposeful: no blanket scroll choreography or perpetual pulses. */
+.landing-page .live-dot { animation:none !important; }
+html { scroll-behavior:auto; }
