@@ -9,7 +9,6 @@ import {
   Sparkle,
   UsersThree,
 } from '@phosphor-icons/react';
-import ThemePreviewToggle from '../components/ThemePreviewToggle.jsx';
 import ErrorBoundary from '../components/ErrorBoundary.jsx';
 import { useThemePreview } from '../context/ThemeContext.jsx';
 
@@ -53,7 +52,7 @@ function ExploreFooter() {
 }
 
 export default function DashboardLayout() {
-  const { previewTheme, setPreviewTheme, isDark } = useThemePreview();
+  const { previewTheme, isDark } = useThemePreview();
 
   return (
     <div className="explore-page" data-theme={previewTheme}>
