@@ -331,3 +331,12 @@
 .atria-builder .builder-remove { background:#2a151b !important; color:#F43F5E !important; border-color:#F43F5E !important; }
 .atria-builder :focus-visible { outline-color:#F43F5E !important; }
 @media(min-width:1200px){.builder-grid{grid-template-columns:clamp(230px,19vw,320px) minmax(0,1fr) clamp(270px,22vw,360px)}.builder-canvas-scroll{padding:clamp(28px,4vw,64px)}}
+
+
+/* Builder accent colours: blue for primary actions, coral for destructive states. */
+.atria-builder :is(button.active,[aria-pressed="true"],[aria-selected="true"]) {
+  background:#1D4ED8 !important; border-color:#1D4ED8 !important; color:#EDEBE4 !important;
+}
+.atria-builder :is(.builder-remove,.danger,.destructive) {
+  color:#F43F5E !important; border-color:#F43F5E !important;
+}
