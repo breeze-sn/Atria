@@ -45,7 +45,7 @@ const tickerPhrases = ['DESIGN WITH INTENTION', 'BUILD WITH CLARITY', 'DOCUMENT 
 function LandingPage() {
   const [activeTab, setActiveTab] = useState('Button')
   const [copied, setCopied] = useState(false)
-  const { previewTheme, isDark } = useThemePreview()
+  const { previewTheme, setPreviewTheme, isDark } = useThemePreview()
 
   const copyToken = async () => {
     try {
@@ -73,11 +73,6 @@ function LandingPage() {
           <a href="#contact">Contact</a>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <ThemePreviewToggle
-            mode={previewTheme}
-            onChange={setPreviewTheme}
-            label="Navbar theme preview toggle"
-          />
           <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
             <GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} />
           </a>
