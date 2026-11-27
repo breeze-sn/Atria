@@ -19,6 +19,17 @@ const revealGroups = [
   '.workspace-palette',
   '.workspace-module',
   '.workspace-overview-foot',
+  '.studio-page-heading',
+  '.component-inspector-grid > *',
+  '.community-card',
+  '.community-token-group',
+  '.community-component-list > *',
+  '.community-preview',
+  '.community-swatches > *',
+  '.community-usage-notes',
+  '.studio-page > section',
+  '.studio-page [class*="grid"] > *',
+  '.studio-page [class*="list"] > *',
   '.docs-hero-copy > *',
   '.docs-index-panel',
   '.docs-group-heading',
@@ -104,7 +115,7 @@ export default function MotionController() {
           })
 
           const cards = gsap.utils.toArray(
-            '.foundation-card, .workspace-module, .docs-card',
+            '.foundation-card, .workspace-module, .docs-card, .community-card, .card',
             root
           )
           cards.forEach((card) => {
