@@ -1893,3 +1893,26 @@ body{min-width:320px;overflow-x:hidden}#root{overflow-x:clip}
 ){overflow-wrap:anywhere}
 .atria-home-v2,.atria-home-v2 main{overflow:visible}
 .atria-home-v2 .home-hero-art{overflow:hidden}
+
+
+/* Final brand and control pass — consistent across every Atria route. */
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) .brand-mark span{background:#EDEBE4!important}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) .brand-period{color:#F43F5E!important}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.nav-cta:hover,.button-dark,.community-filters button[aria-pressed="true"],.community-submit-link:hover){
+  background:#1D4ED8!important;border-color:#1D4ED8!important;color:#EDEBE4!important
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.explore-section-link.active,.community-filters button[aria-pressed="true"]){
+  color:#EDEBE4!important;border-color:#1D4ED8!important
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.eyebrow,.section-index,.studio-kicker,.studio-status,.docs-group-number){color:#F43F5E}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(h1 em,h2 em){color:#F43F5E}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.nav-links a:hover,.text-link:hover,.footer-github:hover,.contact-link:hover){color:#F43F5E}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.studio-brief,.docs-card,.docs-index-panel,.community-preview,.community-card,.workspace-module,.workspace-metrics article){
+  box-shadow:none!important
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(section,article,.docs-card,.workspace-module,.community-card,.studio-brief,.builder-modal){
+  background-image:none
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(input:not([type="color"]),select,textarea){
+  min-width:0;max-width:100%
+}
