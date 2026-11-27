@@ -87,6 +87,7 @@ export default function DashboardLayout() {
                 className={({ isActive }) =>
                   isActive ? 'explore-section-link active' : 'explore-section-link'
                 }
+                aria-label={`${section.name} ${section.number}`}
               >
                 <span className="explore-section-icon">{section.icon}</span>
                 <span>{section.name}</span>
