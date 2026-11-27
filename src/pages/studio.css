@@ -355,3 +355,27 @@
 .atria-builder[data-theme="dark"] :is(input:not([type=color]),select,textarea){background:#111!important;color:#EDEBE4!important;border-color:#55534d!important}
 .atria-builder[data-theme="dark"] :is(.builder-remove,.builder-remove:hover){background:#2a151b!important;color:#F43F5E!important;border-color:#F43F5E!important}
 .atria-builder[data-theme="dark"] :focus-visible{outline-color:#F43F5E!important}
+
+
+/* Studio builder: same dark surfaces, type system and spacing cadence. */
+.atria-builder{font-family:'Manrope',system-ui,sans-serif;background:#111!important;color:#EDEBE4!important}
+.atria-builder :is(.builder-topbar,.builder-left,.builder-right,.builder-canvas-head,.builder-main-foot,.builder-inspector-head,.builder-mobile-nav,.builder-modal){
+  background:#171717!important;border-color:#393832!important;color:#EDEBE4!important;
+}
+.atria-builder .builder-main{background:#111!important}
+.atria-builder .builder-canvas-scroll{background:#111!important;background-image:none!important;padding:clamp(24px,4vw,56px)!important}
+.atria-builder .builder-artboard{background:#171717!important;border:1px solid #393832!important;box-shadow:none!important;padding:clamp(20px,3vw,36px)}
+.atria-builder :is(.builder-artboard-head,.builder-artboard-foot,.builder-label,.builder-inspector-head,.builder-inspector-content label){color:#EDEBE4!important}
+.atria-builder :is(.builder-token b,.builder-palette b){color:#EDEBE4!important}
+.atria-builder :is(.builder-add-item,.builder-palette,.builder-add-inline,.builder-explore,.builder-actions button,.builder-inspector-dismiss,.builder-modal nav button){
+  background:#171717!important;color:#EDEBE4!important;border-color:#393832!important;border-radius:2px!important;
+}
+.atria-builder :is(.builder-tabs button.active,.builder-actions .dark,.builder-modal nav button.active,.builder-mobile-nav [aria-pressed="true"]){
+  background:#1D4ED8!important;color:#EDEBE4!important;border-color:#1D4ED8!important;
+}
+.atria-builder :is(input:not([type=color]),select,textarea){background:#141414!important;color:#EDEBE4!important;border-color:#393832!important;border-radius:2px!important}
+.atria-builder :is(.builder-inspector-content section,.builder-token,.builder-artboard-head,.builder-artboard-foot){border-color:#393832!important}
+.atria-builder .builder-remove{background:#171717!important;color:#F43F5E!important;border-color:#F43F5E!important}
+.atria-builder :focus-visible{outline:2px solid #F43F5E!important;outline-offset:3px}
+.atria-builder .builder-modal{padding:clamp(20px,3vw,32px);border-radius:2px!important}
+@media(max-width:760px){.atria-builder .builder-canvas-scroll{padding:16px!important}.atria-builder .builder-artboard{padding:18px}}
