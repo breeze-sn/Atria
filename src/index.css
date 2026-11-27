@@ -1742,7 +1742,7 @@ body{min-width:320px;overflow-x:hidden}#root{overflow-x:clip}
 
 /* Homepage art direction — GSAP-inspired kinetic type, not a product mock window. */
 .atria-home-v2 .home-hero{
-  grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);
+  grid-template-columns:minmax(0,1fr);
   align-items:center;
   gap:clamp(28px,5vw,84px);
   padding-top:clamp(82px,10vw,150px);
@@ -1915,4 +1915,35 @@ body{min-width:320px;overflow-x:hidden}#root{overflow-x:clip}
 }
 :where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(input:not([type="color"]),select,textarea){
   min-width:0;max-width:100%
+}
+
+/* Hero: GSAP-inspired negative space and oversized type; no right-side artwork. */
+.atria-home-v2 .home-hero{
+  display:block;
+  width:calc(100% - 2*var(--home-gutter));
+  max-width:none;
+  padding-top:clamp(112px,15vw,220px);
+  padding-bottom:clamp(100px,13vw,190px);
+}
+.atria-home-v2 .home-hero-copy{max-width:1320px}
+.atria-home-v2 .home-hero h1{
+  max-width:1300px;
+  font-size:clamp(76px,13.5vw,208px);
+  line-height:.78;
+  letter-spacing:-.105em;
+}
+.atria-home-v2 .home-hero-copy>p{
+  max-width:510px;
+  margin-top:clamp(34px,5vw,66px);
+  font-size:clamp(15px,1.35vw,18px);
+}
+.atria-home-v2 .home-hero-meta{max-width:100%;margin-top:clamp(70px,10vw,140px)}
+@media(max-width:900px){
+  .atria-home-v2 .home-hero{display:block;padding-top:100px;padding-bottom:110px}
+}
+@media(max-width:680px){
+  .atria-home-v2 .home-hero{padding-top:76px;padding-bottom:78px}
+  .atria-home-v2 .home-hero h1{font-size:clamp(62px,14vw,100px);line-height:.86}
+  .atria-home-v2 .home-hero-copy>p{margin-top:30px}
+  .atria-home-v2 .home-hero-meta{margin-top:64px}
 }
