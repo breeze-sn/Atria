@@ -1589,3 +1589,47 @@ html { scroll-behavior:auto; }
   -webkit-filter: none !important;
   background-image: none !important;
 }
+
+
+/* Remove the legacy green identity completely. Only ivory, ink, blue and coral remain. */
+:root {
+  --atria-green:#1D4ED8 !important;
+  --atria-mint:#F43F5E !important;
+  --accent:#1D4ED8 !important;
+  --accent-soft:#1D4ED8 !important;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) {
+  --atria-green:#1D4ED8 !important;
+  --atria-mint:#F43F5E !important;
+  --accent:#1D4ED8 !important;
+  --accent-soft:#1D4ED8 !important;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(
+  .brand-period,.text-link:hover,.nav-cta:hover,.live-dot,h2 em,.button-dark,
+  .hero-footnote .mono,.side-item.active,.ticker-track i,.card-meta,.foundation-card:hover,
+  .preview-tabs button.selected,.sample-button,.sample-badge,.token-foot,.code-snippet code span,
+  .contact-email,.footer-github:hover,.studio-status,.explore-section-link.active,
+  .workspace-welcome h1 em,.workspace-metrics article strong,.workspace-module:hover,
+  .workspace-module-icon,.studio-page button:hover,.community-card-kicker,
+  .community-card:hover,.community-submit-link,.studio-page-heading h2 em,
+  .community-filters button[aria-pressed="true"],.studio-page button[aria-pressed="true"]
+) { color:#1D4ED8 !important; }
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(
+  .nav-cta:hover,.button-dark,.sample-button,.sample-badge,
+  .explore-section-link.active,.community-filters button[aria-pressed="true"],
+  .studio-page button[aria-pressed="true"]
+) { background:#1D4ED8 !important; border-color:#1D4ED8 !important; color:#EDEBE4 !important; }
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(
+  .foundation-card:hover,.workspace-module:hover,.community-card:hover,
+  .community-submit-link,.studio-page button:hover
+) { border-color:#1D4ED8 !important; }
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :focus-visible {
+  outline-color:#F43F5E !important;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) ::selection {
+  background:#1D4ED8 !important; color:#EDEBE4 !important;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) input[type="checkbox"],
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) input[type="radio"] {
+  accent-color:#1D4ED8 !important;
+}
