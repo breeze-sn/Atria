@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export const THEME_STORAGE_KEY = 'atria:theme-preview';
+export const THEME_STORAGE_KEY = 'atria:theme-preview-v2';
 
 export const ThemeContext = createContext(null);
 
