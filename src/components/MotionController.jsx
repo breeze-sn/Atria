@@ -37,8 +37,9 @@ export default function MotionController() {
     )
     if (!root) return undefined
 
+    const cleanups = []
     const context = gsap.context(() => {
-      const media = gsap.matchMedia()
+      const media = gsap.matchMedia(root)
 
       media.add(
         {
@@ -112,7 +113,7 @@ export default function MotionController() {
             const onLeave = () => gsap.to(card, { y: 0, duration: 0.45, ease: 'power2.out' })
             card.addEventListener('pointerenter', onEnter)
             card.addEventListener('pointerleave', onLeave)
-            context.add(() => {
+            cleanups.push(() => {
               card.removeEventListener('pointerenter', onEnter)
               card.removeEventListener('pointerleave', onLeave)
             })
@@ -132,12 +133,17 @@ export default function MotionController() {
             })
           }
 
-          return () => media.revert()
+          return () => {
+            cleanups.splice(0).forEach((cleanup) => cleanup())
+          }
         }
       )
     }, root)
 
-    return () => context.revert()
+    return () => {
+      cleanups.splice(0).forEach((cleanup) => cleanup())
+      context.revert()
+    }
   }, [location.pathname])
 
   return null
