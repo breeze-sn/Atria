@@ -84,21 +84,6 @@ function LandingPage() {
           </div>
           <div className="home-hero-meta"><span>DESIGN SYSTEMS, WITHOUT THE SCATTER</span><span>01 — 04</span></div>
         </div>
-        <div className="home-hero-visual" aria-label="Atria visual identity">
-          <div className="home-visual-head"><span>ATRIA / DESIGN LANGUAGE</span><span>BUILT WITH INTENTION</span></div>
-          <div className="home-hero-art" aria-hidden="true">
-            <div className="home-art-orbit home-art-orbit-one"/>
-            <div className="home-art-orbit home-art-orbit-two"/>
-            <div className="home-art-disc"/>
-            <div className="home-art-block home-art-block-blue"/>
-            <div className="home-art-block home-art-block-coral"/>
-            <div className="home-art-letter">A<span>.</span></div>
-            <div className="home-art-note home-art-note-top">FOUNDATIONS<br/>01 / 04</div>
-            <div className="home-art-note home-art-note-bottom">A SYSTEM OF<br/>CONNECTED IDEAS</div>
-            <div className="home-art-cross">✳</div>
-          </div>
-          <div className="home-visual-caption"><span>FIG. 01</span><span>FORM FOLLOWS INTENTION</span></div>
-        </div>
       </section>
 
       <div className="home-marquee ticker" role="region" aria-label="Atria principles">
