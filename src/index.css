@@ -1738,3 +1738,158 @@ body{min-width:320px;overflow-x:hidden}#root{overflow-x:clip}
 @media(max-width:900px){.atria-home-v2 .home-hero{grid-template-columns:1fr}.atria-home-v2 .home-hero-copy{max-width:850px}.atria-home-v2 .home-product{min-height:420px}.atria-home-v2 .home-foundation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.atria-home-v2 .home-foundation-item:nth-child(2){border-right:0}.atria-home-v2 .home-foundation-item:nth-child(-n+2){border-bottom:1px solid #393832}.atria-home-v2 .home-components-layout{grid-template-columns:1fr}}
 @media(max-width:680px){.atria-home-v2{--home-gutter:20px}.atria-home-v2 .home-nav{width:calc(100% - 40px)!important}.atria-home-v2 .home-nav .nav-links{display:none}.atria-home-v2 .home-hero{padding-top:60px;padding-bottom:58px}.atria-home-v2 .home-hero h1{font-size:clamp(58px,13vw,88px)}.atria-home-v2 .home-product{grid-template-columns:1fr}.atria-home-v2 .home-product-rail{display:none}.atria-home-v2 .home-intro>div:last-child,.atria-home-v2 .home-contact-layout,.atria-home-v2 .home-token-layout{grid-template-columns:1fr}.atria-home-v2 .home-section-head{display:block}.atria-home-v2 .home-section-head>p{margin-top:24px}.atria-home-v2 .home-foundation-grid{grid-template-columns:1fr 1fr}.atria-home-v2 .home-foundation-item{min-height:240px;padding:16px}.atria-home-v2 .home-foundation-top{margin-bottom:36px}.atria-home-v2 .home-marquee{justify-content:flex-start}.atria-home-v2 .home-footer{padding-block:24px}}
 @media(max-width:420px){.atria-home-v2 .nav-cta{padding:9px;font-size:0}.atria-home-v2 .home-stat-row{grid-template-columns:1fr}.atria-home-v2 .home-stat-row>div+div{border-left:0;border-top:1px solid #393832;padding-left:0}.atria-home-v2 .home-foundation-grid{grid-template-columns:1fr}.atria-home-v2 .home-foundation-item{border-right:0;border-bottom:1px solid #393832}.atria-home-v2 .home-foundation-item:last-child{border-bottom:0}.atria-home-v2 .home-playground-top,.atria-home-v2 .home-playground-bottom{flex-wrap:wrap}.atria-home-v2 .home-code{align-items:flex-start;flex-direction:column}}
+
+
+/* Homepage art direction — GSAP-inspired kinetic type, not a product mock window. */
+.atria-home-v2 .home-hero{
+  grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);
+  align-items:center;
+  gap:clamp(28px,5vw,84px);
+  padding-top:clamp(82px,10vw,150px);
+  padding-bottom:clamp(72px,8vw,120px);
+}
+.atria-home-v2 .home-hero h1{
+  max-width:1000px;
+  font-size:clamp(68px,9.2vw,154px);
+  line-height:.82;
+  letter-spacing:-.095em;
+  font-weight:650;
+}
+.atria-home-v2 .home-hero h1 em,
+.atria-home-v2 :is(.home-intro h2 em,.home-section-head h2 em,.home-components h2 em,.home-contact h2 em){
+  display:inline-block;
+  color:#F43F5E!important;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.08em;
+  font-style:italic;
+  font-weight:500;
+  letter-spacing:-.085em;
+  line-height:.9;
+}
+.atria-home-v2 .home-hero-copy>p{max-width:510px}
+.atria-home-v2 .home-hero-visual{align-self:stretch;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.atria-home-v2 .home-hero-art{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;
+  min-height:340px;
+  max-height:620px;
+  overflow:hidden;
+  isolation:isolate;
+  border:1px solid #393832;
+  background:#171717;
+}
+.atria-home-v2 .home-art-orbit{
+  position:absolute;
+  z-index:1;
+  width:72%;
+  aspect-ratio:1;
+  left:14%;
+  top:14%;
+  border:1px solid #55534d;
+  border-radius:50%;
+}
+.atria-home-v2 .home-art-orbit-one{transform:rotate(-32deg) scaleY(.56);border-color:#1D4ED8}
+.atria-home-v2 .home-art-orbit-two{transform:rotate(42deg) scaleY(.76);border-color:#F43F5E}
+.atria-home-v2 .home-art-disc{
+  position:absolute;
+  width:42%;
+  aspect-ratio:1;
+  left:29%;
+  top:29%;
+  border-radius:50%;
+  background:#EDEBE4;
+}
+.atria-home-v2 .home-art-block{
+  position:absolute;
+  z-index:2;
+  width:17%;
+  aspect-ratio:1;
+}
+.atria-home-v2 .home-art-block-blue{right:13%;top:20%;background:#1D4ED8;transform:rotate(18deg)}
+.atria-home-v2 .home-art-block-coral{left:13%;bottom:18%;background:#F43F5E;transform:rotate(-13deg)}
+.atria-home-v2 .home-art-letter{
+  position:absolute;
+  z-index:3;
+  left:50%;
+  top:47%;
+  transform:translate(-50%,-50%);
+  color:#111;
+  font-size:clamp(130px,20vw,280px);
+  line-height:.7;
+  letter-spacing:-.12em;
+  font-weight:750;
+}
+.atria-home-v2 .home-art-letter span{color:#1D4ED8}
+.atria-home-v2 .home-art-note{
+  position:absolute;
+  z-index:4;
+  color:#EDEBE4;
+  font:9px/1.6 var(--mono);
+  letter-spacing:.1em;
+}
+.atria-home-v2 .home-art-note-top{right:18px;top:18px;text-align:right}
+.atria-home-v2 .home-art-note-bottom{left:18px;bottom:18px}
+.atria-home-v2 .home-art-cross{position:absolute;z-index:4;right:18px;bottom:14px;color:#F43F5E;font-size:32px}
+.atria-home-v2 .home-visual-head,.atria-home-v2 .home-visual-caption{font-size:9px}
+.atria-home-v2 .home-marquee{
+  min-height:88px;
+  flex-wrap:nowrap;
+  justify-content:flex-start;
+  gap:0;
+  overflow:hidden;
+  white-space:nowrap;
+}
+.atria-home-v2 .ticker-group{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  gap:clamp(24px,4vw,64px);
+  min-width:100%;
+  padding-right:clamp(24px,4vw,64px);
+  color:#111;
+  font:650 11px var(--mono);
+  letter-spacing:.1em;
+}
+.atria-home-v2 .ticker-group i{color:#F43F5E;font-style:normal;font-size:22px}
+.atria-home-v2 .home-hero-meta{margin-top:clamp(42px,5vw,72px)}
+.atria-home-v2 .home-hero-visual .home-visual-head{padding-top:0}
+@media(max-width:900px){
+  .atria-home-v2 .home-hero{grid-template-columns:1fr;gap:42px}
+  .atria-home-v2 .home-hero-copy{max-width:900px}
+  .atria-home-v2 .home-hero-visual{width:min(100%,680px);justify-self:end}
+  .atria-home-v2 .home-hero-art{aspect-ratio:1.18/1;min-height:300px}
+  .atria-home-v2 .home-art-letter{font-size:clamp(140px,27vw,250px)}
+}
+@media(max-width:680px){
+  .atria-home-v2 .home-hero{padding-top:62px;padding-bottom:60px}
+  .atria-home-v2 .home-hero h1{font-size:clamp(58px,13.2vw,92px);line-height:.88}
+  .atria-home-v2 .home-hero-art{min-height:0;aspect-ratio:1/1}
+  .atria-home-v2 .home-art-letter{font-size:clamp(140px,42vw,220px)}
+  .atria-home-v2 .home-marquee{min-height:70px}
+  .atria-home-v2 .ticker-group{min-width:100%;font-size:9px;gap:22px}
+}
+
+/* Shared overflow and sizing guardrails: let content determine height and never crop panels. */
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(
+  main,section,article,aside,header,footer,.explore-content,.explore-workspace,
+  .workspace-overview,.workspace-modules,.workspace-module-list,.community-grid,
+  .docs-content,.docs-group,.docs-card-grid,.studio-page,.builder-grid,.builder-main,
+  .builder-left,.builder-right,.builder-canvas-scroll,.builder-inspector-content
+){
+  min-width:0;
+  min-height:0;
+  max-height:none;
+}
+:where(.explore-page,.docs-page,.studio-page,.atria-builder) :is(
+  .workspace-overview,.workspace-palette,.workspace-metrics,.workspace-modules,
+  .workspace-module,.community-grid,.community-card,.docs-hero,.docs-content,
+  .docs-group,.docs-card-grid,.docs-card,.studio-page section,.builder-grid,
+  .builder-main,.builder-left,.builder-right,.builder-inspector-content
+){height:auto}
+:where(.explore-page,.docs-page,.studio-page,.atria-builder) :is(
+  .workspace-module,.community-card,.docs-card,.studio-brief,.builder-modal
+){overflow-wrap:anywhere}
+.atria-home-v2,.atria-home-v2 main{overflow:visible}
+.atria-home-v2 .home-hero-art{overflow:hidden}
