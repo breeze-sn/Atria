@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Check, Code, Copy, Download, FloppyDisk, Palette, Plus, SquaresFour, Stack, Trash, X } from '@phosphor-icons/react';
 import { buildReactExport } from '../data/studioExport.js';
-import ThemePreviewToggle from '../components/ThemePreviewToggle.jsx';
 import { useThemePreview } from '../context/ThemeContext.jsx';
 import './studio.css';
 
@@ -54,7 +53,7 @@ function Preview({item,active,onSelect}) {
 }
 
 export default function Studio() {
- const { previewTheme, setPreviewTheme } = useThemePreview();
+ const { previewTheme } = useThemePreview();
  const [items,setItems]=useState(()=>read('atria:builder:elements',initial));
  const [tokens,setTokens]=useState(()=>read('atria:builder:tokens',defaultTokens));
  const [panel,setPanel]=useState('Add');
@@ -104,11 +103,6 @@ export default function Studio() {
    <div className="builder-brand-wrap"><Link to="/" className="builder-back" aria-label="Atria"><ArrowLeft size={15}/> Atria</Link><span className="builder-divider"/><strong className="builder-wordmark">atria<span>.</span></strong><small>/ STUDIO</small></div>
    <input className="builder-name" aria-label="Design system name" value={name} onChange={e=>setName(e.target.value)}/>
    <div className="builder-actions">
-     <ThemePreviewToggle
-       mode={previewTheme}
-       onChange={setPreviewTheme}
-       label="Studio theme preview toggle"
-     />
      <Link to="/explore" className="builder-explore">Explore library</Link>
      <button onClick={save}>{saved?<Check size={14}/>:<FloppyDisk size={14}/>} {saved?'Saved':'Save'}</button>
      <button className="dark" onClick={()=>setExportOpen(true)}><Code size={14}/> Export</button>
