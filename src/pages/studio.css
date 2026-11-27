@@ -379,3 +379,18 @@
 .atria-builder :focus-visible{outline:2px solid #F43F5E!important;outline-offset:3px}
 .atria-builder .builder-modal{padding:clamp(20px,3vw,32px);border-radius:2px!important}
 @media(max-width:760px){.atria-builder .builder-canvas-scroll{padding:16px!important}.atria-builder .builder-artboard{padding:18px}}
+
+/* Project list dialog */
+.builder-projects p{margin:0 0 12px;font-size:12px;line-height:1.5}
+.builder-projects [role="alert"]{color:#F43F5E}
+.builder-projects ul{margin:0 0 16px;padding:0;list-style:none}
+.builder-projects li{padding:12px 0;border-top:1px solid #393832}
+.builder-projects li,.builder-projects li form,.builder-projects li>div{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.builder-projects li form,.builder-projects li>div{flex:1}
+.builder-projects li>span,.builder-projects li>div>span{flex:1;min-width:150px;display:grid;gap:4px;font-size:12px;overflow-wrap:anywhere}
+.builder-projects li>div>span{display:block;line-height:1.5}
+.builder-projects li small{font-size:10px;opacity:.7}
+.builder-projects li input{flex:1;min-width:150px;height:30px;padding:0 8px;border:1px solid #393832;font:11px Manrope}
+.builder-projects li button{height:30px;padding:0 10px;border:1px solid #393832;background:#171717;color:#EDEBE4;font:600 10px Manrope;cursor:pointer}
+.builder-projects li button:disabled{opacity:.45;cursor:default}
+.atria-builder .builder-projects li button.destructive{color:#F43F5E;border-color:#F43F5E}

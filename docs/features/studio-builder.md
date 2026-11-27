@@ -8,6 +8,12 @@ The canvas scrolls horizontally inside its own viewport so fixed-width component
 
 Above 800px the three workspace columns remain visible together.
 
+## Projects
+
+**Projects** in the top bar lists every design system saved in this browser. From there you can create a project (empty canvas, default tokens), open, rename, duplicate, or delete one. Creating or switching saves the open project first; edits made since the last Save are otherwise lost on reload. Delete asks for confirmation, and deleting the last project leaves an empty one.
+
+All projects live in the `atria:builder:projects` local storage entry. A workspace saved before projects existed becomes the first project; its old `atria:builder:*` entries are read but left in place.
+
 ## Verification
 
 - Chromium checks passed at 320×900, 375×900, 430×900, and 1280×900.

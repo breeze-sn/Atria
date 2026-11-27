@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Check, Code, Copy, Download, FloppyDisk, Palette, Plus, SquaresFour, Stack, Trash, X } from '@phosphor-icons/react';
+import { ArrowLeft, Check, Code, Copy, Download, FloppyDisk, FolderOpen, Palette, Plus, SquaresFour, Stack, Trash, X } from '@phosphor-icons/react';
 import { buildReactExport } from '../data/studioExport.js';
 import { useThemePreview } from '../context/ThemeContext.jsx';
+import StudioProjects from '../components/StudioProjects.jsx';
+import { DEFAULT_NAME, addProject, deleteProject, duplicateProject, loadWorkspace, makeProject, openProject, putProject, renameProject, uniqueName, updateWorkspace } from '../data/studioProjects.js';
 import './studio.css';
 
 const paletteSets = [
@@ -35,7 +37,7 @@ const defaultTokens = [
  {name:'radius.lg',value:'12px',kind:'dimension'},
  {name:'font.size.body',value:'14px',kind:'dimension'},
 ];
-const read = (key, fallback) => { try { const v=localStorage.getItem(key); return v?JSON.parse(v):fallback; } catch { return fallback; } };
+const blankProject = () => makeProject(DEFAULT_NAME, [], defaultTokens);
 const makeItem = (type, n) => ({id:'el-'+Date.now()+'-'+n,type,name:type+' '+(n+1),text:type==='Button'?'New button':type==='Badge'?'New status':type,bg:type==='Badge'?'#EDF4EA':'#FFFFFF',color:type==='Badge'?'#45633B':'#242420',border:'#E3E1DB',radius:type==='Badge'?999:8,padding:12,size:14});
 
 function Preview({item,active,onSelect}) {
@@ -54,11 +56,15 @@ function Preview({item,active,onSelect}) {
 
 export default function Studio() {
  const { previewTheme } = useThemePreview();
- const [items,setItems]=useState(()=>read('atria:builder:elements',initial));
- const [tokens,setTokens]=useState(()=>read('atria:builder:tokens',defaultTokens));
+ const [workspace,setWorkspace]=useState(()=>loadWorkspace({items:initial,tokens:defaultTokens}));
+ const [opened]=useState(()=>workspace.projects.find(p=>p.id===workspace.activeId));
+ const [items,setItems]=useState(opened.items);
+ const [tokens,setTokens]=useState(opened.tokens);
  const [panel,setPanel]=useState('Add');
- const [selectedId,setSelectedId]=useState('a1');
- const [name,setName]=useState(()=>read('atria:builder:name','Untitled design system'));
+ const [selectedId,setSelectedId]=useState(opened.items[0]?.id||'');
+ const [name,setName]=useState(opened.name);
+ const [projectsOpen,setProjectsOpen]=useState(false);
+ const [storageError,setStorageError]=useState('');
  const [format,setFormat]=useState('React');
  const [exportOpen,setExportOpen]=useState(false);
  const [copied,setCopied]=useState(false);
@@ -86,7 +92,16 @@ export default function Studio() {
  const patch=values=>setItems(old=>old.map(x=>x.id===selectedId?{...x,...values}:x));
  const add=type=>{const x=makeItem(type,items.length);setItems(old=>[...old,x]);setSelectedId(x.id);setPanel('Layers');setMobileView('canvas');};
  const remove=id=>{const next=items.filter(x=>x.id!==id);setItems(next);if(selectedId===id)setSelectedId(next[0]?.id||'');};
- const save=()=>{localStorage.setItem('atria:builder:elements',JSON.stringify(items));localStorage.setItem('atria:builder:tokens',JSON.stringify(tokens));localStorage.setItem('atria:builder:name',JSON.stringify(name));setSaved(true);window.setTimeout(()=>setSaved(false),1400);};
+ // Writes a change to storage and returns the new project list, or null if the browser refused.
+ const commit=change=>{try{const next=updateWorkspace(workspace,change);setWorkspace(next);setStorageError('');return next;}catch{setStorageError('Could not save. Browser storage may be full or blocked.');return null;}};
+ const withOpenProject=current=>putProject(current,{id:workspace.activeId,name:name.trim()||DEFAULT_NAME,items,tokens});
+ const show=next=>{const project=next.projects.find(p=>p.id===next.activeId);setItems(project.items);setTokens(project.tokens);setName(project.name);setSelectedId(project.items[0]?.id||'');};
+ const save=()=>{if(!commit(withOpenProject))return;setSaved(true);window.setTimeout(()=>setSaved(false),1400);};
+ const switchTo=change=>{const next=commit(current=>change(withOpenProject(current)));if(!next)return;show(next);setProjectsOpen(false);setMobileView('canvas');};
+ const createProject=()=>switchTo(current=>{const project={...blankProject(),name:uniqueName(current.projects,DEFAULT_NAME)};return openProject(addProject(current,project),project.id);});
+ const rename=(id,value)=>{const next=commit(current=>renameProject(id===workspace.activeId?withOpenProject(current):current,id,value));if(next&&id===workspace.activeId)setName(next.projects.find(p=>p.id===id).name);};
+ const duplicate=id=>{commit(current=>duplicateProject(id===workspace.activeId?withOpenProject(current):current,id));};
+ const destroy=id=>{const next=commit(current=>deleteProject({...current,activeId:workspace.activeId},id,blankProject));if(next&&id===workspace.activeId)show(next);};
  const apply=p=>{if(selected)patch({bg:p.colors[4],color:p.colors[0],border:p.colors[2]});setTokens(old=>old.map(t=>t.name==='color.brand.primary'?{...t,value:p.colors[1]}:t));};
  const output=useMemo(()=>{
   if(format==='Tokens')return JSON.stringify({name,tokens},null,2);
@@ -104,6 +119,7 @@ export default function Studio() {
    <input className="builder-name" aria-label="Design system name" value={name} onChange={e=>setName(e.target.value)}/>
    <div className="builder-actions">
      <Link to="/explore" className="builder-explore">Explore library</Link>
+     <button onClick={()=>setProjectsOpen(true)} aria-haspopup="dialog"><FolderOpen size={14}/> Projects</button>
      <button onClick={save}>{saved?<Check size={14}/>:<FloppyDisk size={14}/>} {saved?'Saved':'Save'}</button>
      <button className="dark" onClick={()=>setExportOpen(true)}><Code size={14}/> Export</button>
    </div>
@@ -129,7 +145,7 @@ export default function Studio() {
      {items.length?<div className="builder-canvas-items">{items.map(x=><div className="builder-canvas-item" key={x.id}><button className={selectedId===x.id?'active':''} onClick={()=>setSelectedId(x.id)}>{x.name}</button><Preview item={x} active={selectedId===x.id} onSelect={()=>setSelectedId(x.id)}/></div>)}</div>:<div className="builder-empty-canvas"><SquaresFour size={28}/><b>Your canvas is empty</b><span>Choose a component or drag one here.</span></div>}
      <footer className="builder-artboard-foot"><span>ATRIA / DESIGN SYSTEM</span><span>{items.length} ELEMENTS</span></footer>
     </div></div>
-    <div className="builder-main-foot"><span>LOCAL WORKSPACE</span><span>Save to keep your work in this browser</span></div>
+    <div className="builder-main-foot"><span>LOCAL WORKSPACE</span><span role="status">{storageError||'Save to keep your work in this browser'}</span></div>
    </main>
    <aside className="builder-right" id="builder-inspector" aria-label="Inspector"><div className="builder-inspector-head"><span>INSPECTOR</span><b>{selected?.name||'No selection'}</b><button className="builder-inspector-dismiss" type="button" aria-label="Return to canvas" onClick={()=>{setMobileView('canvas');inspectorToggle.current?.focus();}}>Close <X size={14}/></button></div>
     {selected?<div className="builder-inspector-content">
@@ -140,6 +156,7 @@ export default function Studio() {
     </div>:<p className="builder-no-selection">Select an element on the canvas or add a component.</p>}
    </aside>
   </div>
+  {projectsOpen&&<StudioProjects workspace={workspace} error={storageError} onCreate={createProject} onOpen={id=>switchTo(current=>openProject(current,id))} onRename={rename} onDuplicate={duplicate} onDelete={destroy} onClose={()=>setProjectsOpen(false)}/>}
   {exportOpen&&<div className="builder-modal-bg" onClick={()=>setExportOpen(false)}><section className="builder-modal" role="dialog" aria-modal="true" aria-labelledby="builder-export-title" ref={exportDialog} onClick={e=>e.stopPropagation()}><header><div><small>DEVELOPER HANDOFF</small><h2 id="builder-export-title">Export your system</h2></div><button onClick={()=>setExportOpen(false)} aria-label="Close export"><X size={17}/></button></header><nav>{['React','CSS','HTML','Tokens'].map(x=><button className={format===x?'active':''} key={x} onClick={()=>setFormat(x)}>{x}</button>)}</nav><pre>{output}</pre><footer><button onClick={copy}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?'Copied':'Copy code'}</button><button onClick={download}><Download size={14}/> Download</button></footer></section></div>}
  </div>;
 }
