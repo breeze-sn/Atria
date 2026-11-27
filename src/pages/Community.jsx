@@ -202,8 +202,7 @@ export default function Community() {
         </a>
       </div>
       <p className="community-intro">
-        Browse community-created colour palettes, design token sets, and component ideas.
-        Contributions are stored as reviewed files in the repository—no account or sync required.
+        Explore community-created colour palettes, design token sets and reusable component patterns. Each resource includes practical details to help you adapt it to your product.
       </p>
 
       <ValidationNotice />
@@ -237,8 +236,7 @@ export default function Community() {
       )}
 
       <p className="community-review-note">
-        Contributions are reviewed before they are added. See the submission guide for the data format,
-        validation command, and review process.
+        Use a resource as-is or adapt it to fit your own design system.
       </p>
     </div>
   );
