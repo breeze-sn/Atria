@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import ThemePreviewToggle from './components/ThemePreviewToggle.jsx'
 import { useThemePreview } from './context/ThemeContext.jsx'
 import {
   ArrowUpRight,
@@ -188,7 +187,7 @@ function DocumentationCard({ item }) {
 }
 
 export default function Docs() {
-  const { previewTheme, setPreviewTheme } = useThemePreview()
+  const { previewTheme } = useThemePreview()
 
   return (
     <main className="docs-page" data-theme={previewTheme}>
@@ -207,12 +206,6 @@ export default function Docs() {
         </div>
 
         <div className="docs-nav-actions">
-          <ThemePreviewToggle
-            mode={previewTheme}
-            onChange={setPreviewTheme}
-            label="Docs theme preview toggle"
-          />
-
           <a
             className="nav-cta"
             href="https://github.com/breeze-sn/Atria"
