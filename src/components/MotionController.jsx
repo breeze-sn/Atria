@@ -15,6 +15,7 @@ export default function MotionController() {
     if (!root) return undefined
 
     const media = gsap.matchMedia(root)
+    const cleanups = []
     const context = gsap.context(() => {
       media.add(
         {
@@ -29,7 +30,7 @@ export default function MotionController() {
           const isDocs = root.matches('.docs-page')
           const isExplore = root.matches('.explore-page')
           const isBuilder = root.matches('.atria-builder')
-          const isStudio = root.matches('.studio-page')
+          const isStudio = Boolean(root.querySelector('.studio-page'))
           const path = location.pathname
 
           // Landing: a composed hero entrance, with each part of the mock
@@ -158,7 +159,7 @@ export default function MotionController() {
             gsap.from('.studio-page-heading', { clipPath: 'inset(0 0 100% 0)', y: 25, duration: 0.9, ease: 'power4.out' })
             gsap.from('.component-inspector-grid > aside', { x: -45, autoAlpha: 0, duration: 0.8, delay: 0.15, ease: 'power3.out' })
             gsap.from('.component-inspector-grid > main', { x: 45, autoAlpha: 0, duration: 0.8, delay: 0.25, ease: 'power3.out' })
-          } else if (isStudio && path.includes('community')) {
+          } else if (isExplore && path.includes('community')) {
             gsap.from('.community-heading', { y: 28, autoAlpha: 0, duration: 0.8, ease: 'power3.out' })
             gsap.from('.community-filter-row > *', { y: 15, autoAlpha: 0, stagger: 0.1, duration: 0.55, delay: 0.2 })
             gsap.from('.community-card', {
@@ -226,7 +227,6 @@ export default function MotionController() {
       )
     }, root)
 
-    const cleanups = []
     return () => {
       cleanups.splice(0).forEach((cleanup) => cleanup())
       media.revert()
