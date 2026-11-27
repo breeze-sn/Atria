@@ -433,3 +433,10 @@
 .docs-page[data-theme="dark"] .footer-top p,
 .docs-page[data-theme="dark"] .footer-bottom { color:#858b7d; }
 .docs-page[data-theme="dark"] .footer-github:hover { color:#0ae448; }
+
+
+/* Wide editorial documentation layout */
+.docs-page .docs-hero { max-width:none; }
+.docs-page .docs-index-panel { box-shadow:none; border-radius:3px; }
+.docs-page .docs-card { border-radius:3px; }
+@media(max-width:760px){.docs-page .docs-hero{display:grid;grid-template-columns:1fr}.docs-page .docs-card{grid-column:span 6}}
