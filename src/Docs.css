@@ -440,3 +440,5 @@
 .docs-page .docs-index-panel { box-shadow:none; border-radius:3px; }
 .docs-page .docs-card { border-radius:3px; }
 @media(max-width:760px){.docs-page .docs-hero{display:grid;grid-template-columns:1fr}.docs-page .docs-card{grid-column:span 6}}
+
+.docs-page :is(.docs-group-heading,.docs-card:hover) { color:#1D4ED8 !important; border-color:#1D4ED8 !important; }
