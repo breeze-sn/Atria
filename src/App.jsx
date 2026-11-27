@@ -9,6 +9,7 @@ import Community from './pages/Community.jsx'
 import Studio from './pages/Studio.jsx'
 import Docs from './Docs.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import MotionController from './components/MotionController.jsx'
 import { ThemeProvider, useThemePreview } from './context/ThemeContext.jsx'
 import {
   ArrowDownRight,
@@ -165,6 +166,7 @@ function App() {
     <ThemeProvider>
       <ErrorBoundary>
         <BrowserRouter>
+          <MotionController />
           <Routes>
             <Route path="/" element={<LandingPage />} />
 
