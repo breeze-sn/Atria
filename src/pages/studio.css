@@ -340,3 +340,18 @@
 .atria-builder :is(.builder-remove,.danger,.destructive) {
   color:#F43F5E !important; border-color:#F43F5E !important;
 }
+
+
+/* Remove legacy green studio theme; the workspace uses Atria's four colours. */
+.atria-builder[data-theme="dark"]{background:#111!important;color:#EDEBE4!important}
+.atria-builder[data-theme="dark"] :is(.builder-topbar,.builder-left,.builder-right,.builder-canvas-head,.builder-main-foot,.builder-inspector-head,.builder-modal,.builder-mobile-nav){background:#171717!important;border-color:#393832!important;color:#EDEBE4!important}
+.atria-builder[data-theme="dark"] .builder-main{background:#111!important}
+.atria-builder[data-theme="dark"] .builder-canvas-scroll{background:#111!important;background-image:none!important}
+.atria-builder[data-theme="dark"] .builder-artboard{background:#171717!important;border-color:#393832!important;box-shadow:none!important}
+.atria-builder[data-theme="dark"] :is(.builder-token,.builder-palette,.builder-add-inline,.builder-add-item,.builder-explore,.builder-inspector-content section){border-color:#393832!important}
+.atria-builder[data-theme="dark"] :is(.builder-token b,.builder-palette b,.builder-artboard-head,.builder-artboard-foot,.builder-inspector-head,.builder-inspector-content label){color:#EDEBE4!important}
+.atria-builder[data-theme="dark"] :is(.builder-add-inline,.builder-add-item,.builder-palette,.builder-modal nav button,.builder-inspector-dismiss){background:#171717!important;color:#EDEBE4!important;border-color:#393832!important}
+.atria-builder[data-theme="dark"] :is(.builder-modal nav button.active,.builder-mobile-nav [aria-pressed="true"]){background:#1D4ED8!important;color:#EDEBE4!important;border-color:#1D4ED8!important}
+.atria-builder[data-theme="dark"] :is(input:not([type=color]),select,textarea){background:#111!important;color:#EDEBE4!important;border-color:#55534d!important}
+.atria-builder[data-theme="dark"] :is(.builder-remove,.builder-remove:hover){background:#2a151b!important;color:#F43F5E!important;border-color:#F43F5E!important}
+.atria-builder[data-theme="dark"] :focus-visible{outline-color:#F43F5E!important}
