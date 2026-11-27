@@ -30,7 +30,7 @@ export default function MotionController() {
           const isDocs = root.matches('.docs-page')
           const isExplore = root.matches('.explore-page')
           const isBuilder = root.matches('.atria-builder')
-          const isStudio = Boolean(root.querySelector('.studio-page'))
+          const isStudio = root.matches('.studio-page') || Boolean(root.querySelector('.studio-page'))
           const path = location.pathname
 
           // Landing: a composed hero entrance, with each part of the mock
@@ -136,7 +136,13 @@ export default function MotionController() {
           // Foundations and tokens: rows are treated as editable material,
           // not as cards in a marketing grid.
           if (isStudio && path.includes('foundations')) {
+            gsap.from('.studio-page > .section-index', { x: -24, autoAlpha: 0, duration: 0.65, ease: 'power3.out' })
             gsap.from('.studio-page-heading > *', { y: -22, autoAlpha: 0, stagger: 0.12, duration: 0.7, ease: 'power3.out' })
+            gsap.from('.studio-page > p', { y: 16, autoAlpha: 0, duration: 0.65, delay: 0.16, ease: 'power3.out' })
+            gsap.from('.studio-page section article', {
+              y: 26, scale: 0.98, autoAlpha: 0, stagger: 0.075, duration: 0.65, ease: 'power3.out',
+              scrollTrigger: { trigger: '.studio-page section', start: 'top 86%', once: true }
+            })
             gsap.from('.foundation-type-row', {
               x: -28, autoAlpha: 0, stagger: 0.055, duration: 0.55, ease: 'power2.out',
               scrollTrigger: { trigger: '.foundation-type-row', start: 'top 86%', once: true }
