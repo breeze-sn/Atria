@@ -62,7 +62,7 @@ export default function Overview() {
       <section className="workspace-welcome">
         <div>
           <span className="studio-status">ATRIA / DESIGN SYSTEM STUDIO</span>
-          <h1>Good design<br />starts with a <em>system.</em></h1>
+          <h1 aria-label="Good design starts with a system">Good design<br />starts with a <em>system.</em></h1>
           <p>A considered space to define foundations, organise design tokens, and build a reusable component language.</p>
           <Link className="button button-dark workspace-primary-action" to="/explore/foundations">
             Set up your foundations <ArrowRight size={15} />
