@@ -1947,3 +1947,117 @@ body{min-width:320px;overflow-x:hidden}#root{overflow-x:clip}
   .atria-home-v2 .home-hero-copy>p{margin-top:30px}
   .atria-home-v2 .home-hero-meta{margin-top:64px}
 }
+
+
+/* Atria visual system pass — shared type, colour and spacing rhythm. */
+:root{
+  color-scheme:dark;
+  --atria-bg:#111111;
+  --atria-surface:#171717;
+  --atria-surface-raised:#1d1d1d;
+  --atria-surface-inset:#141414;
+  --atria-ink:#EDEBE4;
+  --atria-muted:#aaa79f;
+  --atria-subtle:#77746d;
+  --atria-line:#393832;
+  --atria-blue:#1D4ED8;
+  --atria-coral:#F43F5E;
+  --atria-space-1:4px;
+  --atria-space-2:8px;
+  --atria-space-3:12px;
+  --atria-space-4:16px;
+  --atria-space-5:24px;
+  --atria-space-6:32px;
+  --atria-space-7:48px;
+  --atria-space-8:64px;
+  --atria-space-9:96px;
+  --atria-display:'Manrope',system-ui,sans-serif;
+  --atria-editorial:'Cormorant Garamond',Georgia,serif;
+  --atria-mono:'DM Mono',ui-monospace,monospace;
+  font-family:var(--atria-display);
+  background:var(--atria-bg);
+  color:var(--atria-ink);
+}
+html,body,#root{min-height:100%;background:var(--atria-bg);color:var(--atria-ink)}
+body{font-family:var(--atria-display);font-optical-sizing:auto}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder){
+  --paper:var(--atria-bg);--ink:var(--atria-ink);--muted:var(--atria-muted);--line:var(--atria-line);
+  background:var(--atria-bg);color:var(--atria-ink);
+  font-family:var(--atria-display);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(h1,h2,h3,h4,p,small,button,input,select,textarea){font-family:inherit}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(h1,h2,h3){color:var(--atria-ink)}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(h1 em,h2 em,h3 em){
+  font-family:var(--atria-editorial);font-style:italic;font-weight:500;letter-spacing:-.045em;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.eyebrow,.section-index,.studio-kicker,.studio-status,.docs-group-number,.mono){
+  font-family:var(--atria-mono);letter-spacing:.09em;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.nav,.explore-top-nav,.home-nav){
+  border-color:var(--atria-line);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.nav-links,.hero-description,.workspace-welcome-note,.workspace-module-copy p,.community-intro p,.docs-group-heading p){
+  color:var(--atria-muted);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.brand-mark span){background:var(--atria-ink)}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) .brand-period{color:var(--atria-coral)}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.nav-cta,.button,.button-dark,.text-link,.community-submit-link){
+  font-family:var(--atria-display);transition:color .2s ease,background .2s ease,border-color .2s ease,transform .2s ease;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.nav-cta,.community-submit-link){
+  border-color:var(--atria-line);border-radius:2px;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.button-dark,.nav-cta:hover,.community-submit-link:hover){
+  background:var(--atria-blue);border-color:var(--atria-blue);color:var(--atria-ink);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.eyebrow,.section-index,.studio-kicker,.studio-status,.docs-group-number){color:var(--atria-coral)}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(a,button):focus-visible{outline:2px solid var(--atria-coral);outline-offset:4px}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(input,select,textarea){
+  background:var(--atria-surface-inset);color:var(--atria-ink);border:1px solid var(--atria-line);border-radius:2px;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(input,select,textarea)::placeholder{color:var(--atria-subtle)}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(input,select,textarea):focus{border-color:var(--atria-blue);outline:none}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.workspace-module,.community-card,.docs-card,.studio-brief,.builder-modal,.workspace-palette,.workspace-metrics article){
+  box-shadow:none;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.workspace-module,.community-card,.docs-card,.studio-brief,.workspace-palette,.workspace-metrics article){
+  border-radius:2px;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) :is(.explore-sidebar,.workspace-overview,.workspace-palette,.workspace-metrics,.workspace-module,.community-card,.studio-brief){
+  min-width:0;
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.studio-page,.community-page,.workspace-overview){
+  padding-top:clamp(32px,5vw,64px);padding-bottom:clamp(48px,7vw,88px);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.studio-page-heading,.community-heading,.workspace-overview-topline){
+  margin-bottom:clamp(24px,3.5vw,40px);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.workspace-metrics,.workspace-modules,.community-grid,.home-foundation-grid){
+  gap:clamp(12px,1.6vw,20px);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.workspace-module,.community-card,.home-foundation-item){
+  padding:clamp(18px,2vw,26px);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.workspace-section-heading,.community-filter-row){
+  margin-top:clamp(36px,5vw,56px);margin-bottom:clamp(18px,2.5vw,28px);
+}
+:where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.home-intro,.home-components,.home-contact){
+  padding-top:clamp(72px,9vw,128px);padding-bottom:clamp(72px,9vw,128px);
+}
+.atria-home-v2 .home-hero{background:transparent}
+.atria-home-v2 .home-marquee{background:var(--atria-surface);border-color:var(--atria-line)}
+.atria-home-v2 .ticker-group{color:var(--atria-ink)}
+.atria-home-v2 .home-foundations,.atria-home-v2 .home-token-band{background:var(--atria-surface);border-color:var(--atria-line)}
+.atria-home-v2 :is(.home-foundation-item,.home-playground){background:var(--atria-bg);border-color:var(--atria-line)}
+.atria-home-v2 .home-playground-tabs button.active{background:var(--atria-blue);border-color:var(--atria-blue);color:var(--atria-ink)}
+.atria-home-v2 .home-code{background:var(--atria-surface-inset);border-color:var(--atria-line)}
+.atria-home-v2 .home-footer{border-color:var(--atria-line)}
+@media(max-width:760px){
+  .shell{width:min(100% - 36px,1160px)}
+  :where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.home-intro,.home-components,.home-contact){padding-top:64px;padding-bottom:64px}
+  :where(.landing-page,.explore-page,.docs-page,.studio-page) :is(.workspace-metrics,.workspace-modules,.community-grid){gap:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
