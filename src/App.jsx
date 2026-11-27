@@ -88,7 +88,7 @@ function LandingPage() {
       <section className="hero shell">
         <div className="hero-copy">
           <div className="eyebrow"><span className="live-dot" /> OPEN-SOURCE DESIGN WORKSPACE</div>
-          <h1>Make consistency<br />feel <em>effortless.</em></h1>
+          <h1 aria-label="Make consistency feel effortless">Make consistency<br />feel <em>effortless.</em></h1>
           <p className="hero-description">
             A thoughtful space to create, organise, and document design systems — bringing design decisions and development closer together.
           </p>
