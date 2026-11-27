@@ -442,3 +442,13 @@
 @media(max-width:760px){.docs-page .docs-hero{display:grid;grid-template-columns:1fr}.docs-page .docs-card{grid-column:span 6}}
 
 .docs-page :is(.docs-group-heading,.docs-card:hover) { color:#1D4ED8 !important; border-color:#1D4ED8 !important; }
+
+
+/* Fixed Atria palette and flat surfaces for the documentation experience. */
+.docs-page[data-theme="dark"]{background:#111!important;color:#EDEBE4!important}
+.docs-page[data-theme="dark"] :is(.docs-index-panel,.docs-card,.docs-jump a){background:#171717!important;border-color:#393832!important;color:#EDEBE4!important;border-radius:2px!important;box-shadow:none!important}
+.docs-page[data-theme="dark"] :is(.brand-period,.nav-links a:hover,.section-index,.docs-group-heading strong,.docs-card-icon,.docs-card-action){color:#F43F5E!important}
+.docs-page[data-theme="dark"] :is(h1 em,h2 em,.docs-index-panel strong){color:#1D4ED8!important}
+.docs-page[data-theme="dark"] :is(.nav-cta:hover,.button-dark,.docs-jump a:hover){background:#1D4ED8!important;border-color:#1D4ED8!important;color:#EDEBE4!important}
+.docs-page[data-theme="dark"] .docs-card:hover{background:#191919!important;border-color:#1D4ED8!important}
+.docs-page[data-theme="dark"] :is(.docs-index-panel,.docs-card,.docs-jump a){background-image:none!important}
