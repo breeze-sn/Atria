@@ -1633,3 +1633,108 @@ html { scroll-behavior:auto; }
 :where(.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder) input[type="radio"] {
   accent-color:#1D4ED8 !important;
 }
+
+
+/* Atria homepage v2 + full-page layout repair */
+:root{color-scheme:dark;--atria-ivory:#EDEBE4;--atria-ink:#111111;--atria-blue:#1D4ED8;--atria-coral:#F43F5E}
+html,body,#root{width:100%;min-height:100%;margin:0;background:#111!important;color:#EDEBE4!important}
+body{min-width:320px;overflow-x:hidden}#root{overflow-x:clip}
+.landing-page,.explore-page,.docs-page,.studio-page,.atria-builder{width:100%;min-width:0;background:#111!important;color:#EDEBE4!important}
+.landing-page *,.explore-page *,.docs-page *,.studio-page *,.atria-builder *{box-shadow:none!important;text-shadow:none!important}
+.landing-page :is(section,.ticker),.explore-page main,.docs-page main,.studio-page main{background-image:none!important}
+.explore-header,.explore-footer{width:100%}
+.explore-workspace{width:calc(100% - clamp(32px,5.2vw,88px))!important;max-width:none!important;margin-inline:auto}
+.explore-content{width:100%;min-width:0;max-width:none!important;min-height:0!important;overflow:visible!important}
+.explore-sidebar{min-width:0}.explore-page .workspace-welcome,.explore-page .workspace-palette,.explore-page .workspace-metrics,.explore-page .workspace-modules,.explore-page .community-grid,.docs-page .docs-card-grid{height:auto!important;min-height:0}
+.explore-page .workspace-module,.explore-page .community-card,.docs-page .docs-card{height:auto;overflow-wrap:anywhere}
+.explore-page .explore-footer{position:relative;clear:both;margin-top:clamp(40px,6vw,88px)}
+.atria-home-v2{--home-gutter:clamp(22px,5.2vw,88px);overflow:hidden}
+.atria-home-v2 .home-nav{width:calc(100% - 2*var(--home-gutter))!important;max-width:none;height:78px;border-bottom:1px solid #393832}
+.atria-home-v2 .nav-links{gap:clamp(16px,2.4vw,38px);color:#aaa79f}
+.atria-home-v2 .home-hero{width:100%;padding:clamp(64px,8vw,124px) var(--home-gutter) clamp(70px,8vw,120px);display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:clamp(32px,5vw,84px);align-items:center;border-bottom:1px solid #393832}
+.atria-home-v2 .home-hero-copy{max-width:760px;min-width:0}
+.atria-home-v2 .home-hero h1{margin:clamp(24px,3vw,44px) 0 28px;font-size:clamp(64px,8.6vw,142px);line-height:.86;letter-spacing:-.09em;font-weight:650}
+.atria-home-v2 :is(.home-hero h1 em,h2 em){color:#1D4ED8!important;font-style:normal}
+.atria-home-v2 .home-hero-copy>p,.atria-home-v2 .home-intro-aside p,.atria-home-v2 .home-section-head>p,.atria-home-v2 .home-components-layout>div:first-child>p,.atria-home-v2 .home-token-layout>div:last-child>p,.atria-home-v2 .home-contact-layout>div:first-child>p{color:#aaa79f;font-size:15px;line-height:1.8}
+.atria-home-v2 .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin-top:34px}
+.atria-home-v2 .button-dark{border-radius:2px!important;background:#1D4ED8!important;color:#EDEBE4!important;padding:15px 19px}
+.atria-home-v2 .home-hero-meta{display:flex;justify-content:space-between;gap:16px;margin-top:clamp(55px,7vw,100px);padding-top:16px;border-top:1px solid #393832;color:#8e8b83;font:10px var(--mono);letter-spacing:.08em}
+.atria-home-v2 :is(.eyebrow,.section-index){color:#F43F5E!important}.atria-home-v2 .live-dot{background:#F43F5E!important}
+.atria-home-v2 .home-hero-visual{min-width:0;width:100%}
+.atria-home-v2 :is(.home-visual-head,.home-visual-caption){display:flex;justify-content:space-between;gap:14px;color:#aaa79f;font:10px var(--mono);letter-spacing:.09em;padding:12px 0}
+.atria-home-v2 .home-product{display:grid;grid-template-columns:clamp(130px,15vw,205px) minmax(0,1fr);min-height:clamp(380px,39vw,570px);border:1px solid #393832;background:#171717}
+.atria-home-v2 .home-product-rail{padding:22px 14px;display:flex;flex-direction:column;gap:18px;border-right:1px solid #393832;color:#aaa79f;font-size:11px}
+.atria-home-v2 .mini-brand{display:flex;align-items:center;gap:8px;color:#EDEBE4;font-size:14px;font-weight:700;margin-bottom:22px}
+.atria-home-v2 .home-product-rail .side-label{color:#77746d}
+.atria-home-v2 .home-product-rail .side-item{display:flex;align-items:center;gap:9px;padding:10px 8px;border:1px solid transparent}
+.atria-home-v2 .home-product-rail .side-item.active{color:#EDEBE4;background:#1D4ED8}
+.atria-home-v2 .home-rail-bottom{margin-top:auto;padding-top:16px;border-top:1px solid #393832;font:9px var(--mono);letter-spacing:.06em}
+.atria-home-v2 .home-product-main{padding:clamp(18px,2.7vw,40px);min-width:0;display:flex;flex-direction:column}
+.atria-home-v2 .home-product-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.atria-home-v2 .home-product-title h2{margin:14px 0 0;font-size:clamp(28px,3.1vw,48px);line-height:.98;letter-spacing:-.06em}
+.atria-home-v2 .home-product-index{color:#77746d;font:10px var(--mono)}
+.atria-home-v2 .home-stat-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:clamp(30px,4vw,60px) 0;border-block:1px solid #393832}
+.atria-home-v2 .home-stat-row>div{min-width:0;padding:17px 10px 17px 0;display:flex;flex-direction:column;gap:8px}
+.atria-home-v2 .home-stat-row>div+div{padding-left:14px;border-left:1px solid #393832}
+.atria-home-v2 :is(.home-stat-row span,.home-palette-block>div:first-child,.home-swatch-labels,.home-product-foot){color:#aaa79f;font:9px var(--mono);letter-spacing:.07em}
+.atria-home-v2 .home-stat-row b{font-size:clamp(28px,3vw,44px);font-weight:500;letter-spacing:-.06em}
+.atria-home-v2 .home-stat-row small{color:#77746d;font-size:10px}
+.atria-home-v2 .home-palette-block>div:first-child{display:flex;justify-content:space-between}
+.atria-home-v2 .home-swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.atria-home-v2 .home-swatches i{display:block;height:clamp(48px,5vw,72px)}
+.atria-home-v2 .home-swatch-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px}
+.atria-home-v2 .home-product-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:24px}
+.atria-home-v2 .home-marquee{width:100%;min-height:76px;display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:14px;padding:18px var(--home-gutter);background:#EDEBE4;color:#111;font:600 11px var(--mono);letter-spacing:.08em}
+.atria-home-v2 .home-marquee i{color:#F43F5E;font-style:normal;font-size:20px}
+.atria-home-v2 .home-intro,.atria-home-v2 .home-components,.atria-home-v2 .home-contact{width:calc(100% - 2*var(--home-gutter));max-width:none;padding-block:clamp(90px,11vw,170px)}
+.atria-home-v2 .home-intro>div:last-child{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:clamp(30px,8vw,130px);align-items:end}
+.atria-home-v2 :is(.home-intro h2,.home-section-head h2,.home-components h2,.home-token-layout h2,.home-contact h2){margin:24px 0 0;font-size:clamp(48px,6.4vw,100px);line-height:.92;letter-spacing:-.075em;font-weight:550}
+.atria-home-v2 .home-intro-aside .text-link,.atria-home-v2 .home-components-layout>div:first-child .text-link{display:inline-flex;align-items:center;gap:8px;margin-top:18px}
+.atria-home-v2 .home-foundations{width:100%;padding:clamp(80px,9vw,140px) var(--home-gutter);background:#171717;border-block:1px solid #393832}
+.atria-home-v2 .home-foundations .shell{width:100%;max-width:none}
+.atria-home-v2 .home-section-head{display:flex;align-items:end;justify-content:space-between;gap:36px;margin-bottom:clamp(40px,5vw,76px)}
+.atria-home-v2 .home-section-head>p{max-width:360px;margin-bottom:6px}
+.atria-home-v2 .home-foundation-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid #393832}
+.atria-home-v2 .home-foundation-item{min-width:0;min-height:290px;padding:22px;display:flex;flex-direction:column;align-items:flex-start;border-right:1px solid #393832;color:#EDEBE4}
+.atria-home-v2 .home-foundation-item:last-child{border-right:0}
+.atria-home-v2 .home-foundation-item:nth-child(even){background:#141414}
+.atria-home-v2 .home-foundation-top{width:100%;display:flex;justify-content:space-between;color:#F43F5E;font:9px var(--mono);letter-spacing:.07em;margin-bottom:clamp(45px,6vw,85px)}
+.atria-home-v2 .home-foundation-item>svg{color:#1D4ED8}
+.atria-home-v2 .home-foundation-item h3{margin:18px 0 8px;font-size:clamp(20px,2vw,28px);letter-spacing:-.04em}
+.atria-home-v2 .home-foundation-item p{color:#aaa79f;font-size:12px;line-height:1.6;margin:0}
+.atria-home-v2 .home-foundation-number{margin-top:auto;padding-top:24px;color:#77746d;font:10px var(--mono)}
+.atria-home-v2 .home-foundation-item:hover{background:#1D4ED8;border-color:#1D4ED8}
+.atria-home-v2 .home-foundation-item:hover :is(svg,h3,p,.home-foundation-top,.home-foundation-number){color:#EDEBE4}
+.atria-home-v2 .home-components-layout{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr);gap:clamp(35px,8vw,130px);margin-top:32px;align-items:center}
+.atria-home-v2 .home-components-layout>div:first-child>p{max-width:390px;margin:26px 0}
+.atria-home-v2 .home-playground{border:1px solid #393832;background:#171717;min-width:0;padding:clamp(18px,2.5vw,36px)}
+.atria-home-v2 :is(.home-playground-top,.home-playground-bottom){display:flex;justify-content:space-between;gap:12px;color:#aaa79f;font:9px var(--mono);letter-spacing:.07em}
+.atria-home-v2 .home-playground-tabs{display:flex;gap:22px;border-bottom:1px solid #393832;margin-top:28px}
+.atria-home-v2 .home-playground-tabs button{padding:12px 2px;border:0;border-bottom:2px solid transparent;background:none;color:#aaa79f;cursor:pointer;font-size:12px}
+.atria-home-v2 .home-playground-tabs button.active{color:#EDEBE4;border-bottom-color:#1D4ED8}
+.atria-home-v2 .home-playground-stage{min-height:210px;margin-block:16px;padding:24px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:14px;border:1px solid #393832;background:#111}
+.atria-home-v2 :is(.home-primary-button,.home-secondary-button){display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 16px;border:1px solid #1D4ED8;background:#1D4ED8;color:#EDEBE4;cursor:pointer}
+.atria-home-v2 .home-secondary-button{background:transparent;border-color:#55534d}
+.atria-home-v2 .home-playground-stage label{display:grid;gap:10px;width:min(100%,340px);color:#aaa79f;font-size:12px}
+.atria-home-v2 .home-playground-stage input{width:100%;min-height:44px;padding:0 12px;border:1px solid #55534d;background:#171717;color:#EDEBE4}
+.atria-home-v2 .home-badge{padding:8px 12px;border:1px solid #1D4ED8;color:#EDEBE4;font-size:12px}
+.atria-home-v2 .home-badge.coral{border-color:#F43F5E;color:#F43F5E}
+.atria-home-v2 .home-token-band{padding:clamp(80px,10vw,150px) var(--home-gutter);background:#EDEBE4;color:#111}
+.atria-home-v2 .home-token-layout{width:100%;max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,9vw,140px);align-items:center}
+.atria-home-v2 .home-token-layout h2 em{color:#1D4ED8!important}
+.atria-home-v2 .home-token-layout .section-index{color:#F43F5E!important}
+.atria-home-v2 .home-token-layout>div:last-child>p{color:#55534d;max-width:520px}
+.atria-home-v2 .home-code{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px;margin:28px 0 18px;border:1px solid #aaa79f;background:#EDEBE4}
+.atria-home-v2 .home-code code{font:13px var(--mono)}
+.atria-home-v2 .home-code button{display:flex;gap:8px;align-items:center;border:0;background:#1D4ED8;color:#EDEBE4;padding:11px 13px;cursor:pointer;font:10px var(--mono)}
+.atria-home-v2 .home-token-layout .text-link{color:#111}
+.atria-home-v2 .home-contact-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(35px,8vw,130px);align-items:end}
+.atria-home-v2 .home-contact-layout>div:first-child>p{max-width:440px;margin-top:28px}
+.atria-home-v2 .home-contact-links{border-top:1px solid #393832}
+.atria-home-v2 .home-contact-links a{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:19px 0;border-bottom:1px solid #393832;color:#EDEBE4}
+.atria-home-v2 .home-contact-links a:hover{color:#F43F5E}
+.atria-home-v2 .home-footer{width:calc(100% - 2*var(--home-gutter));max-width:none;min-height:86px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;border-top:1px solid #393832;color:#aaa79f;font:9px var(--mono);letter-spacing:.06em}
+.atria-home-v2 .home-footer .brand{color:#EDEBE4;font:700 20px Manrope;letter-spacing:-1px}
+@media(max-width:900px){.atria-home-v2 .home-hero{grid-template-columns:1fr}.atria-home-v2 .home-hero-copy{max-width:850px}.atria-home-v2 .home-product{min-height:420px}.atria-home-v2 .home-foundation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.atria-home-v2 .home-foundation-item:nth-child(2){border-right:0}.atria-home-v2 .home-foundation-item:nth-child(-n+2){border-bottom:1px solid #393832}.atria-home-v2 .home-components-layout{grid-template-columns:1fr}}
+@media(max-width:680px){.atria-home-v2{--home-gutter:20px}.atria-home-v2 .home-nav{width:calc(100% - 40px)!important}.atria-home-v2 .home-nav .nav-links{display:none}.atria-home-v2 .home-hero{padding-top:60px;padding-bottom:58px}.atria-home-v2 .home-hero h1{font-size:clamp(58px,13vw,88px)}.atria-home-v2 .home-product{grid-template-columns:1fr}.atria-home-v2 .home-product-rail{display:none}.atria-home-v2 .home-intro>div:last-child,.atria-home-v2 .home-contact-layout,.atria-home-v2 .home-token-layout{grid-template-columns:1fr}.atria-home-v2 .home-section-head{display:block}.atria-home-v2 .home-section-head>p{margin-top:24px}.atria-home-v2 .home-foundation-grid{grid-template-columns:1fr 1fr}.atria-home-v2 .home-foundation-item{min-height:240px;padding:16px}.atria-home-v2 .home-foundation-top{margin-bottom:36px}.atria-home-v2 .home-marquee{justify-content:flex-start}.atria-home-v2 .home-footer{padding-block:24px}}
+@media(max-width:420px){.atria-home-v2 .nav-cta{padding:9px;font-size:0}.atria-home-v2 .home-stat-row{grid-template-columns:1fr}.atria-home-v2 .home-stat-row>div+div{border-left:0;border-top:1px solid #393832;padding-left:0}.atria-home-v2 .home-foundation-grid{grid-template-columns:1fr}.atria-home-v2 .home-foundation-item{border-right:0;border-bottom:1px solid #393832}.atria-home-v2 .home-foundation-item:last-child{border-bottom:0}.atria-home-v2 .home-playground-top,.atria-home-v2 .home-playground-bottom{flex-wrap:wrap}.atria-home-v2 .home-code{align-items:flex-start;flex-direction:column}}
