@@ -39,7 +39,7 @@ describe('Studio panel controls', () => {
     fireEvent.click(within(library).getByRole('button', { name: /^B\s*Button$/ }));
     expect(screen.getByRole('button', { name: 'Canvas', exact: true })).toHaveAttribute('aria-pressed', 'true');
     fireEvent.click(screen.getByRole('button', { name: 'Save', exact: true }));
-    expect(JSON.parse(localStorage.getItem('atria:builder:elements'))).toHaveLength(4);
+    expect(JSON.parse(localStorage.getItem('atria:builder:projects')).projects[0].items).toHaveLength(4);
   });
 
   it('keeps keyboard focus inside export and restores it after Escape', () => {
