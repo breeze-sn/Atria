@@ -38,9 +38,8 @@ export default function MotionController() {
     if (!root) return undefined
 
     const cleanups = []
+    const media = gsap.matchMedia(root)
     const context = gsap.context(() => {
-      const media = gsap.matchMedia(root)
-
       media.add(
         {
           reduce: '(prefers-reduced-motion: reduce)',
@@ -80,7 +79,7 @@ export default function MotionController() {
 
           const scrollTargets = revealGroups
             .flatMap((selector) => gsap.utils.toArray(selector, root))
-            .filter((element) => !element.closest('.hero-copy, .docs-hero-copy, .workspace-welcome'))
+            .filter((element) => !element.closest('.hero-copy, .docs-hero-copy, .workspace-welcome') && !element.matches('.hero-art, .docs-index-panel'))
 
           scrollTargets.forEach((element, index) => {
             gsap.fromTo(
@@ -142,6 +141,7 @@ export default function MotionController() {
 
     return () => {
       cleanups.splice(0).forEach((cleanup) => cleanup())
+      media.revert()
       context.revert()
     }
   }, [location.pathname])
