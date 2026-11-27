@@ -241,7 +241,7 @@ function ResourceDetail({category,resource}){
     transition:'background 0.2s ease, border-color 0.2s ease'
   }}>
     {values.map((v,i)=>(
-      <div key={i} style={{display:'grid',gridTemplateColumns:'minmax(0,1fr) 70px 70px',gap:10,alignItems:'center',padding:'14px 0',borderBottom:'1px solid '+(isDark?'#2e2e34':'var(--line)')}}>
+      <div key={i} className="foundation-type-row" style={{alignItems:'center',padding:'14px 0',borderBottom:'1px solid '+(isDark?'#2e2e34':'var(--line)')}}>
         <div style={{minWidth:0}}>
           <div style={{fontSize:'clamp(16px,'+Math.min(v.size,38)+'px,38px)',fontWeight:v.weight,lineHeight:v.lineHeight,overflowWrap:'anywhere',color:isDark?'#f4f3ef':'inherit'}}>The quick brown fox</div>
           <input value={v.name} onChange={e=>update(i,'name',e.target.value)} style={{fontSize:10,border:0,padding:'5px 0',width:'100%',background:'transparent',color:isDark?'#a1a1aa':'#888'}}/>
@@ -261,7 +261,7 @@ function ResourceDetail({category,resource}){
     transition:'background 0.2s ease, border-color 0.2s ease'
   }}>
     {values.map((v,i)=>(
-      <div key={i} style={{display:'grid',gridTemplateColumns:'72px minmax(0,1fr) 70px',gap:12,alignItems:'center',padding:'9px 0'}}>
+      <div key={i} className="foundation-space-row" style={{alignItems:'center',padding:'9px 0'}}>
         <code style={{fontSize:10,color:isDark?'#f4f3ef':'inherit'}}>space-{i+1}</code>
         <div style={{height:20,background:isDark?'#27272a':'#f0efeb',borderRadius:2}}>
           <div style={{height:20,width:Math.min(v.value,240),maxWidth:'100%',background:isDark?'#a1a1aa':'#55534f',borderRadius:2}}/>
