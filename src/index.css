@@ -1128,3 +1128,54 @@ h2 { font-size: clamp(38px, 5vw, 57px); line-height: 1.05; letter-spacing: -.07e
   .landing-page[data-theme="dark"] .hero-art { box-shadow:0 16px 50px #0008; }
   .explore-page[data-theme="dark"] .explore-sidebar { background:#0e100f; }
 }
+
+
+/* Ambient colour fields — keep the canvas dark and let colour earn its place */
+.landing-page[data-theme="dark"] .hero {
+  position:relative;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 78% 42%,#0ae44812 0,transparent 35%),
+    radial-gradient(ellipse at 95% 12%,#9d95ff12 0,transparent 25%);
+}
+.landing-page[data-theme="dark"] .hero-art { position:relative; }
+.landing-page[data-theme="dark"] .hero-art::after {
+  content:""; position:absolute; inset:-1px; pointer-events:none; border:1px solid #0ae44824;
+  box-shadow:0 0 70px #0ae4480b; border-radius:inherit;
+}
+.landing-page[data-theme="dark"] .foundation-card:nth-child(4n+1) { box-shadow:inset 0 2px 0 #0ae448; }
+.landing-page[data-theme="dark"] .foundation-card:nth-child(4n+2) { box-shadow:inset 0 2px 0 #9d95ff; }
+.landing-page[data-theme="dark"] .foundation-card:nth-child(4n+3) { box-shadow:inset 0 2px 0 #ff8709; }
+.landing-page[data-theme="dark"] .foundation-card:nth-child(4n+4) { box-shadow:inset 0 2px 0 #00bae2; }
+.explore-page[data-theme="dark"] .workspace-overview {
+  background:radial-gradient(ellipse at 86% 4%,#0ae4480c 0,transparent 35%);
+}
+.explore-page[data-theme="dark"] .workspace-welcome {
+  position:relative;
+}
+.explore-page[data-theme="dark"] .workspace-welcome::after {
+  content:""; position:absolute; right:4%; top:6%; width:120px; height:120px; pointer-events:none;
+  border-radius:50%; background:radial-gradient(circle,#9d95ff25 0,transparent 70%); filter:blur(4px);
+}
+.explore-page[data-theme="dark"] .studio-page .studio-page-heading {
+  border-bottom:1px solid #303a2f; padding-bottom:18px;
+}
+.explore-page[data-theme="dark"] .studio-page .studio-page-heading h2 { letter-spacing:-.055em; }
+.explore-page[data-theme="dark"] .studio-page .studio-page-heading h2 em { color:#0ae448; }
+.explore-page[data-theme="dark"] .studio-page button,
+.explore-page[data-theme="dark"] .studio-page a { transition:color .2s ease,border-color .2s ease,background .2s ease,transform .2s ease; }
+.explore-page[data-theme="dark"] .studio-page button:focus-visible,
+.explore-page[data-theme="dark"] .studio-page a:focus-visible { outline:2px solid #0ae448; outline-offset:3px; }
+.explore-page[data-theme="dark"] .community-page {
+  background:radial-gradient(ellipse at 95% 0%,#9d95ff0d 0,transparent 32%);
+}
+.docs-page[data-theme="dark"] .docs-hero {
+  background:radial-gradient(ellipse at 82% 35%,#0ae44812 0,transparent 34%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .landing-page[data-theme="dark"] .live-dot { animation:atria-pulse 2.8s ease-in-out infinite; }
+}
+@keyframes atria-pulse {
+  0%,100% { box-shadow:0 0 0 3px #0ae44820,0 0 10px #0ae44830; }
+  50% { box-shadow:0 0 0 7px #0ae44808,0 0 24px #0ae44890; }
+}
