@@ -40,7 +40,7 @@ const foundations = [
   { icon: Cube, name: 'Components', detail: 'Document reusable interface patterns', meta: 'LIBRARY / 04' },
 ]
 
-const swatches = ['#EDEBE4', '#111111', '#1D4ED8', '#F43F5E']
+const swatches = ['#EDEBE4', '#111111', '#1D4ED8', '#1D4ED8']
 const tickerPhrases = ['DESIGN WITH INTENTION', 'BUILD WITH CLARITY', 'DOCUMENT EVERYTHING']
 
 function LandingPage() {
