@@ -136,7 +136,7 @@ function LandingPage() {
                 </div>
                 <div className="palette-values"><span>INK</span><span>STONE</span><span>ASH</span><span>MIST</span><span>PAPER</span></div>
               </div>
-              <div className="art-bottom"><span><Sparkle size={13} /> A system in progress</span><span>VIEW DETAILS <ArrowUpRight size={12} /></span></div>
+              <div className="art-bottom"><span><Sparkle size={13} /> DESIGN DECISIONS / IN ONE PLACE</span><span>VIEW DETAILS <ArrowUpRight size={12} /></span></div>
             </div>
           </div>
           <div className="art-caption"><span>FIG. 01</span><span>A SINGLE SOURCE OF DESIGN TRUTH</span></div>
@@ -284,14 +284,14 @@ function LandingPage() {
                       color: '#d4d4d8'
                     } : {}}
                   >
-                    In progress
+                    Draft
                   </span>
                 </>
               )}
             </div>
             <div className="preview-footer" style={isDark ? { borderTopColor: '#2e2e34', color: '#a1a1aa' } : {}}>
               <span>DEFAULT STATE / {activeTab.toUpperCase()}</span>
-              <span>PREVIEW ONLY ({previewTheme.toUpperCase()} MODE)</span>
+              <span>INTERACTIVE PREVIEW / {previewTheme.toUpperCase()} MODE</span>
             </div>
           </div>
         </div>
@@ -300,7 +300,7 @@ function LandingPage() {
       <section className="token-strip">
         <div className="shell token-inner">
           <div><div className="section-index">[ 04 — DEVELOPER FRIENDLY ]</div><h2>Designed to be<br /><em>handed off.</em></h2></div>
-          <div className="token-copy"><p>Keep design intent close to the code. Atria is being shaped around clear specifications, reusable tokens, and developer-ready exports.</p><div className="code-snippet"><code><span>--atria-space-4</span>: 16px;</code><button onClick={copyToken} aria-label="Copy token"><Copy size={15} /> {copied ? 'COPIED' : 'COPY'}</button></div><div className="token-foot"><Check size={14} /> CSS variables & JSON exports are part of the roadmap</div></div>
+          <div className="token-copy"><p>Keep design intent close to the code with clear specifications, reusable tokens and developer-ready exports.</p><div className="code-snippet"><code><span>--atria-space-4</span>: 16px;</code><button onClick={copyToken} aria-label="Copy token"><Copy size={15} /> {copied ? 'COPIED' : 'COPY'}</button></div><div className="token-foot"><Check size={14} /> COPY REUSABLE TOKENS INTO YOUR PROJECT</div></div>
         </div>
       </section>
 
@@ -319,7 +319,7 @@ function LandingPage() {
 
       <footer className="footer shell">
         <div className="footer-top"><a className="brand" href="#"><span className="brand-mark"><span /><span /><span /><span /></span><span>atria<span className="brand-period">.</span></span></a><p>A more considered way to build<br />and maintain design systems.</p><a className="footer-github" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer"><GithubLogo size={18} /> Star the project <ArrowUpRight size={14} /></a></div>
-        <div className="footer-bottom"><span>© 2026 ATRIA STUDIO</span><span>OPEN SOURCE · EARLY DEVELOPMENT</span><Link to="/docs">DOCUMENTATION</Link><a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12} /></a></div>
+        <div className="footer-bottom"><span>© 2026 ATRIA STUDIO</span><span>OPEN SOURCE · DESIGN SYSTEM STUDIO</span><Link to="/docs">DOCUMENTATION</Link><a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12} /></a></div>
       </footer>
     </main>
   )
