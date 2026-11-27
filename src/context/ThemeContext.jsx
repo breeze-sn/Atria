@@ -16,7 +16,7 @@ export function ThemeProvider({ children }) {
     } catch {
       // ignore
     }
-    return 'light';
+    return 'dark';
   });
 
   const setPreviewTheme = (themeOrFn) => {
@@ -79,7 +79,7 @@ export function useThemePreview() {
     } catch {
       // ignore
     }
-    return 'light';
+    return 'dark';
   });
 
   useEffect(() => {
