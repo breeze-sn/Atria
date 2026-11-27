@@ -45,275 +45,129 @@ const tickerPhrases = ['DESIGN WITH INTENTION', 'BUILD WITH CLARITY', 'DOCUMENT 
 function LandingPage() {
   const [activeTab, setActiveTab] = useState('Button')
   const [copied, setCopied] = useState(false)
-  const { previewTheme, setPreviewTheme, isDark } = useThemePreview()
+  const { previewTheme } = useThemePreview()
 
   const copyToken = async () => {
     try {
       await navigator.clipboard.writeText('--atria-space-4: 16px;')
       setCopied(true)
       window.setTimeout(() => setCopied(false), 1800)
-    } catch {
-      setCopied(false)
-    }
+    } catch { setCopied(false) }
   }
 
   return (
-    <main className="landing-page" data-theme={previewTheme}>
-      <nav className="nav shell">
+    <main className="landing-page atria-home-v2" data-theme="dark">
+      <nav className="nav shell home-nav">
         <a className="brand" href="#" aria-label="Atria home">
           <span className="brand-mark"><span /><span /><span /><span /></span>
           <span>atria<span className="brand-period">.</span></span>
         </a>
         <div className="nav-links">
-          <Link to="/explore/community">Community</Link>
-          <Link to="/studio">Studio</Link>
-          <a href="#foundations">Foundation</a>
-          <a href="#components">Components</a>
+          <Link to="/explore/community">Community</Link><Link to="/studio">Studio</Link>
+          <a href="#foundations">Foundations</a><a href="#components">Components</a>
           <Link to="/docs">Docs</Link>
-          <a href="#contact">Contact</a>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
-            <GithubLogo size={17} weight="regular" /> View on GitHub <ArrowUpRight size={14} />
-          </a>
-        </div>
+        <a className="nav-cta" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">
+          <GithubLogo size={17}/> GitHub <ArrowUpRight size={14}/>
+        </a>
       </nav>
 
-      <section className="hero shell">
-        <div className="hero-copy">
-          <div className="eyebrow"><span className="live-dot" /> OPEN-SOURCE DESIGN WORKSPACE</div>
-          <h1 aria-label="Make consistency feel effortless">Make consistency<br />feel <em>effortless.</em></h1>
-          <p className="hero-description">
-            A thoughtful space to create, organise, and document design systems — bringing design decisions and development closer together.
-          </p>
+      <section className="home-hero">
+        <div className="home-hero-copy">
+          <div className="eyebrow"><span className="live-dot"/> OPEN-SOURCE DESIGN SYSTEM WORKSPACE</div>
+          <h1>Make your<br/>system <em>make sense.</em></h1>
+          <p>Atria brings foundations, tokens and components into one connected workspace — so teams can make better design decisions and carry them into code.</p>
           <div className="hero-actions">
-            <Link className="button button-dark" to="/explore">Explore library <ArrowRight size={16} /></Link>
-            <Link className="text-link" to="/studio">Open studio <ArrowUpRight size={15} /></Link>
+            <Link className="button button-dark" to="/explore">Explore workspace <ArrowRight size={16}/></Link>
+            <Link className="text-link" to="/studio">Open Studio <ArrowUpRight size={15}/></Link>
           </div>
-          <div className="hero-footnote"><span className="mono">01 / 04</span><span>DESIGNED FOR TEAMS THAT CARE ABOUT THE DETAILS</span></div>
+          <div className="home-hero-meta"><span>DESIGN SYSTEMS, WITHOUT THE SCATTER</span><span>01 — 04</span></div>
         </div>
-
-        <div className="hero-art" aria-label="Abstract preview of a design system workspace">
-          <div className="art-topline"><span>ATRIA / WORKSPACE</span><span>PREVIEW 001</span></div>
-          <div className="art-window">
-            <aside className="art-sidebar">
-              <div className="mini-brand"><span className="brand-mark small"><span /><span /><span /><span /></span> atria</div>
-              <div className="side-label">WORKSPACE</div>
-              <div className="side-item active"><SquaresFour size={14} /> Overview</div>
-              <div className="side-item"><Palette size={14} /> Foundations</div>
-              <div className="side-item"><Cube size={14} /> Components</div>
-              <div className="side-item"><Stack size={14} /> Tokens</div>
-              <div className="side-bottom"><span className="avatar">A</span><span>Personal space</span></div>
+        <div className="home-hero-visual">
+          <div className="home-visual-head"><span>ATRIA / WORKSPACE</span><span>LIVE PREVIEW&nbsp; ↗</span></div>
+          <div className="home-product">
+            <aside className="home-product-rail">
+              <div className="mini-brand"><span className="brand-mark small"><span/><span/><span/><span/></span> atria</div>
+              <span className="side-label">WORKSPACE</span>
+              <div className="side-item active"><SquaresFour size={14}/> Overview</div>
+              <div className="side-item"><Palette size={14}/> Foundations</div>
+              <div className="side-item"><Stack size={14}/> Tokens</div>
+              <div className="side-item"><Cube size={14}/> Components</div>
+              <div className="side-item"><Globe size={14}/> Community</div>
+              <div className="home-rail-bottom">YOUR DESIGN SYSTEM</div>
             </aside>
-            <div className="art-main">
-              <div className="art-heading"><div><span className="side-label">YOUR WORKSPACE</span><h3>Good design<br />starts with a system.</h3></div><span className="art-date">MON, 03 NOV</span></div>
-              <div className="art-stats">
-                <div><span>FOUNDATIONS</span><strong>04</strong><small>Core principles</small></div>
-                <div><span>COMPONENTS</span><strong>12</strong><small>Reusable patterns</small></div>
-                <div><span>DESIGN TOKENS</span><strong>28</strong><small>Shared decisions</small></div>
+            <div className="home-product-main">
+              <div className="home-product-title"><div><span className="side-label">YOUR WORKSPACE / OVERVIEW</span><h2>Everything<br/>in its place.</h2></div><span className="home-product-index">01 / 05</span></div>
+              <div className="home-stat-row">
+                <div><span>FOUNDATIONS</span><b>04</b><small>Core principles</small></div>
+                <div><span>COMPONENTS</span><b>12</b><small>Reusable patterns</small></div>
+                <div><span>TOKENS</span><b>28</b><small>Shared decisions</small></div>
               </div>
-              <div className="art-palette">
-                <div className="palette-heading"><span>COLOUR PALETTE</span><span>NEUTRAL / 01</span></div>
-                <div className="swatches">
-                  {swatches.map((color) => (
-                    <span
-                      key={color}
-                      style={{
-                        background: color,
-                        boxShadow: isDark
-                          ? '0 0 0 1px rgba(255, 255, 255, 0.25) inset, 0 0 0 1px rgba(0, 0, 0, 0.45)'
-                          : '0 0 0 1px rgba(0, 0, 0, 0.08) inset',
-                      }}
-                    />
-                  ))}
-                </div>
-                <div className="palette-values"><span>IVORY</span><span>INK</span><span>BLUE</span><span>CORAL</span></div>
+              <div className="home-palette-block">
+                <div><span>ATRIA COLOUR SYSTEM</span><span>01 — 04</span></div>
+                <div className="home-swatches">{swatches.map(color=><i key={color} style={{backgroundColor:color}}/>)}</div>
+                <div className="home-swatch-labels"><span>IVORY</span><span>INK</span><span>BLUE</span><span>CORAL</span></div>
               </div>
-              <div className="art-bottom"><span><Sparkle size={13} /> DESIGN DECISIONS / IN ONE PLACE</span><span>VIEW DETAILS <ArrowUpRight size={12} /></span></div>
+              <div className="home-product-foot"><span>DESIGN INTENT → DEVELOPER HANDOFF</span><ArrowUpRight size={15}/></div>
             </div>
           </div>
-          <div className="art-caption"><span>FIG. 01</span><span>A SINGLE SOURCE OF DESIGN TRUTH</span></div>
+          <div className="home-visual-caption"><span>FIG. 01</span><span>A CONNECTED DESIGN LANGUAGE</span></div>
         </div>
       </section>
 
-      <section className="ticker" aria-label="Atria principles">
-        <div className="ticker-track">
-          {[false, true].map((isDuplicate) => (
-            <div className="ticker-group" aria-hidden={isDuplicate || undefined} key={String(isDuplicate)}>
-              {tickerPhrases.map(phrase => (
-                <span className="ticker-item" key={phrase}>{phrase}<i aria-hidden="true">*</i></span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
+      <div className="home-marquee"><span>MAKE WITH INTENTION</span><i>✳</i><span>BUILD WITH CLARITY</span><i>✳</i><span>SHIP WITH CONFIDENCE</span><i>✳</i><span>MAKE WITH INTENTION</span></div>
 
-      <section className="intro-section shell" id="studio">
+      <section className="home-intro shell">
         <div className="section-index">[ 01 — THE IDEA ]</div>
-        <div className="intro-content">
-          <h2>A home for the details<br />that make a <em>system.</em></h2>
-          <div className="intro-aside">
-            <p>Great products are built on small, consistent decisions. Atria gives those decisions a place to live — from the first colour token to the final component specification.</p>
-            <a className="text-link" href="#foundations">Discover the foundations <ArrowDownRight size={15} /></a>
-          </div>
+        <div><h2>Good products are built<br/>on <em>good systems.</em></h2>
+          <div className="home-intro-aside"><p>From the first colour decision to the final component state, Atria gives your product language a clear, consistent home. Less scattered documentation. More connected decisions.</p><Link className="text-link" to="/explore">Explore the workspace <ArrowUpRight size={15}/></Link></div>
         </div>
       </section>
 
-      <section className="foundations-section" id="foundations">
+      <section className="home-foundations" id="foundations">
         <div className="shell">
-          <div className="section-heading">
-            <div><div className="section-index">[ 02 — BUILDING BLOCKS ]</div><h2>Everything starts<br />with a <em>foundation.</em></h2></div>
-            <p>Bring the visual language of your product into one clear, connected place.</p>
-          </div>
-          <div className="foundation-grid">
-            {foundations.map((item, index) => {
-              const Icon = item.icon
-              return <article className="foundation-card" key={item.name}>
-                <div className="card-meta"><span>{item.meta}</span><span>0{index + 1}</span></div>
-                <div className="foundation-icon"><Icon size={22} weight="light" /></div>
-                <h3>{item.name}</h3>
-                <p>{item.detail}</p>
-                <div className="card-arrow"><ArrowUpRight size={17} /></div>
-              </article>
-            })}
+          <div className="home-section-head"><div><div className="section-index">[ 02 — THE BUILDING BLOCKS ]</div><h2>A system starts<br/>with the <em>essentials.</em></h2></div><p>Build a visual language your whole team can understand, use and extend.</p></div>
+          <div className="home-foundation-grid">
+            {foundations.map((item,index)=>{const Icon=item.icon;return <Link to={index===3?"/explore/components":"/explore/foundations"} className="home-foundation-item" key={item.name}>
+              <div className="home-foundation-top"><span>{item.meta}</span><ArrowUpRight size={17}/></div><Icon size={25} weight="light"/>
+              <h3>{item.name}</h3><p>{item.detail}</p><span className="home-foundation-number">0{index+1}</span>
+            </Link>})}
           </div>
         </div>
       </section>
 
-      <section className="components-section shell" id="components">
-        <div className="section-index">[ 03 — THE COMPONENT LIBRARY ]</div>
-        <div className="component-layout">
-          <div className="component-copy"><h2>From design<br />to <em>real use.</em></h2><p>Explore component anatomy, states, and usage guidance in a space made for both designers and developers.</p><div className="component-note"><Code size={17} /> ONE LANGUAGE. TWO DISCIPLINES.</div></div>
-          <div
-            className="component-preview"
-            data-theme={previewTheme}
-            style={isDark ? {
-              background: '#161618',
-              border: '1px solid #2e2e34',
-              color: '#f4f3ef',
-              transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease'
-            } : { transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease' }}
-          >
-            <div className="preview-top">
-              <span>COMPONENT PLAYGROUND</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: isDark ? '#a1a1aa' : '#85837d' }}>
-                  {previewTheme.toUpperCase()} PREVIEW <span className="live-dot" />
-                </span>
-              </div>
+      <section className="home-components shell" id="components">
+        <div className="section-index">[ 03 — COMPONENTS IN CONTEXT ]</div>
+        <div className="home-components-layout">
+          <div><h2>See how the<br/>system <em>behaves.</em></h2><p>Explore component anatomy, states and usage guidance. Switch between examples to see the details in action.</p><Link className="text-link" to="/explore/components">Browse components <ArrowUpRight size={15}/></Link></div>
+          <div className="home-playground">
+            <div className="home-playground-top"><span>INTERACTIVE PLAYGROUND</span><span>COMPONENT / 0{['Button','Input','Badge'].indexOf(activeTab)+1}</span></div>
+            <div className="home-playground-tabs">{['Button','Input','Badge'].map(tab=><button key={tab} className={activeTab===tab?'active':''} onClick={()=>setActiveTab(tab)}>{tab}</button>)}</div>
+            <div className="home-playground-stage">
+              {activeTab==='Button'&&<><button className="home-primary-button">Get started <ArrowRight size={15}/></button><button className="home-secondary-button">Learn more</button></>}
+              {activeTab==='Input'&&<label>Email address<input type="email" placeholder="you@example.com"/></label>}
+              {activeTab==='Badge'&&<><span className="home-badge">Stable</span><span className="home-badge coral">Draft</span></>}
             </div>
-            <div className="preview-tabs" style={isDark ? { borderBottomColor: '#2e2e34' } : {}}>
-              {['Button', 'Input', 'Badge'].map(tab => (
-                <button
-                  key={tab}
-                  className={activeTab === tab ? 'selected' : ''}
-                  onClick={() => setActiveTab(tab)}
-                  style={isDark ? {
-                    color: activeTab === tab ? '#ffffff' : '#a1a1aa',
-                    borderColor: activeTab === tab ? '#ffffff' : 'transparent',
-                  } : {}}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-            <div
-              className="preview-stage"
-              style={isDark ? {
-                background: '#101012',
-                border: '1px solid #232328',
-                borderRadius: 4,
-                margin: '14px 0',
-                padding: 20
-              } : {}}
-            >
-              {activeTab === 'Button' && (
-                <>
-                  <button
-                    className="sample-button"
-                    style={isDark ? { background: '#ffffff', color: '#161618', border: '1px solid #ffffff' } : {}}
-                  >
-                    Get started <ArrowRight size={15} />
-                  </button>
-                  <button
-                    className="sample-secondary"
-                    style={isDark ? { background: '#242428', color: '#f4f3ef', border: '1px solid #38383e' } : {}}
-                  >
-                    Learn more
-                  </button>
-                </>
-              )}
-              {activeTab === 'Input' && (
-                <label className="sample-input" style={isDark ? { color: '#d4d4d8' } : {}}>
-                  Email address
-                  <input
-                    type="email"
-                    placeholder="you@example.com"
-                    style={isDark ? {
-                      background: '#1c1c20',
-                      color: '#f4f3ef',
-                      border: '1px solid #38383e'
-                    } : {}}
-                  />
-                </label>
-              )}
-              {activeTab === 'Badge' && (
-                <>
-                  <span
-                    className="sample-badge"
-                    style={isDark ? {
-                      background: 'rgba(34, 197, 94, 0.16)',
-                      border: '1px solid rgba(74, 222, 128, 0.4)',
-                      color: '#4ade80'
-                    } : {}}
-                  >
-                    <span className="live-dot" /> Stable
-                  </span>
-                  <span
-                    className="sample-badge muted"
-                    style={isDark ? {
-                      background: '#242428',
-                      border: '1px solid #38383e',
-                      color: '#d4d4d8'
-                    } : {}}
-                  >
-                    Draft
-                  </span>
-                </>
-              )}
-            </div>
-            <div className="preview-footer" style={isDark ? { borderTopColor: '#2e2e34', color: '#a1a1aa' } : {}}>
-              <span>DEFAULT STATE / {activeTab.toUpperCase()}</span>
-              <span>INTERACTIVE PREVIEW / {previewTheme.toUpperCase()} MODE</span>
-            </div>
+            <div className="home-playground-bottom"><span>DEFAULT STATE</span><span>INTERACTIVE PREVIEW</span></div>
           </div>
         </div>
       </section>
 
-      <section className="token-strip">
-        <div className="shell token-inner">
-          <div><div className="section-index">[ 04 — DEVELOPER FRIENDLY ]</div><h2>Designed to be<br /><em>handed off.</em></h2></div>
-          <div className="token-copy"><p>Keep design intent close to the code with clear specifications, reusable tokens and developer-ready exports.</p><div className="code-snippet"><code><span>--atria-space-4</span>: 16px;</code><button onClick={copyToken} aria-label="Copy token"><Copy size={15} /> {copied ? 'COPIED' : 'COPY'}</button></div><div className="token-foot"><Check size={14} /> COPY REUSABLE TOKENS INTO YOUR PROJECT</div></div>
-        </div>
-      </section>
-
-      <section className="contact-section shell" id="contact">
-        <div className="section-index">[ 05 — GET IN TOUCH ]</div>
-        <div className="contact-layout">
-          <div><h2>Good things start<br />with a <em>conversation.</em></h2><p className="contact-intro">Have a thought, a question, or an idea to build together? Find me around the web.</p></div>
-          <div className="contact-links">
-            <a className="contact-link contact-email" href="mailto:nagekarsimran@outlook.com"><span><EnvelopeSimple size={18} /> Email</span><ArrowUpRight size={16} /></a>
-            <a className="contact-link" href="https://www.linkedin.com/" target="_blank" rel="noreferrer"><span><LinkedinLogo size={18} /> LinkedIn</span><ArrowUpRight size={16} /></a>
-            <a className="contact-link" href="https://github.com/breeze-sn" target="_blank" rel="noreferrer"><span><GithubLogo size={18} /> GitHub</span><ArrowUpRight size={16} /></a>
-            <a className="contact-link" href="https://simransn.vercel.app" target="_blank" rel="noreferrer"><span><Globe size={18} /> Website</span><ArrowUpRight size={16} /></a>
+      <section className="home-token-band">
+        <div className="shell home-token-layout"><div><div className="section-index">[ 04 — DESIGN TO DEVELOPMENT ]</div><h2>Decisions that<br/>travel with <em>you.</em></h2></div>
+          <div><p>Keep design intent close to the code with clear specifications, reusable tokens and developer-ready exports.</p>
+            <div className="home-code"><code>--atria-space-4: 16px;</code><button onClick={copyToken}><Copy size={14}/>{copied?'COPIED':'COPY TOKEN'}</button></div>
+            <Link className="text-link" to="/explore/tokens">Explore design tokens <ArrowUpRight size={15}/></Link>
           </div>
         </div>
       </section>
 
-      <footer className="footer shell">
-        <div className="footer-top"><a className="brand" href="#"><span className="brand-mark"><span /><span /><span /><span /></span><span>atria<span className="brand-period">.</span></span></a><p>A more considered way to build<br />and maintain design systems.</p><a className="footer-github" href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer"><GithubLogo size={18} /> Star the project <ArrowUpRight size={14} /></a></div>
-        <div className="footer-bottom"><span>© 2026 ATRIA STUDIO</span><span>OPEN SOURCE · DESIGN SYSTEM STUDIO</span><Link to="/docs">DOCUMENTATION</Link><a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12} /></a></div>
-      </footer>
+      <section className="home-contact shell" id="contact">
+        <div className="section-index">[ 05 — JOIN THE WORK ]</div>
+        <div className="home-contact-layout"><div><h2>Build something<br/><em>considered.</em></h2><p>Atria is open source. Explore the workspace, contribute a resource, or help shape what comes next.</p></div>
+          <div className="home-contact-links"><Link to="/explore/community">Explore community <ArrowUpRight size={16}/></Link><Link to="/docs">Read the docs <ArrowUpRight size={16}/></Link><a href="https://github.com/breeze-sn/Atria" target="_blank" rel="noreferrer">Contribute on GitHub <ArrowUpRight size={16}/></a></div></div>
+      </section>
+      <footer className="home-footer shell"><a className="brand" href="#"><span className="brand-mark"><span/><span/><span/><span/></span><span>atria<span className="brand-period">.</span></span></a><span>© 2026 ATRIA STUDIO</span><span>OPEN SOURCE · DESIGN SYSTEM STUDIO</span><Link to="/docs">DOCUMENTATION ↗</Link></footer>
     </main>
   )
 }
